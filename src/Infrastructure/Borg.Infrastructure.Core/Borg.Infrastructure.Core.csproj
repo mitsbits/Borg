@@ -5,7 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Collections\Comparers\" />
+    <Folder Include="DI\" />
+    <Folder Include="Reflection\" />
+    <Folder Include="Services\Factory\" />
+    <Folder Include="Strings\" />
     <Folder Include="Task\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="JetBrains.Annotations" Version="2018.2.1" />
   </ItemGroup>
 
 </Project>
