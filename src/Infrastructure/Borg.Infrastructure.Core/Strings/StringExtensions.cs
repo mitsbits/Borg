@@ -53,6 +53,8 @@ namespace Borg.Infrastructure.Core.Strings
 
         public static string Repeat(this string c, int times)
         {
+            Preconditions.PositiveOrZero(times, nameof(times));
+            Preconditions.NotEmpty(c, nameof(c));
             var repeatedStrArray = Enumerable.Repeat(c.ToCharArray(), times).SelectMany(x => x);
             return new string(repeatedStrArray.ToArray());
         }
@@ -90,13 +92,14 @@ namespace Borg.Infrastructure.Core.Strings
         public static int IndexOfWhitespaceAgnostic(this IEnumerable<string> source, string check)
         {
             var result = -1;
-            if (source == null) throw new ArgumentNullException(nameof(source));
-            if (!source.Any()) return result;
-            var collection = source.ToArray();
+            Preconditions.NotNull(source, nameof(source));
+            var enumerable = source as string[] ?? source.ToArray();
+            if (!enumerable.Any()) return result;
+         
             var comparer = new WhitespaceAgnosticComparer();
-            for (int i = 0; i < collection.Length; i++)
+            for (int i = 0; i < enumerable.Length; i++)
             {
-                if (comparer.Equals(collection[i], check)) result = i;
+                if (comparer.Equals(enumerable[i], check)) result = i;
                 if (result >= 0) break;
             }
             return result;
@@ -113,7 +116,7 @@ namespace Borg.Infrastructure.Core.Strings
             return source.IndexOfWhitespaceAgnostic(check) >= 0;
         }
 
-        public static IEnumerable<string> DistinctWhitespaceAgnostic(this IEnumerable<string> source, string check)
+        public static IEnumerable<string> DistinctWhitespaceAgnostic(this IEnumerable<string> source)
         {
             return source.Distinct(new WhitespaceAgnosticComparer());
         }

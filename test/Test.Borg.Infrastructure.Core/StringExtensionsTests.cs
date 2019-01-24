@@ -21,5 +21,44 @@ namespace Test.Borg.Infrastructure.Core
             var target = "abcdefghi";
             source.EqualsWhitespaceAgnostic(target).ShouldBeTrue();
         }
+
+        [Fact]
+        public void Repeat()
+        {
+            var source = "a";
+            var target = "aaaaa";
+            source.Repeat(5).ShouldBe(target);
+        }
+
+        [Fact]
+        public void IsNullOrWhiteSpace()
+        {
+            string.Empty.IsNullOrWhiteSpace().ShouldBeTrue();
+            "aaaaa".IsNullOrWhiteSpace().ShouldBeFalse();
+            "   ".IsNullOrWhiteSpace().ShouldBeTrue();
+        }
+
+        [Fact]
+        public void IndexOfWhitespaceAgnostic()
+        {
+            var source = new[] { " a", "b ", "c ", " d", "e ", " f" };
+            source.IndexOfWhitespaceAgnostic("e").ShouldBe(4);
+            source.IndexOfWhitespaceAgnostic("g").ShouldBe(-1);
+        }
+
+        [Fact]
+        public void ContainsWhitespaceAgnostic()
+        {
+            var source = new[] { " a", "b ", "c ", " d", "e ", " f" };
+            source.ContainsWhitespaceAgnostic("e").ShouldBeTrue();
+            source.ContainsWhitespaceAgnostic("g").ShouldBeFalse();
+        }
+
+        [Fact]
+        public void DistinctWhitespaceAgnostic()
+        {
+            var source = new[] { " a", " a ", "b ", "   b ", "c ", "     c ", " d", "e ", " f" };
+            source.DistinctWhitespaceAgnostic().ShouldBe(new[] { "a", "b", "c", "d", "e", "f" });
+        }
     }
 }

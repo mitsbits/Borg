@@ -54,7 +54,7 @@ namespace Borg.Infrastructure.Core
 
             return value;
         }
-
+        [ContractAnnotation("value:null => halt")]
         public static TEnum IsDefined<TEnum>(TEnum value, [InvokerParameterName, NotNull] string parameterName) where TEnum : struct
         {
             if (!Enum.IsDefined(typeof(TEnum), value))
@@ -62,6 +62,26 @@ namespace Borg.Infrastructure.Core
                 NotEmpty(parameterName, nameof(parameterName));
 
                 throw new ArgumentOutOfRangeException(parameterName);
+            }
+
+            return value;
+        }
+
+        [ContractAnnotation("value:null => halt")]
+        public static int PositiveOrZero([NoEnumeration] int value, [InvokerParameterName, NotNull] string parameterName)          
+        {
+            if (ReferenceEquals(value, null))
+            {
+                NotEmpty(parameterName, nameof(parameterName));
+
+                throw new ArgumentNullException(parameterName);
+            }
+
+            if (value < 0)
+            {
+                NotEmpty(parameterName, nameof(parameterName));
+
+                throw new ArgumentException("Int value cannot be less than zero.", parameterName);
             }
 
             return value;
