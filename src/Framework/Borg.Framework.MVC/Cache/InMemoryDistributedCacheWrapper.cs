@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -29,12 +28,14 @@ namespace Borg.Framework.MVC.Cache
 
         public void Refresh(string key)
         {
-            throw new NotImplementedException();
+            var value = _memoryCache.Get(key);
+            _memoryCache.Set(key, value);
         }
 
         public Task RefreshAsync(string key, CancellationToken token = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            Refresh(key);
+            return Task.CompletedTask;
         }
 
         public void Remove(string key)
@@ -55,12 +56,18 @@ namespace Borg.Framework.MVC.Cache
 
         public Task SetAsync(string key, byte[] value, DistributedCacheEntryOptions options, CancellationToken token = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            _memoryCache.Set(key, value, Map(options));
+            return Task.CompletedTask;
         }
 
         private static MemoryCacheEntryOptions Map(DistributedCacheEntryOptions source)
         {
-            throw new NotImplementedException();
+            return new MemoryCacheEntryOptions
+            {
+                SlidingExpiration = source.SlidingExpiration,
+                AbsoluteExpiration = source.AbsoluteExpiration,
+                AbsoluteExpirationRelativeToNow = source.AbsoluteExpirationRelativeToNow
+            };
         }
     }
 }
