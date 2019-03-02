@@ -9,7 +9,7 @@ namespace Test.Borg.Framework.MVC
         private const double _objNumeric = 42.5;
 
         private readonly ObjectToSerialize _obj;
-        private readonly byte[] _objData;
+        internal readonly byte[] _objData;
         private readonly string _objDataString;
 
         public TestData()
