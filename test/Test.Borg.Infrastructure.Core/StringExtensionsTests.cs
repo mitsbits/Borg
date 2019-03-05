@@ -57,8 +57,8 @@ namespace Test.Borg.Infrastructure.Core
         [Fact]
         public void DistinctWhitespaceAgnostic()
         {
-            var source = new[] { " a", " a ", "b ", "   b ", "c ", "     c ", " d", "e ", " f" };
-            source.DistinctWhitespaceAgnostic().ShouldBe(new[] { "a", "b", "c", "d", "e", "f" });
+            var source = new[] { " a", " a ", "b ", "   b ", "c ", "     c ", " d", "e " };
+            source.DistinctWhitespaceAgnostic().ShouldBe(new[] { "a", "b", "c", "d", "e" });
         }
     }
 }

@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Borg.Infrastructure.Core.Reflection;
+using System;
 using System.Linq.Expressions;
 using System.Runtime.Serialization;
-using Borg.Infrastructure.Core.Reflection;
 
 namespace Borg.Infrastructure.Core.Services.Factory
 {
