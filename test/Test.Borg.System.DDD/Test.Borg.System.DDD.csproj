@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Infrastructure\Borg.Infrastructure.Core\Borg.Infrastructure.Core.csproj" />
+    <ProjectReference Include="..\..\src\System\Borg.System.DDD\Borg.System.DDD.csproj" />
   </ItemGroup>
 
 </Project>

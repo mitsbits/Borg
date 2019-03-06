@@ -8,6 +8,7 @@ namespace Borg.System.DDD.ValueObjects.Time
     {
         private Period(DateTimeOffset start, DateTimeOffset end)
         {
+            if (end <= start) throw new InvalidOperationException();
             Start = start;
             End = end;
         }
