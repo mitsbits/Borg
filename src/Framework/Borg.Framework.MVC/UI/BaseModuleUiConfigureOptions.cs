@@ -5,7 +5,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using System;
 
-namespace Borg.System.Backoffice
+namespace Borg.Framework.MVC.UI
 {
     public abstract class BaseModuleUiConfigureOptions : IPostConfigureOptions<StaticFileOptions>
     {
