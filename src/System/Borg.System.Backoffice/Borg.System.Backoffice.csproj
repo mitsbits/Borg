@@ -17,4 +17,8 @@
     <ProjectReference Include="..\..\Framework\Borg.Framework.MVC\Borg.Framework.MVC.csproj" />
     <Content Update="**\*.cshtml" Pack="false" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
 </Project>

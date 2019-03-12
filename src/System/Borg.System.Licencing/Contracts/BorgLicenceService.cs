@@ -4,7 +4,11 @@ using System.Text;
 
 namespace Borg.System.Licencing.Contracts
 {
-    class BorgLicenceService
+    public interface IBorgLicenceService
     {
+        BorgLicence Retrieve();
+        BorgLicence Install(string pathToLicence);
+        int ActiveApplicationServerCount();
+        int ActiveApplicationUserCount();
     }
 }

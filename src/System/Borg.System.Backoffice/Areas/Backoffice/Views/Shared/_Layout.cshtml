@@ -2,13 +2,13 @@
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>@ViewBag.Title</title>
-    <link rel="stylesheet" type="text/css" href="/css/main.css" asp-append-version="true" />
+    <partial name="Layout/_head" />
+  
 </head>
-<body>
+<body class="hold-transition skin-blue sidebar-mini">
     <div>
         @RenderBody()
     </div>
+    <partial name="Layout/_bottom" />
 </body>
 </html>
