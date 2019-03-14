@@ -3,12 +3,19 @@
 <html>
 <head>
     <partial name="Layout/_head" />
-  
+
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
-    <div>
-        @RenderBody()
+    <div class="wrapper">
+        <partial name="Layout/_header" />
+        <partial name="Layout/_nav" />
+        <div class="content-wrapper">
+            @RenderBody()
+        </div>
+        <partial name="Layout/_footer" />
+        <partial name="Layout/_sidebar" />
     </div>
     <partial name="Layout/_bottom" />
+
 </body>
 </html>
