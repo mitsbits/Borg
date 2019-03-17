@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <Folder Include="Collections\Comparers\" />
-    <Folder Include="DI\" />
     <Folder Include="Reflection\" />
     <Folder Include="Services\Factory\" />
     <Folder Include="Strings\" />
