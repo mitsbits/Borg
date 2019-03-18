@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Borg.Infrastructure.Core.DI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Borg.Infrastructure.Core.DI;
 
 namespace Borg.Infrastructure.Core.Reflection
 {
@@ -285,7 +285,5 @@ namespace Borg.Infrastructure.Core.Reflection
         {
             return type.IsValueType || type.GetConstructor(Type.EmptyTypes) != null;
         }
-
-
     }
 }

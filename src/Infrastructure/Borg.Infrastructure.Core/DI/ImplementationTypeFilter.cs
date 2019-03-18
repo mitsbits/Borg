@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Borg.Infrastructure.Core.Reflection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Borg.Infrastructure.Core.Reflection;
 
 namespace Borg.Infrastructure.Core.DI
 {
