@@ -1,7 +1,6 @@
-﻿using System;
+﻿using JetBrains.Annotations;
+using System;
 using System.Diagnostics;
-using JetBrains.Annotations;
-
 
 namespace Borg.Infrastructure.Core
 {
@@ -54,6 +53,7 @@ namespace Borg.Infrastructure.Core
 
             return value;
         }
+
         [ContractAnnotation("value:null => halt")]
         public static TEnum IsDefined<TEnum>(TEnum value, [InvokerParameterName, NotNull] string parameterName) where TEnum : struct
         {
@@ -68,7 +68,7 @@ namespace Borg.Infrastructure.Core
         }
 
         [ContractAnnotation("value:null => halt")]
-        public static int PositiveOrZero([NoEnumeration] int value, [InvokerParameterName, NotNull] string parameterName)          
+        public static int PositiveOrZero([NoEnumeration] int value, [InvokerParameterName, NotNull] string parameterName)
         {
             if (ReferenceEquals(value, null))
             {
