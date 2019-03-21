@@ -29,10 +29,23 @@ namespace Borg.Framework.Reflection.ServiceRegistry
         private void RegisterServices(Type contract, IEnumerable<(Type service, PlugableServiceAttribute[] attrs, Type[] interfaces)> registrations, IServiceCollection services)
         {
             var isMultipleRegistration = registrations.SelectMany(x => x.attrs.Where(a => a.ImplementationOf == contract)).All(a => a.OneOfMany);
+            var filterdRegistations = _elligibleServices.Where(x => x.interfaces.Any(i => i == contract)).Select(x => (service: x.service, attr: x.attrs.First(a => a.ImplementationOf == contract)));
+            var directory = new PlugableServiceRegistry();
             if (isMultipleRegistration)
             {
-                //foreach(regi)
+                foreach (var registry in filterdRegistations.OrderBy(x => x.attr.Order))
+                {
+                    services.Add(new ServiceDescriptor(contract, registry.service, (registry.attr.Lifetime == Lifetime.Transient ? ServiceLifetime.Transient : registry.attr.Lifetime == Lifetime.Scoped ? ServiceLifetime.Scoped : ServiceLifetime.Singleton)));
+                    directory.Add(contract, registry.service, registry.attr);
+                }
             }
+            else
+            {
+                var registry = filterdRegistations.OrderBy(x => x.attr.Order).Last();
+                services.Add(new ServiceDescriptor(contract, registry.service, (registry.attr.Lifetime == Lifetime.Transient ? ServiceLifetime.Transient : registry.attr.Lifetime == Lifetime.Scoped ? ServiceLifetime.Scoped : ServiceLifetime.Singleton)));
+                directory.Add(contract, registry.service, registry.attr);
+            }
+            services.Add(new ServiceDescriptor(typeof(IPlugableServiceRegistry), directory));
         }
 
         private IEnumerable<(Type service, PlugableServiceAttribute[] attrs, Type[] interfaces)> FindAllPlugableServices(Assembly[] assemblies)

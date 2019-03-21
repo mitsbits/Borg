@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Framework\Borg.Framework.Reflection\Borg.Framework.Reflection.csproj" />
     <ProjectReference Include="..\..\System\Borg.System.Backoffice\Borg.System.Backoffice.csproj" />
   </ItemGroup>
 

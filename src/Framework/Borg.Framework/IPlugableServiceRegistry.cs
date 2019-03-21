@@ -1,7 +1,11 @@
-﻿namespace Borg.Framework
+﻿using Borg.Infrastructure.Core.DI;
+using System;
+using System.Collections.Generic;
+
+namespace Borg.Framework
 {
     public interface IPlugableServiceRegistry
     {
-        void RegisterServices();
+        IEnumerable<(Type contract, Type service, PlugableServiceAttribute attribute)> RegisteredServices();
     }
 }
