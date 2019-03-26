@@ -5,12 +5,8 @@ using System.Text;
 
 namespace Borg.System.Backoffice.Areas.Backoffice.Controllers
 {
-
-    public class HomeController : BackOfficeController
+    [Area("Backoffice")]
+    public abstract  class BackOfficeController : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
     }
 }
