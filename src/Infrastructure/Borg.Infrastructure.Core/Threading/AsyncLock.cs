@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Borg.Infrastructure.Core
+namespace Borg.Infrastructure.Core.Threading
 {
     public sealed class AsyncLock
     {

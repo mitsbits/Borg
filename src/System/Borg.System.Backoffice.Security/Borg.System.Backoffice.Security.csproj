@@ -6,4 +6,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" Version="2.2.0" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Borg.System.DDD\Borg.System.DDD.csproj" />
+  </ItemGroup>
 </Project>

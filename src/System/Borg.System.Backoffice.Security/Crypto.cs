@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using System;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
-using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 
 namespace Borg.System.Backoffice.Security
 {
@@ -23,7 +23,6 @@ namespace Borg.System.Backoffice.Security
         private const int PBKDF2IterCount = 10000;
         private const int PBKDF2SubkeyLength = 256 / 8; // 256 bits
         private const int SaltSize = 128 / 8; // 128 bits
-
 
         /// <summary>
         /// Returns a hashed representation of the specified <paramref name="password"/>.

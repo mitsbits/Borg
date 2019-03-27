@@ -10,7 +10,6 @@
     <Folder Include="Reflection\" />
     <Folder Include="Services\Factory\" />
     <Folder Include="Strings\" />
-    <Folder Include="Task\" />
   </ItemGroup>
 
   <ItemGroup>
