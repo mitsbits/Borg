@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Borg.System.DDD
+namespace Borg.Infrastructure.Core.DDD
 {
     public abstract class ValueObject<T> : IEquatable<T>
         where T : ValueObject<T>

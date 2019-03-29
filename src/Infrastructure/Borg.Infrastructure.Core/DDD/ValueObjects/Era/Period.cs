@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Borg.System.DDD.ValueObjects.Time
+namespace Borg.Infrastructure.Core.DDD.ValueObjects.Era
 {
     public class Period : ValueObject<Period>
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Borg.System.DDD.Contracts
+namespace Borg.Infrastructure.Core.DDD.Contracts
 {
     public interface IAgregateRoot<out TKey> : IAgregateRoot, IEntity<TKey> where TKey : IEquatable<TKey>
     {

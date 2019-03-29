@@ -1,4 +1,4 @@
-﻿namespace Borg.System.DDD.ValueObjects.Euclidean
+﻿namespace Borg.Infrastructure.Core.DDD.ValueObjects.Euclidean
 {
     public class PlanarPoint : ValueObject<PlanarPoint>
     {
