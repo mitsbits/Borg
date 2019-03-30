@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace Borg.Framework
+namespace Borg.Infrastructure.Core.DDD.Enums
 {
     [Flags]
-    public enum Permission
+    public enum PermissionOperation
     {
         Create = 1 ^ 2,
         Update = 2 ^ 2,

@@ -95,7 +95,7 @@ namespace Borg.Infrastructure.Core.Strings
             Preconditions.NotNull(source, nameof(source));
             var enumerable = source as string[] ?? source.ToArray();
             if (!enumerable.Any()) return result;
-         
+
             var comparer = new WhitespaceAgnosticComparer();
             for (int i = 0; i < enumerable.Length; i++)
             {
