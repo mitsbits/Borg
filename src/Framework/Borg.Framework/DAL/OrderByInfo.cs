@@ -1,5 +1,4 @@
-﻿
-using Borg.Infrastructure.Core.DDD;
+﻿using Borg.Infrastructure.Core.DDD;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;

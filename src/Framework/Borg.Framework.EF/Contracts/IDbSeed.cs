@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Borg.Platform.EF.Contracts
+namespace Borg.Framework.EF.Contracts
 {
     public interface IDbSeed
     {

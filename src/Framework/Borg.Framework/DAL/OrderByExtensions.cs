@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Borg.Infrastructure.Core;
+using System;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -81,7 +82,7 @@ namespace Borg.Framework.DAL
         public static IOrderedQueryable<T> Apply<T>(this IQueryable<T> source, params OrderByInfo<T>[] orderBys)
             where T : class
         {
-            if (source == null) throw new ArgumentNullException(nameof(source));
+            Preconditions.NotNull(source, nameof(source));
             if (orderBys == null || !orderBys.Any()) return (IOrderedQueryable<T>)source;
 
             IOrderedQueryable<T> orderedQueryable = null;

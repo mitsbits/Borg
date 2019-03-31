@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Borg.Platform.EF.Contracts
+namespace Borg.Framework.EF.Contracts
 {
     public interface IEntityRegistry
     {

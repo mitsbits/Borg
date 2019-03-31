@@ -35,7 +35,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Borg.Framework.Reflection",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Borg.Framework", "src\Framework\Borg.Framework\Borg.Framework.csproj", "{D2A59E6E-4EEA-44F2-8C79-F4F9142CB986}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Borg.Framework.EF", "src\Framework\Borg.Framework.EF\Borg.Framework.EF.csproj", "{3B558E12-51F5-4629-A396-825B5FE9266B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Borg.Framework.EF", "src\Framework\Borg.Framework.EF\Borg.Framework.EF.csproj", "{3B558E12-51F5-4629-A396-825B5FE9266B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
