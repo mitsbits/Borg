@@ -37,6 +37,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Borg.Framework", "src\Frame
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Borg.Framework.EF", "src\Framework\Borg.Framework.EF\Borg.Framework.EF.csproj", "{3B558E12-51F5-4629-A396-825B5FE9266B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Borg.Framework.Azure", "src\Framework\Borg.Framework.Azure\Borg.Framework.Azure.csproj", "{D90E83F4-6FA0-4CB2-9B3F-B239BE2E11EC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,10 @@ Global
 		{3B558E12-51F5-4629-A396-825B5FE9266B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B558E12-51F5-4629-A396-825B5FE9266B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B558E12-51F5-4629-A396-825B5FE9266B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D90E83F4-6FA0-4CB2-9B3F-B239BE2E11EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D90E83F4-6FA0-4CB2-9B3F-B239BE2E11EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D90E83F4-6FA0-4CB2-9B3F-B239BE2E11EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D90E83F4-6FA0-4CB2-9B3F-B239BE2E11EC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -107,6 +113,7 @@ Global
 		{E33B8DF3-D412-4BC2-8644-F61CB76001D5} = {A0F884D4-FE1B-4C33-B9FD-549C22E12BA5}
 		{D2A59E6E-4EEA-44F2-8C79-F4F9142CB986} = {A0F884D4-FE1B-4C33-B9FD-549C22E12BA5}
 		{3B558E12-51F5-4629-A396-825B5FE9266B} = {A0F884D4-FE1B-4C33-B9FD-549C22E12BA5}
+		{D90E83F4-6FA0-4CB2-9B3F-B239BE2E11EC} = {A0F884D4-FE1B-4C33-B9FD-549C22E12BA5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4604E16C-EB8F-4064-9E9C-D3C2258BAF70}

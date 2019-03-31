@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-namespace Borg.Infrastructure.Core.Threading
+namespace Borg
 {
     public static class TaskExtensions
     {
