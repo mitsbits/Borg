@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore;
+﻿using Borg.System.Licencing;
+using Borg.System.Licencing.Contracts;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
 namespace Borg.Web.Client
@@ -7,7 +9,11 @@ namespace Borg.Web.Client
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            var host = CreateWebHostBuilder(args).Build();
+
+            IBorgLicenceService borgLicenceService = new MemoryMoqLicenceService();
+            
+            host.Run();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>

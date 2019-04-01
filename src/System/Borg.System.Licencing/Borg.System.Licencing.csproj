@@ -4,4 +4,8 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Framework\Borg.Framework\Borg.Framework.csproj" />
+  </ItemGroup>
+
 </Project>

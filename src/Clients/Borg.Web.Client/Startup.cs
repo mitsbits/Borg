@@ -1,4 +1,5 @@
 ﻿using Borg.Framework.Reflection;
+using Borg.System.Licencing.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -20,14 +21,20 @@ namespace Borg.Web.Client
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IBorgLicenceService>(new Borg.System.Licencing.MemoryMoqLicenceService());
             services.RegisterPlugableServices(_loggerFactory);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2).AddControllersAsServices();
             services.ConfigureOptions(typeof(System.Backoffice.UiConfigureOptions));
+
+
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+          
+            app.UseMiddleware<Borg.System.AddOn.LicenceMiddleware>();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
