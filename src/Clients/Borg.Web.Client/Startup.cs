@@ -1,4 +1,5 @@
 ﻿using Borg.Framework.Reflection;
+using Borg.System.AddOn;
 using Borg.System.Licencing.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,8 +34,9 @@ namespace Borg.Web.Client
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            var ls = app.ApplicationServices.GetService<IBorgLicenceService>();
           
-            app.UseMiddleware<Borg.System.AddOn.LicenceMiddleware>();
+            app.UseMiddleware(typeof(LicenceMiddleware), ls);
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

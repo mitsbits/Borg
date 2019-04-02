@@ -15,6 +15,7 @@
   <ItemGroup>
     <EmbeddedResource Include="wwwroot\**\*" />
     <ProjectReference Include="..\..\Framework\Borg.Framework.MVC\Borg.Framework.MVC.csproj" />
+    <ProjectReference Include="..\Borg.System.Backoffice.Lib\Borg.System.Backoffice.Lib.csproj" />
     <Content Update="**\*.cshtml" Pack="false" />
   </ItemGroup>
 

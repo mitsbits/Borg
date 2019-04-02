@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
 
-namespace Borg.Framework
+namespace Borg
 {
     public static class LoggerExtensions
     {
