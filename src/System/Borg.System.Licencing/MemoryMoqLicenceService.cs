@@ -1,13 +1,12 @@
 ﻿using Borg.System.Licencing.Contracts;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Borg.System.Licencing
 {
     public class MemoryMoqLicenceService : IBorgLicenceService
     {
         private static readonly MemoryMoqLicence moqLicence = new MemoryMoqLicence();
+
         public int ActiveApplicationServerCount()
         {
             return moqLicence.ActiveApplicationServerCount();
@@ -23,9 +22,9 @@ namespace Borg.System.Licencing
             return moqLicence;
         }
     }
-    public class MemoryMoqLicence: IBorgLicence
-    {
 
+    public class MemoryMoqLicence : IBorgLicence
+    {
         private static Guid _SiteID = Guid.NewGuid();
 
         public DateTimeOffset? Expires => default(DateTimeOffset?);

@@ -1,7 +1,7 @@
 ﻿using Borg.Framework.Storage;
 using Borg.Framework.Storage.Contracts;
 using Borg.Infrastructure.Core.Threading;
-
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,7 +9,6 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace Borg
 {

@@ -26,21 +26,22 @@ namespace Borg.Web.Client
             services.RegisterPlugableServices(_loggerFactory);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2).AddControllersAsServices();
             services.ConfigureOptions(typeof(System.Backoffice.UiConfigureOptions));
-
-
-            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             var ls = app.ApplicationServices.GetService<IBorgLicenceService>();
-          
+
             app.UseMiddleware(typeof(LicenceMiddleware), ls);
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSecurityHeadersMiddleware(
+    new SecurityHeadersBuilder()
+        .AddDefaultSecurePolicy());
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

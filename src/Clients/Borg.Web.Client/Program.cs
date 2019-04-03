@@ -12,7 +12,7 @@ namespace Borg.Web.Client
             var host = CreateWebHostBuilder(args).Build();
 
             IBorgLicenceService borgLicenceService = new MemoryMoqLicenceService();
-            
+
             host.Run();
         }
 

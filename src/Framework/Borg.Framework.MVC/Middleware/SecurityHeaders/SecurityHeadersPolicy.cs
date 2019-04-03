@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace Borg.System.Backoffice.Security
+namespace Borg.Framework.MVC.Middleware.SecurityHeaders
 {
     public class SecurityHeadersPolicy
     {

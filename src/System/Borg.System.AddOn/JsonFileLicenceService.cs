@@ -1,8 +1,6 @@
 ﻿using Borg.System.Licencing;
 using Borg.System.Licencing.Contracts;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Borg.System.AddOn
 {
@@ -13,7 +11,8 @@ namespace Borg.System.AddOn
         public JsonFileLicenceService(string path)
         {
             _path = path;
-    }
+        }
+
         public int ActiveApplicationServerCount()
         {
             throw new NotImplementedException();
@@ -39,6 +38,4 @@ namespace Borg.System.AddOn
             throw new NotImplementedException();
         }
     }
-
-
 }

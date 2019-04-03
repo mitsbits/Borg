@@ -7,27 +7,26 @@ namespace Borg.System.Backoffice.Security.Contracts
         bool Succeded { get; }
         ICmssUserError[] Errors { get; }
     }
+
     public interface ICmsUserLoginResult : ICmsUserOperationResult
     {
-
     }
+
     public interface ICmsUserSetPasswordResult : ICmsUserOperationResult
     {
-
     }
 
     public class CmsUserSetPasswordResult : CmsUserOperationResult, ICmsUserSetPasswordResult
     {
         public CmsUserSetPasswordResult(TransactionOutcome outcome, params CmssUserError[] usererrors) : base(outcome, usererrors)
         {
-
         }
     }
 
-    public class CmsUserLoginResult : CmsUserOperationResult, ICmsUserLoginResult {
-        public CmsUserLoginResult(TransactionOutcome outcome, params CmssUserError[] usererrors) :base(outcome, usererrors)
+    public class CmsUserLoginResult : CmsUserOperationResult, ICmsUserLoginResult
+    {
+        public CmsUserLoginResult(TransactionOutcome outcome, params CmssUserError[] usererrors) : base(outcome, usererrors)
         {
-
         }
     }
 
@@ -40,14 +39,10 @@ namespace Borg.System.Backoffice.Security.Contracts
         {
             _outcome = outcome;
             _usererrors = usererrors;
-
         }
 
         public bool Succeded => _outcome == TransactionOutcome.Success;
 
-
         public ICmssUserError[] Errors => _usererrors;
-
-
     }
 }

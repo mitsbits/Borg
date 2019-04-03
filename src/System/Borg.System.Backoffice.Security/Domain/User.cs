@@ -6,12 +6,12 @@ namespace Borg.System.Backoffice.Security.Domain
 {
     public class User : UserBase
     {
-        ICollection<UserPermission> Permissions { get; set; } = new HashSet<UserPermission>();
+        private ICollection<UserPermission> Permissions { get; set; } = new HashSet<UserPermission>();
     }
 
     public class Role : RoleBase
     {
-        ICollection<RolePermission> Permissions { get; set; } = new HashSet<RolePermission>();
+        private ICollection<RolePermission> Permissions { get; set; } = new HashSet<RolePermission>();
     }
 
     public class UserPermission : PermissionBase

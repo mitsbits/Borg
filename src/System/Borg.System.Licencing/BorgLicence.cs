@@ -3,7 +3,6 @@ using System;
 
 namespace Borg.System.Licencing
 {
-
     [Serializable]
     public class BorgLicence : IBorgLicence
     {
@@ -27,6 +26,4 @@ namespace Borg.System.Licencing
             return ActiveApplicationUsers;
         }
     }
-
-   
 }
