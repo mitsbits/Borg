@@ -40,15 +40,27 @@ namespace Borg.Framework.Actors.Grains
         }
     }
 
-    public class CacheItemGrain : Grain<CacheItemState>, ICacheItemGrain<CacheItemState>
+    public class CacheItemGrain : Grain<CacheItemState>, ICacheItemGrain
     {
-        public Task<CacheItemState> GetState()
+    
+        public async Task<CacheItemState> GetItem()
         {
-            return Task.FromResult(State);
+            if (State.AbsoluteExpiration.HasValue && State.AbsoluteExpiration.Value < DateTimeOffset.UtcNow)
+            {
+                await ClearStateAsync();
+                return default(CacheItemState);
+            }
+            return State;
         }
 
         public async Task<CacheItemState> SetItem(CacheItemState obj)
         {
+            if (obj.AbsoluteExpiration.HasValue && obj.AbsoluteExpiration.Value < DateTimeOffset.UtcNow)
+            {
+                await ClearStateAsync();
+                return default(CacheItemState);
+            }
+
             State = obj;
             await WriteStateAsync();
             return State;

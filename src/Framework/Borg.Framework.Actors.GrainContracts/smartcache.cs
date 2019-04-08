@@ -12,10 +12,10 @@ namespace Borg.Framework.Actors.GrainContracts
         Task<T> SetItem(T obj);
     }
 
-    public interface ICacheItemGrain< T> : IGrainWithStringKey where T : ICacheItemState
+    public interface ICacheItemGrain : IGrainWithStringKey 
     {
-        Task<T> GetState();
-        Task<T> SetItem(T obj);
+        Task<CacheItemState> GetItem();
+        Task<CacheItemState> SetItem(CacheItemState obj);
     }
 
     public class CacheItemState : ICacheItemState
