@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.168
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28729.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{EEB2B7DC-B5C2-4CEA-A3B1-72037834404A}"
 EndProject
@@ -45,7 +45,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Borg.System.Backoffice.Lib"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platform", "Platform", "{AC4B273F-94EA-490A-B574-4D560134FF73}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Borg.Platform.Backoffice.Security.EF", "src\Platform\Borg.Platform.Backoffice.Security.EF\Borg.Platform.Backoffice.Security.EF.csproj", "{B76A5CBB-6CF2-4D7A-97E1-D98056841096}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Borg.Platform.Backoffice.Security.EF", "src\Platform\Borg.Platform.Backoffice.Security.EF\Borg.Platform.Backoffice.Security.EF.csproj", "{B76A5CBB-6CF2-4D7A-97E1-D98056841096}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Actors", "Actors", "{C1081FF5-EC4C-4466-8FF0-0BBDF14210D8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Borg.Framwork.Actors.Silos", "src\Framework\Borg.Framwork.Actors.Silos\Borg.Framwork.Actors.Silos.csproj", "{67C1831F-8C31-4C70-ABE4-DDD20D8C90ED}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Borg.Framework.Actors.Grains", "src\Framework\Borg.Framework.Actors.Grains\Borg.Framework.Actors.Grains.csproj", "{61DCA1B9-B83A-4414-9E1E-778BF59490C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Borg.Framework.Actors.GrainContracts", "src\Framework\Borg.Framework.Actors.GrainContracts\Borg.Framework.Actors.GrainContracts.csproj", "{983DD46E-A995-469C-875F-F6EFDF7439DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Borg.Framework.Actors.AntiCorruption", "src\Framework\Borg.Framework.Actors.AntiCorruption\Borg.Framework.Actors.AntiCorruption.csproj", "{D50CE5E3-FB84-4649-8D73-1A390F3E6E4D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -113,6 +123,22 @@ Global
 		{B76A5CBB-6CF2-4D7A-97E1-D98056841096}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B76A5CBB-6CF2-4D7A-97E1-D98056841096}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B76A5CBB-6CF2-4D7A-97E1-D98056841096}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67C1831F-8C31-4C70-ABE4-DDD20D8C90ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67C1831F-8C31-4C70-ABE4-DDD20D8C90ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67C1831F-8C31-4C70-ABE4-DDD20D8C90ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67C1831F-8C31-4C70-ABE4-DDD20D8C90ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61DCA1B9-B83A-4414-9E1E-778BF59490C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61DCA1B9-B83A-4414-9E1E-778BF59490C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61DCA1B9-B83A-4414-9E1E-778BF59490C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61DCA1B9-B83A-4414-9E1E-778BF59490C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{983DD46E-A995-469C-875F-F6EFDF7439DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{983DD46E-A995-469C-875F-F6EFDF7439DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{983DD46E-A995-469C-875F-F6EFDF7439DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{983DD46E-A995-469C-875F-F6EFDF7439DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D50CE5E3-FB84-4649-8D73-1A390F3E6E4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D50CE5E3-FB84-4649-8D73-1A390F3E6E4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D50CE5E3-FB84-4649-8D73-1A390F3E6E4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D50CE5E3-FB84-4649-8D73-1A390F3E6E4D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -138,6 +164,11 @@ Global
 		{D711A91B-8E58-4168-A7D6-FBC679EA77C5} = {45AA2393-760B-47F3-B7D5-FAD44FA51F26}
 		{AC4B273F-94EA-490A-B574-4D560134FF73} = {EEB2B7DC-B5C2-4CEA-A3B1-72037834404A}
 		{B76A5CBB-6CF2-4D7A-97E1-D98056841096} = {AC4B273F-94EA-490A-B574-4D560134FF73}
+		{C1081FF5-EC4C-4466-8FF0-0BBDF14210D8} = {A0F884D4-FE1B-4C33-B9FD-549C22E12BA5}
+		{67C1831F-8C31-4C70-ABE4-DDD20D8C90ED} = {C1081FF5-EC4C-4466-8FF0-0BBDF14210D8}
+		{61DCA1B9-B83A-4414-9E1E-778BF59490C3} = {C1081FF5-EC4C-4466-8FF0-0BBDF14210D8}
+		{983DD46E-A995-469C-875F-F6EFDF7439DA} = {C1081FF5-EC4C-4466-8FF0-0BBDF14210D8}
+		{D50CE5E3-FB84-4649-8D73-1A390F3E6E4D} = {C1081FF5-EC4C-4466-8FF0-0BBDF14210D8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4604E16C-EB8F-4064-9E9C-D3C2258BAF70}

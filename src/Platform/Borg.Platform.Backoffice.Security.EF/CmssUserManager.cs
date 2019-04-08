@@ -26,21 +26,21 @@ namespace Borg.Platform.Backoffice.Security.EF
             if (cmsuser == null)
             {
                 _logger.Debug($"no user for {nameof(user)}:{user}");
-                return new CmsUserLoginResult(TransactionOutcome.Failure, new CmssUserError(user));
+                return new CmsUserLoginResult(TransactionOutcome.Failure, null, new CmssUserError(user));
             }
             if (!cmsuser.IsActive)
             {
                 _logger.Debug($"not active user for {nameof(user)}:{user}");
-                return new CmsUserLoginResult(TransactionOutcome.Failure, new CmssUserError(user));
+                return new CmsUserLoginResult(TransactionOutcome.Failure, null, new CmssUserError(user));
             }
             var passwordmatch = Crypto.VerifyHashedPassword(cmsuser.PasswordHash, password);
             if (!passwordmatch)
             {
                 _logger.Debug($"invalid password for {nameof(user)}:{user}");
-                return new CmsUserLoginResult(TransactionOutcome.Failure, new CmssUserError(user));
+                return new CmsUserLoginResult(TransactionOutcome.Failure, null, new CmssUserError(user));
             }
             _logger.Debug($"succesful login for {nameof(user)}:{user}");
-            return new CmsUserLoginResult(TransactionOutcome.Success);
+            return new CmsUserLoginResult(TransactionOutcome.Success, cmsuser);
         }
 
         public async Task<ICmsUserSetPasswordResult> SetPassword(string user, string password)

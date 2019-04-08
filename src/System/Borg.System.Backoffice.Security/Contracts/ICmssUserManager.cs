@@ -8,9 +8,4 @@ namespace Borg.System.Backoffice.Security.Contracts
 
         Task<ICmsUserSetPasswordResult> SetPassword(string user, string password);
     }
-
-    public interface ICmsUserPasswordValidator
-    {
-        Task<(bool isStrong, float score)> IsStrongEnough(string password);
-    }
 }

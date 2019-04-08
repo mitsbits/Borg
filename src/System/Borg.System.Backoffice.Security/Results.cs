@@ -2,35 +2,23 @@
 
 namespace Borg.System.Backoffice.Security.Contracts
 {
-    public interface ICmsUserOperationResult
-    {
-        bool Succeded { get; }
-        ICmssUserError[] Errors { get; }
-    }
-
-    public interface ICmsUserLoginResult : ICmsUserOperationResult
-    {
-    }
-
-    public interface ICmsUserSetPasswordResult : ICmsUserOperationResult
-    {
-    }
-
     public class CmsUserSetPasswordResult : CmsUserOperationResult, ICmsUserSetPasswordResult
     {
         public CmsUserSetPasswordResult(TransactionOutcome outcome, params CmssUserError[] usererrors) : base(outcome, usererrors)
         {
         }
     }
-
     public class CmsUserLoginResult : CmsUserOperationResult, ICmsUserLoginResult
     {
-        public CmsUserLoginResult(TransactionOutcome outcome, params CmssUserError[] usererrors) : base(outcome, usererrors)
+        public CmsUserLoginResult(TransactionOutcome outcome, User payload, params CmssUserError[] usererrors) : base(outcome, usererrors)
         {
+            Payload = payload;
         }
+
+        public User Payload { get; private set; }
     }
 
-    public abstract class CmsUserOperationResult : ICmsUserLoginResult
+    public abstract class CmsUserOperationResult : ICmsUserOperationResult
     {
         private readonly TransactionOutcome _outcome;
         private readonly CmssUserError[] _usererrors;
