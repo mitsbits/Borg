@@ -4,8 +4,12 @@ using Borg.System.Licencing.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Borg.Framework.Actors.AntiCorruption;
+using Borg.Framework.MVC.Middleware.SecurityHeaders;
+using Borg.System.Licencing;
 
 namespace Borg.Web.Client
 {
@@ -23,8 +27,12 @@ namespace Borg.Web.Client
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IBorgLicenceService>(new Borg.System.Licencing.MemoryMoqLicenceService());
+            services.AddSiloCache();
+            services.AddSingleton<IDistributedCache, SiloCacheProvider>();
             services.RegisterPlugableServices(_loggerFactory);
+            services.AddSingleton<IBorgLicenceService, MemoryMoqLicenceService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2).AddControllersAsServices();
+           
             services.ConfigureOptions(typeof(System.Backoffice.UiConfigureOptions));
         }
 
@@ -40,8 +48,8 @@ namespace Borg.Web.Client
             }
 
             app.UseSecurityHeadersMiddleware(
-    new SecurityHeadersBuilder()
-        .AddDefaultSecurePolicy());
+                new SecurityHeadersBuilder()
+                    .AddDefaultSecurePolicy());
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

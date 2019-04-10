@@ -11,4 +11,8 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Borg.Framework.Actors.GrainContracts\Borg.Framework.Actors.GrainContracts.csproj" />
+  </ItemGroup>
 </Project>

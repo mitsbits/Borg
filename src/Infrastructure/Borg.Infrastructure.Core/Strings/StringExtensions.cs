@@ -1,4 +1,5 @@
-﻿using Borg.Infrastructure.Core.Collections.Comparers;
+﻿using Borg.Infrastructure.Core;
+using Borg.Infrastructure.Core.Collections.Comparers;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Borg.Infrastructure.Core.Strings
+namespace Borg
 {
     public static class StringExtensions
     {
@@ -124,6 +125,11 @@ namespace Borg.Infrastructure.Core.Strings
         public static string SplitUpperCaseToString(this string text)
         {
             return Regex.Replace(text, "([A-Z])", " $1", RegexOptions.Compiled).Trim();
+        }
+
+        public static byte[] ToBytes(this string text)
+        {
+            return Encoding.ASCII.GetBytes(text);
         }
     }
 }

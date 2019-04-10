@@ -9,17 +9,12 @@ namespace Borg.System.AddOn
     {
         private IBorgLicenceService _borgLicenceService;
         private readonly IBorgLicence _borgLicence;
+        private readonly RequestDelegate _next;
 
-        public LicenceMiddleware(IBorgLicenceService borgLicenceService)
+        public LicenceMiddleware(RequestDelegate next, IBorgLicenceService borgLicenceService)
         {
             _borgLicenceService = borgLicenceService;
             if (_borgLicence == null) _borgLicence = _borgLicenceService.Retrieve();
-        }
-
-        private readonly RequestDelegate _next;
-
-        public LicenceMiddleware(RequestDelegate next)
-        {
             _next = next;
         }
 

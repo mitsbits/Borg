@@ -1,7 +1,7 @@
 using Borg.Infrastructure.Core;
 using Borg.Infrastructure.Core.DI;
 using Borg.Infrastructure.Core.Services.Slugs;
-using Borg.Infrastructure.Core.Strings;
+
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using System;

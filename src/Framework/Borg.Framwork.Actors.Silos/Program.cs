@@ -12,6 +12,7 @@ using Orleans;
 using Orleans.Storage;
 using Orleans.Configuration;
 using System.Net;
+using Borg.Framework.Actors.Grains;
 
 namespace Borg.Framwork.Actors.Silos
 {
@@ -35,21 +36,41 @@ namespace Borg.Framwork.Actors.Silos
 
         private static async Task<ISiloHost> StartSilo()
         {
-            var builder = new SiloHostBuilder()
+            var invariant = "System.Data.SqlClient"; // for Microsoft SQL Server
+            var connectionString = "Data Source=.;Initial Catalog=Orleans;Integrated Security=True;Pooling=False;Max Pool Size=200;Asynchronous Processing=True;MultipleActiveResultSets=True";
+
+            var builder = new SiloHostBuilder();
                 // Use localhost clustering for a single local silo
-                .UseLocalhostClustering()
+                builder.UseLocalhostClustering()
                 // Configure ClusterId and ServiceId
                 .Configure<ClusterOptions>(options =>
                 {
                     options.ClusterId = "dev";
-                    options.ServiceId = "MyAwesomeService";
+                    options.ServiceId = "Actors";
                 })
             // Configure connectivity
             .Configure<EndpointOptions>(options => options.AdvertisedIPAddress = IPAddress.Loopback)
                 // Configure logging with any logging framework that supports Microsoft.Extensions.Logging.
                 // In this particular case it logs using the Microsoft.Extensions.Logging.Console package.
-                .ConfigureLogging(logging => logging.AddConsole());
-
+                .ConfigureApplicationParts(parts => parts.AddApplicationPart(typeof(CacheItemGrain).Assembly).WithReferences())
+            //.UseAdoNetClustering(options =>
+            //{
+            //    options.Invariant = invariant;
+            //    options.ConnectionString = connectionString;
+            //});
+            ////use AdoNet for reminder service
+            //builder.UseAdoNetReminderService(options =>
+            //{
+            //    options.Invariant = invariant;
+            //    options.ConnectionString = connectionString;
+            //});
+            //use AdoNet for Persistence
+            //.AddAdoNetGrainStorage("Actors", options =>
+            //{
+            //    options.Invariant = invariant;
+            //    options.ConnectionString = connectionString;
+            //})
+            .ConfigureLogging(logging => logging.AddConsole());
             var host = builder.Build();
             await host.StartAsync();
             return host;

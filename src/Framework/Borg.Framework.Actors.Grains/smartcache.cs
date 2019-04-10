@@ -1,5 +1,6 @@
 ﻿using Borg.Framework.Actors.GrainContracts;
 using Orleans;
+using Orleans.Providers;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -39,7 +40,7 @@ namespace Borg.Framework.Actors.Grains
             return State.Value;
         }
     }
-
+    [StorageProvider(ProviderName = "Actors")]
     public class CacheItemGrain : Grain<CacheItemState>, ICacheItemGrain
     {
     

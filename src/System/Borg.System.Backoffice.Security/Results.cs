@@ -1,4 +1,5 @@
 ﻿using Borg.Framework.DAL;
+using Borg.System.Backoffice.Security.Domain;
 
 namespace Borg.System.Backoffice.Security.Contracts
 {
