@@ -12,10 +12,12 @@ namespace Borg.Framework.Actors.GrainContracts
         Task<T> SetItem(T obj);
     }
 
-    public interface ICacheItemGrain : IGrainWithStringKey 
+    public interface ICacheItemGrain : IGrainWithStringKey , IRemindable
     {
         Task<CacheItemState> GetItem();
         Task<CacheItemState> SetItem(CacheItemState obj);
+        Task<CacheItemState> RefreshItem();
+        Task RemoveItem();
     }
 
     public class CacheItemState : ICacheItemState
@@ -38,4 +40,6 @@ namespace Borg.Framework.Actors.GrainContracts
 
         byte[] Data { get; set; }
     }
+
+
 }

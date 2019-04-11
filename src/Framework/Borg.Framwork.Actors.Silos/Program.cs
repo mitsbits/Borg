@@ -50,6 +50,8 @@ namespace Borg.Framwork.Actors.Silos
                 })
             // Configure connectivity
             .Configure<EndpointOptions>(options => options.AdvertisedIPAddress = IPAddress.Loopback)
+            .AddAzureTableGrainStorage("TableStore", options => options.ConnectionString = "UseDevelopmentStorage=true")
+            .UseAzureTableReminderService(options => options.ConnectionString = "UseDevelopmentStorage=true")
                 // Configure logging with any logging framework that supports Microsoft.Extensions.Logging.
                 // In this particular case it logs using the Microsoft.Extensions.Logging.Console package.
                 .ConfigureApplicationParts(parts => parts.AddApplicationPart(typeof(CacheItemGrain).Assembly).WithReferences())

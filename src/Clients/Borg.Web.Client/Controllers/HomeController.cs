@@ -16,8 +16,8 @@ namespace Borg.Web.Client.Controllers
         }
         public IActionResult Index()
         {
-            _cache.SetString("foo", "bar");
-            var bar = _cache.GetString("foo");
+            _cache.SetString("foo1", "bary", new DistributedCacheEntryOptions { AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5) });
+            var bar = _cache.GetString("foo1");
             return View();
         }
     }

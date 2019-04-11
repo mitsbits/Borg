@@ -41,9 +41,10 @@ namespace Borg.Framework.Actors.AntiCorruption
             AsyncHelpers.RunSync(() => RefreshAsync(key));
         }
 
-        public Task RefreshAsync(string key, CancellationToken token = default)
+        public async Task RefreshAsync(string key, CancellationToken token = default)
         {
-            throw new NotImplementedException();
+            var grain = _clusterClient.GetGrain<ICacheItemGrain>(key);
+            await grain.RefreshItem();
         }
 
         public void Remove(string key)
@@ -72,7 +73,8 @@ namespace Borg.Framework.Actors.AntiCorruption
                 Data = value,
                 AbsoluteExpiration = options.AbsoluteExpiration,
                 AbsoluteExpirationRelativeToNow = options.AbsoluteExpirationRelativeToNow,
-                SlidingExpiration = options.SlidingExpiration });
+                SlidingExpiration = options.SlidingExpiration
+            });
         }
     }
 }
