@@ -12,4 +12,8 @@
     <PackageReference Include="Microsoft.Orleans.Core.Abstractions" Version="2.3.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Infrastructure\Borg.Infrastructure.Core\Borg.Infrastructure.Core.csproj" />
+  </ItemGroup>
+
 </Project>

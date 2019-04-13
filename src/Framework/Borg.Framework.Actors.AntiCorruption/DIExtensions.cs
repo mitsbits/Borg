@@ -9,6 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Borg.Framework.Actors.GrainContracts;
+using Borg.Framework.Actors.Grains;
+using Microsoft.EntityFrameworkCore;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -16,6 +18,8 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddSiloCache(this IServiceCollection services)
         {
+            var connectionString = "Data Source=.;Initial Catalog=Borg.Actors;User Id=sa;Password=P@ssw0rd;Pooling=False;Max Pool Size=200;MultipleActiveResultSets=True";
+            services.AddDbContext<ActorsDbContext>(opt => opt.UseSqlServer(connectionString));
             var builder = new ClientBuilder();
 
             builder.UseLocalhostClustering()
@@ -24,8 +28,9 @@ namespace Microsoft.Extensions.DependencyInjection
                        options.ClusterId = "dev";
                        options.ServiceId = "Actors";
                    })
-                   .ConfigureApplicationParts(parts => parts.AddApplicationPart(typeof(ICacheItemGrain).Assembly))
+                   .ConfigureApplicationParts(parts => parts.AddApplicationPart(typeof(ICacheItemGrain<>).Assembly))
                    .ConfigureLogging(logging => logging.AddConsole());
+     
             var client = builder.Build();
             AsyncHelpers.RunSync(() => client.Connect());
 

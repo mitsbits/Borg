@@ -1,24 +1,21 @@
 ﻿using Borg.Framework.Actors.GrainContracts;
-using Borg.Infrastructure.Core.Threading;
 using Microsoft.Extensions.Caching.Distributed;
 using Orleans;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Borg.Framework.Actors.AntiCorruption
 {
-
     public class SiloCacheProvider : IDistributedCache
     {
-
         private readonly IClusterClient _clusterClient;
+
         public SiloCacheProvider(IClusterClient clusterClient)
         {
             _clusterClient = clusterClient;
         }
+
         public byte[] Get(string key)
         {
             return AsyncHelpers.RunSync(() => GetAsync(key));
@@ -27,7 +24,7 @@ namespace Borg.Framework.Actors.AntiCorruption
         public async Task<byte[]> GetAsync(string key, CancellationToken token = default)
         {
             token.ThrowIfCancellationRequested();
-            var grain = _clusterClient.GetGrain<ICacheItemGrain>(key);
+            var grain = _clusterClient.GetGrain<ICacheItemGrain<CacheItemState<byte[]>>>(key);
             var state = await grain.GetItem();
             if (state == null)
             {
@@ -43,7 +40,7 @@ namespace Borg.Framework.Actors.AntiCorruption
 
         public async Task RefreshAsync(string key, CancellationToken token = default)
         {
-            var grain = _clusterClient.GetGrain<ICacheItemGrain>(key);
+            var grain = _clusterClient.GetGrain<ICacheItemGrain<CacheItemState<byte[]>>>(key);
             await grain.RefreshItem();
         }
 
@@ -55,8 +52,8 @@ namespace Borg.Framework.Actors.AntiCorruption
         public async Task RemoveAsync(string key, CancellationToken token = default)
         {
             token.ThrowIfCancellationRequested();
-            var grain = _clusterClient.GetGrain<ICacheItemGrain>(key);
-            await grain.SetItem(null);
+            var grain = _clusterClient.GetGrain<ICacheItemGrain<CacheItemState<byte[]>>>(key);
+            await grain.RemoveItem();
         }
 
         public void Set(string key, byte[] value, DistributedCacheEntryOptions options)
@@ -67,13 +64,23 @@ namespace Borg.Framework.Actors.AntiCorruption
         public async Task SetAsync(string key, byte[] value, DistributedCacheEntryOptions options, CancellationToken token = default)
         {
             token.ThrowIfCancellationRequested();
-            var grain = _clusterClient.GetGrain<ICacheItemGrain>(key);
-            await grain.SetItem(new CacheItemState()
+            var grain = _clusterClient.GetGrain<ICacheItemGrain<CacheItemState<byte[]>>>(key);
+            var expiration = default(DateTimeOffset?);
+            if (options.AbsoluteExpirationRelativeToNow.HasValue)
+            {
+                expiration = DateTimeOffset.UtcNow.Add(options.AbsoluteExpirationRelativeToNow.Value);
+            }
+            else
+            {
+                if (options.AbsoluteExpiration.HasValue)
+                {
+                    expiration = options.AbsoluteExpiration.Value.ToUniversalTime();
+                }
+            }
+            await grain.SetItem(new CacheItemState<byte[]>
             {
                 Data = value,
-                AbsoluteExpiration = options.AbsoluteExpiration,
-                AbsoluteExpirationRelativeToNow = options.AbsoluteExpirationRelativeToNow,
-                SlidingExpiration = options.SlidingExpiration
+                Expiration = expiration
             });
         }
     }
