@@ -27,19 +27,21 @@ namespace Borg.Web.Client
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IBorgLicenceService>(new Borg.System.Licencing.MemoryMoqLicenceService());
-            services.AddSiloCache();
-            services.AddSingleton<IDistributedCache, SiloCacheProvider>();
+       
             services.RegisterPlugableServices(_loggerFactory);
             services.AddSingleton<IBorgLicenceService, MemoryMoqLicenceService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2).AddControllersAsServices();
-           
+            services.AddPolicies();
             services.ConfigureOptions(typeof(System.Backoffice.UiConfigureOptions));
+       
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             var ls = app.ApplicationServices.GetService<IBorgLicenceService>();
+
+            app.UseAuthentication();
 
             app.UseMiddleware(typeof(LicenceMiddleware), ls);
             if (env.IsDevelopment())

@@ -9,6 +9,7 @@ namespace Borg.System.Backoffice.Security.Contracts
         {
         }
     }
+
     public class CmsUserLoginResult : CmsUserOperationResult, ICmsUserLoginResult
     {
         public CmsUserLoginResult(TransactionOutcome outcome, User payload, params CmssUserError[] usererrors) : base(outcome, usererrors)

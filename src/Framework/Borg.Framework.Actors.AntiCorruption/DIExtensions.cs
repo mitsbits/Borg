@@ -1,16 +1,13 @@
-﻿using Borg.Framework.Actors.AntiCorruption;
-using Borg;
+﻿using Borg;
+using Borg.Framework.Actors.AntiCorruption;
+using Borg.Framework.Actors.GrainContracts;
+using Borg.Framework.Actors.Grains;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Orleans;
 using Orleans.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Borg.Framework.Actors.GrainContracts;
-using Borg.Framework.Actors.Grains;
-using Microsoft.EntityFrameworkCore;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -30,7 +27,7 @@ namespace Microsoft.Extensions.DependencyInjection
                    })
                    .ConfigureApplicationParts(parts => parts.AddApplicationPart(typeof(ICacheItemGrain<>).Assembly))
                    .ConfigureLogging(logging => logging.AddConsole());
-     
+
             var client = builder.Build();
             AsyncHelpers.RunSync(() => client.Connect());
 
