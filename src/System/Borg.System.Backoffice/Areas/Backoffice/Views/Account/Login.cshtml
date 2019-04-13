@@ -1,6 +1,63 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model Borg.System.Backoffice.Lib.Controllers.AccountController.LoginViewModel
 @{
+    Layout = "_EmptyLayout";
+    ViewBag.PageClass = "login-page";
 }
-    <h1>login</h1>
+<div class="login-box">
+    <div class="login-logo">
+        <a asp-controller="Home" asp-action="Home" class="text-center">
+            <img src="~/static/assets/borglogo.png" alt="borg" class=" image" />
+        </a>
+    </div>
+    <!-- /.login-logo -->
+    <div class="login-box-body">
+        <p class="login-box-msg">Sign in to start your session</p>
+
+        <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@Model.ReturnUrl" method="post">
+            <div class="form-group has-feedback">
+                <input type="email" asp-for="Email" class="form-control" placeholder="@Html.DisplayNameFor(m=>m.Email)">
+                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <input type="password" asp-for="Password" class="form-control" placeholder="@Html.DisplayNameFor(m=>m.Password)">
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group has-feedback" asp-validation-summary="ModelOnly">
+            </div>
+            <div class="row">
+                <div class="col-xs-8">
+                    <div class="checkbox icheck">
+                        <label>
+                            <input asp-for="RememberMe" class="simple remeberme" type="checkbox" /> @Html.DisplayNameFor(m => m.RememberMe)
+                        </label>
+                    </div>
+                </div>
+                <!-- /.col -->
+                <div class="col-xs-4">
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">Sign in</button>
+                </div>
+                <!-- /.col -->
+            </div>
+        </form>
+
+        <!-- /.social-auth-links -->
+
+        <a href="#">I forgot my password</a><br>
+        <a href="@Url.Action("Register")" class="text-center">Don't have an account? Register</a>
+    </div>
+    <!-- /.login-box-body -->
+</div>
+@section bottomscripts{
+    <script>
+        $(function () {
+            alert('koko');
+            $('input.remeberme').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%' // optional
+            });
+        });
+    </script>
+}

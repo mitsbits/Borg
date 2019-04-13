@@ -9,7 +9,11 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddAuthorization(options =>
             {
                 options.AddPolicy(BorgConstants.BackofficePolicyName,
-                    policy => policy.Requirements.Add(new BorgRequirement()));
+                    policy => {
+                        policy.AuthenticationSchemes.Add(BorgConstants.BackofficePolicyName);
+                        policy.RequireAuthenticatedUser();
+                        policy.Requirements.Add(new BorgRequirement());
+                    });
             });
 
             services.AddAuthentication(BorgConstants.BackofficePolicyName).AddCookie(BorgConstants.BackofficePolicyName, options =>

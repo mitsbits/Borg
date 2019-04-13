@@ -20,6 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
+    <Folder Include="wwwroot\Static\" />
   </ItemGroup>
 </Project>

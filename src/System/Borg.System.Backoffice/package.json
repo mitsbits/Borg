@@ -4,6 +4,7 @@
   "private": true,
   "devDependencies": {},
   "dependencies": {
-    "admin-lte": "^2.4.9"
+    "admin-lte": "^2.4.10",
+    "jquery-validation-unobtrusive": "^3.2.11"
   }
 }
