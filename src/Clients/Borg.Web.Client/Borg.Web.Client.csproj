@@ -9,15 +9,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Framework\Borg.Framework.Actors.AntiCorruption\Borg.Framework.Actors.AntiCorruption.csproj" />
     <ProjectReference Include="..\..\Framework\Borg.Framework.Reflection\Borg.Framework.Reflection.csproj" />
-    <ProjectReference Include="..\..\System\Borg.System.AddOn\Borg.System.AddOn.csproj" />
+    <ProjectReference Include="..\..\Platform\Borg.Platform.Backoffice.Security.EF\Borg.Platform.Backoffice.Security.EF.csproj" />
     <ProjectReference Include="..\..\System\Borg.System.Backoffice\Borg.System.Backoffice.csproj" />
     <ProjectReference Include="..\..\System\Borg.System.Licencing\Borg.System.Licencing.csproj" />
   </ItemGroup>

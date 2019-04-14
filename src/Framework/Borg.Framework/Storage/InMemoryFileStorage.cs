@@ -90,6 +90,7 @@ namespace Borg.Framework.Storage
             return true;
         }
 
+        [Obsolete]
         public async Task<bool> CopyFile(string path, string targetpath,
             CancellationToken cancellationToken = default(CancellationToken))
         {

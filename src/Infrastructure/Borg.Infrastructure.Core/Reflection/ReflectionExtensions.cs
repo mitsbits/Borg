@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Borg.Infrastructure.Core.Reflection
+namespace Borg
 {
     public static class ReflectionExtensions
     {

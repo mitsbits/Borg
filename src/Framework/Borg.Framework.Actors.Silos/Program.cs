@@ -74,7 +74,7 @@ namespace Borg.Framwork.Actors.Silos
             builder.AddEfGrainStorage<ActorsDbContext>("ef");
 
             var host = builder.Build();
-         
+
             await host.StartAsync();
             return host;
         }

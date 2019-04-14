@@ -45,19 +45,19 @@
         <!-- /.social-auth-links -->
 
         <a href="#">I forgot my password</a><br>
-        <a href="@Url.Action("Register")" class="text-center">Don't have an account? Register</a>
+        <a href="@Url.Action(" Register")" class="text-center">Don't have an account? Register</a>
     </div>
     <!-- /.login-box-body -->
 </div>
 @section bottomscripts{
-    <script>
-        $(function () {
-            alert('koko');
-            $('input.remeberme').iCheck({
-                checkboxClass: 'icheckbox_square-blue',
-                radioClass: 'iradio_square-blue',
-                increaseArea: '20%' // optional
-            });
+<script>
+    $(function () {
+
+        $('input.remeberme').iCheck({
+            checkboxClass: 'icheckbox_square-blue',
+            radioClass: 'iradio_square-blue',
+            increaseArea: '20%' // optional
         });
-    </script>
+    });
+</script>
 }

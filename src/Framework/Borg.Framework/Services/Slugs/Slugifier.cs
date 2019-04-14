@@ -12,6 +12,7 @@ using System.Text.RegularExpressions;
 namespace Borg.Framework.Services.Slugs
 {
     public delegate string SlugifierExecutingInterceptor(string source);
+
     [PlugableService(ImplementationOf = typeof(ISlugifierService), Lifetime = Lifetime.Singleton, OneOfMany = false, Order = 0)]
     public class Slugifier : ISlugifierService
     {
@@ -23,7 +24,7 @@ namespace Borg.Framework.Services.Slugs
         {
             _logger = (loggerFactory == null) ? NullLogger.Instance : loggerFactory.CreateLogger(GetType());
             _internationalCharacterMappers = internationalCharacterMappers ??
-                                             new[] {NullInternationalCharacterToASCIIService.Instance};
+                                             new[] { NullInternationalCharacterToASCIIService.Instance };
         }
 
         private Slugifier()
@@ -63,7 +64,6 @@ namespace Borg.Framework.Services.Slugs
                     source = internationalCharacterToAsciiService.Special(source, maxlength);
                 }
             }
-
 
             int len = source.Length;
             bool prevdash = false;

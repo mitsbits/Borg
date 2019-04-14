@@ -1,25 +1,25 @@
-﻿using Borg.Framework.Reflection;
-using Borg.System.AddOn;
+﻿using Borg.Framework.MVC.Middleware.SecurityHeaders;
+using Borg.Framework.Reflection;
+
+using Borg.System.Licencing;
 using Borg.System.Licencing.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Borg.Framework.Actors.AntiCorruption;
-using Borg.Framework.MVC.Middleware.SecurityHeaders;
-using Borg.System.Licencing;
 
 namespace Borg.Web.Client
 {
     public class Startup
     {
-        private readonly ILoggerFactory _loggerFactory;
+        private readonly ILoggerFactory loggerFactory;
+        private readonly IHostingEnvironment hostingEnvironment;
 
-        public Startup(ILoggerFactory loggerFactory)
+        public Startup(ILoggerFactory loggerFactory, IHostingEnvironment hostingEnvironment)
         {
-            _loggerFactory = loggerFactory;
+            this.loggerFactory = loggerFactory;
+            this.hostingEnvironment = hostingEnvironment;
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -27,23 +27,20 @@ namespace Borg.Web.Client
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IBorgLicenceService>(new Borg.System.Licencing.MemoryMoqLicenceService());
-       
-            services.RegisterPlugableServices(_loggerFactory);
+
+            services.RegisterPlugableServices(loggerFactory);
             services.AddSingleton<IBorgLicenceService, MemoryMoqLicenceService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2).AddControllersAsServices();
             services.AddPolicies();
+            services.AddCmsUsers(loggerFactory, hostingEnvironment);
             services.ConfigureOptions(typeof(System.Backoffice.UiConfigureOptions));
-       
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            var ls = app.ApplicationServices.GetService<IBorgLicenceService>();
-
             app.UseAuthentication();
 
-            app.UseMiddleware(typeof(LicenceMiddleware), ls);
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

@@ -1,4 +1,4 @@
-﻿using Borg.Infrastructure.Core.Strings;
+﻿using Borg;
 using Shouldly;
 using Xunit;
 

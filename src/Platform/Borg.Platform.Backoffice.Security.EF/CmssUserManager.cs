@@ -1,6 +1,7 @@
 ﻿using Borg.Framework.DAL;
 using Borg.Framework.EF.Contracts;
 using Borg.Framework.EF.DAL;
+using Borg.Platform.Backoffice.Security.EF.Data;
 using Borg.System.Backoffice.Security;
 using Borg.System.Backoffice.Security.Contracts;
 using Microsoft.Extensions.Logging;
@@ -9,14 +10,14 @@ using System.Threading.Tasks;
 
 namespace Borg.Platform.Backoffice.Security.EF
 {
-    public class CmssUserManager : UnitOfWork<SecurityDbContext>, IUnitOfWork<SecurityDbContext>, ICmsUserManager
+    public class CmsUserManager : UnitOfWork<SecurityDbContext>, IUnitOfWork<SecurityDbContext>, ICmsUserManager
     {
         private readonly ILogger _logger;
         private readonly ICmsUserPasswordValidator _passwordValidator;
 
-        public CmssUserManager(ILoggerFactory loggerFactory, SecurityDbContext db, ICmsUserPasswordValidator passwordValidator) : base(db)
+        public CmsUserManager(ILoggerFactory loggerFactory, SecurityDbContext db, ICmsUserPasswordValidator passwordValidator) : base(db)
         {
-            _logger = loggerFactory.CreateLogger<CmssUserManager>();
+            _logger = loggerFactory.CreateLogger<CmsUserManager>();
             _passwordValidator = passwordValidator;
         }
 
