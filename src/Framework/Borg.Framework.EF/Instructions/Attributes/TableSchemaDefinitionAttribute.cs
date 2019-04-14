@@ -12,14 +12,4 @@ namespace Borg.Platform.EF.Instructions.Attributes
 
         public string Schema { get; }
     }
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-    public class KeySequenceDefinitionAttribute : Attribute
-    {
-        public KeySequenceDefinitionAttribute(string column = null)
-        {
-            Column = column.IsNullOrWhiteSpace() ? "Id" : column;
-        }
-
-        public string Column { get; }
-    }
 }

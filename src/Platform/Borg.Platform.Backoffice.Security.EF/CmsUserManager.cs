@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Borg.Platform.Backoffice.Security.EF
 {
-    public class CmsUserManager : UnitOfWork<SecurityDbContext>, IUnitOfWork<SecurityDbContext>, ICmsUserManager
+    public class CmsUserManager : UnitOfWork<SecurityDbContext>, IUnitOfWork<SecurityDbContext>, ICmsUserManager<CmsUser>
     {
         private readonly ILogger _logger;
         private readonly ICmsUserPasswordValidator _passwordValidator;
@@ -21,27 +21,27 @@ namespace Borg.Platform.Backoffice.Security.EF
             _passwordValidator = passwordValidator;
         }
 
-        public async Task<ICmsUserLoginResult> Login(string user, string password)
+        public async Task<ICmsUserLoginResult<CmsUser>> Login(string user, string password)
         {
             var cmsuser = await QueryRepo<CmsUser>().Get(x => x.Email.ToLowerInvariant() == user.ToLowerInvariant());
             if (cmsuser == null)
             {
                 _logger.Debug($"no user for {nameof(user)}:{user}");
-                return new CmsUserLoginResult(TransactionOutcome.Failure, null, new CmssUserError(user));
+                return new CmsUserLoginResult<CmsUser>(TransactionOutcome.Failure, null, new CmssUserError(user));
             }
             if (!cmsuser.IsActive)
             {
                 _logger.Debug($"not active user for {nameof(user)}:{user}");
-                return new CmsUserLoginResult(TransactionOutcome.Failure, null, new CmssUserError(user));
+                return new CmsUserLoginResult<CmsUser>(TransactionOutcome.Failure, null, new CmssUserError(user));
             }
             var passwordmatch = Crypto.VerifyHashedPassword(cmsuser.PasswordHash, password);
             if (!passwordmatch)
             {
                 _logger.Debug($"invalid password for {nameof(user)}:{user}");
-                return new CmsUserLoginResult(TransactionOutcome.Failure, null, new CmssUserError(user));
+                return new CmsUserLoginResult<CmsUser>(TransactionOutcome.Failure, null, new CmssUserError(user));
             }
             _logger.Debug($"succesful login for {nameof(user)}:{user}");
-            return new CmsUserLoginResult(TransactionOutcome.Success, cmsuser);
+            return new CmsUserLoginResult<CmsUser>(TransactionOutcome.Success, cmsuser);
         }
 
         public async Task<ICmsUserSetPasswordResult> SetPassword(string user, string password)

@@ -2,9 +2,9 @@
 
 namespace Borg.System.Backoffice.Security.Contracts
 {
-    public interface ICmsUserManager
+    public interface ICmsUserManager<TData>
     {
-        Task<ICmsUserLoginResult> Login(string user, string password);
+        Task<ICmsUserLoginResult<TData>> Login(string user, string password);
 
         Task<ICmsUserSetPasswordResult> SetPassword(string user, string password);
     }

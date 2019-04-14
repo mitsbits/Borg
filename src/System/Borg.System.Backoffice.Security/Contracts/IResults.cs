@@ -1,7 +1,4 @@
-﻿using Borg.Framework.DAL;
-using Borg.System.Backoffice.Security.Domain;
-
-namespace Borg.System.Backoffice.Security.Contracts
+﻿namespace Borg.System.Backoffice.Security.Contracts
 {
     public interface ICmsUserOperationResult
     {
@@ -14,13 +11,11 @@ namespace Borg.System.Backoffice.Security.Contracts
         TData Payload { get; }
     }
 
-    public interface ICmsUserLoginResult : ICmsUserOperationResult<User>
+    public interface ICmsUserLoginResult<out TData> : ICmsUserOperationResult<TData>
     {
     }
 
     public interface ICmsUserSetPasswordResult : ICmsUserOperationResult
     {
     }
-
-
 }

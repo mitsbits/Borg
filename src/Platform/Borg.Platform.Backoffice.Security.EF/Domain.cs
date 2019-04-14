@@ -1,28 +1,75 @@
-﻿using Borg.Platform.Backoffice.Security.EF.Data;
+﻿using Borg.Framework.EF.Instructions.Attributes;
+using Borg.Infrastructure.Core.DDD.Contracts;
+using Borg.Infrastructure.Core.DDD.Enums;
+using Borg.Platform.Backoffice.Security.EF.Data;
 using Borg.Platform.EF.Instructions;
-using Borg.Platform.EF.Instructions.Attributes;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Borg.Platform.Backoffice.Security.EF
 {
     [KeySequenceDefinition(nameof(Id))]
-    public class CmsUser : System.Backoffice.Security.Domain.User
+    public class CmsUser : UserBase
     {
+        public ICollection<CmsUserPermission> Permissions { get; set; } = new HashSet<CmsUserPermission>();
+
+      
+        public ICollection<UserRole> Roles { get; set; } = new HashSet<UserRole>();
     }
 
     [KeySequenceDefinition(nameof(Id))]
-    public class CmsRole : System.Backoffice.Security.Domain.Role
+    public class CmsRole : RoleBase
     {
+        public ICollection<CmsRolePermission> Permissions { get; set; } = new HashSet<CmsRolePermission>();
+        public ICollection<UserRole> Users { get; set; } = new HashSet<UserRole>();
     }
 
     [KeySequenceDefinition(nameof(Id))]
-    public class CmsUserPermission : System.Backoffice.Security.Domain.UserPermission
+    public class CmsUserPermission : PermissionBase
     {
+        public virtual CmsUser User { get; set; }
     }
 
     [KeySequenceDefinition(nameof(Id))]
-    public class CmsRolePermission : System.Backoffice.Security.Domain.UserPermission
+    public class CmsRolePermission : PermissionBase
     {
+        public virtual CmsRole Role { get; set; }
+    }
+
+    public class UserRole
+    {
+        [PrimaryKeyDefinition(1)]
+        public int UserId { get; set; }
+        [PrimaryKeyDefinition(2)]
+        public int RoleId { get; set; }
+        public virtual CmsUser User { get; set; }
+        public virtual CmsRole Role { get; set; }
+    }
+
+    public abstract class PermissionBase : IEntity<int>, ITreeNode<int>, IHasPermissionOperation
+    {
+        public int Id { get; set; }
+        public int ParentId { get; set; }
+        public int Depth { get; set; }
+        public string Resource { get; set; }
+        public PermissionOperation PermissionOperation { get; set; }
+    }
+
+    public abstract class UserBase : IEntity<int>, IHasPassword, IPerson, IActive
+    {
+        public int Id { get; set; }
+        public string Email { get; set; }
+        public string PasswordHash { get; set; }
+        public string SurName { get; set; }
+        public string Name { get; set; }
+        public bool IsActive { get; set; }
+    }
+
+    public abstract class RoleBase : IEntity<int>, IHasTitle
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
     }
 
     public class CmsRolePermissionMap : EntityMap<CmsRolePermission, SecurityDbContext>
@@ -30,7 +77,6 @@ namespace Borg.Platform.Backoffice.Security.EF
         public override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
         }
     }
 
@@ -39,7 +85,6 @@ namespace Borg.Platform.Backoffice.Security.EF
         public override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-       
         }
     }
 
@@ -48,7 +93,7 @@ namespace Borg.Platform.Backoffice.Security.EF
         public override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
- 
+            builder.Entity<CmsRole>().HasMany(x => x.Users).WithOne(x => x.Role).HasForeignKey(x => x.RoleId );
         }
     }
 
@@ -57,7 +102,16 @@ namespace Borg.Platform.Backoffice.Security.EF
         public override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.Entity<CmsUser>().ForSqlServerHasIndex(x => x.Id).IsUnique();
+            builder.Entity<CmsUser>().HasMany(x=>x.Roles).WithOne(x=>x.User).HasForeignKey(x=>x.UserId);
+        }
+    }
+
+    public class UserRoleMap : EntityMap<UserRole, SecurityDbContext>
+    {
+        public override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
         }
     }
 }

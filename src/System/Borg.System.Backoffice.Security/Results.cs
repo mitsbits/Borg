@@ -1,5 +1,4 @@
 ﻿using Borg.Framework.DAL;
-using Borg.System.Backoffice.Security.Domain;
 
 namespace Borg.System.Backoffice.Security.Contracts
 {
@@ -10,14 +9,14 @@ namespace Borg.System.Backoffice.Security.Contracts
         }
     }
 
-    public class CmsUserLoginResult : CmsUserOperationResult, ICmsUserLoginResult
+    public class CmsUserLoginResult<TData> : CmsUserOperationResult, ICmsUserLoginResult<TData>
     {
-        public CmsUserLoginResult(TransactionOutcome outcome, User payload, params CmssUserError[] usererrors) : base(outcome, usererrors)
+        public CmsUserLoginResult(TransactionOutcome outcome, TData payload, params CmssUserError[] usererrors) : base(outcome, usererrors)
         {
             Payload = payload;
         }
 
-        public User Payload { get; private set; }
+        public TData Payload { get; private set; }
     }
 
     public abstract class CmsUserOperationResult : ICmsUserOperationResult

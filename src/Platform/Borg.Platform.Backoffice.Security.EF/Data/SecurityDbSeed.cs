@@ -1,4 +1,5 @@
 ﻿using Borg.Framework.EF.Contracts;
+using Borg.Infrastructure.Core.DI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace Borg.Platform.Backoffice.Security.EF.Data
 {
+    [PlugableService(ImplementationOf =typeof(IDbSeed), Lifetime = Lifetime.Scoped, OneOfMany =true, Order = 1)]
     public class SecurityDbSeed : IDbSeed
     {
         private readonly SecurityDbContext _db;
@@ -22,7 +24,9 @@ namespace Borg.Platform.Backoffice.Security.EF.Data
 
         public async Task EnsureUp()
         {
+            _logger.Debug($"{nameof(SecurityDbSeed)} is about to run");
             await _db.Database.MigrateAsync();
+            _logger.Debug($"{nameof(SecurityDbSeed)} run");
         }
     }
 }
