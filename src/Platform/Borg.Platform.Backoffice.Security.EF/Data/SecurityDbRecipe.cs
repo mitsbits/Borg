@@ -2,7 +2,6 @@
 using Borg.Infrastructure.Core.DI;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
-using System;
 using System.Threading.Tasks;
 
 namespace Borg.Platform.Backoffice.Security.EF.Data
@@ -21,7 +20,7 @@ namespace Borg.Platform.Backoffice.Security.EF.Data
 
         public Task Populate()
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
     }
 }

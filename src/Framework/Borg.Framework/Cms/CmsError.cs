@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Borg.Framework.Cms.Contracts;
+using System;
 
 namespace Borg.Framework.Cms
 {

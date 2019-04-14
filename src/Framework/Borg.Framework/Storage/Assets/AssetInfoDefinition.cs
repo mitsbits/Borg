@@ -1,5 +1,6 @@
 ﻿using Borg.Framework.Storage.Assets.Contracts;
 using System;
+using System.Collections.Generic;
 
 namespace Borg.Framework.Storage.Assets
 {
@@ -27,6 +28,6 @@ namespace Borg.Framework.Storage.Assets
             set => _currentFile = value;
         }
 
-        public virtual bool InProgress() => DocumentBehaviourState == DocumentBehaviourState.InProgress;
+        public IEnumerable<(string key, object value)> Keys => new (string key, object value)[] { (key: nameof(Id), value: Id) };
     }
 }

@@ -55,6 +55,7 @@ namespace Borg.Platform.Backoffice.Security.EF
         public int Depth { get; set; }
         public string Resource { get; set; }
         public PermissionOperation PermissionOperation { get; set; }
+        public IEnumerable<(string key, object value)> Keys => new (string key, object value)[] { (key: nameof(Id), value: Id) };
     }
 
     public abstract class UserBase : IEntity<int>, IHasPassword, IPerson, IActive
@@ -65,12 +66,14 @@ namespace Borg.Platform.Backoffice.Security.EF
         public string SurName { get; set; }
         public string Name { get; set; }
         public bool IsActive { get; set; }
+        public IEnumerable<(string key, object value)> Keys => new (string key, object value)[] { (key: nameof(Id), value: Id) };
     }
 
     public abstract class RoleBase : IEntity<int>, IHasTitle
     {
         public int Id { get; set; }
         public string Title { get; set; }
+        public IEnumerable<(string key, object value)> Keys => new (string key, object value)[] { (key: nameof(Id), value: Id) };
     }
 
     public class CmsRolePermissionMap : EntityMap<CmsRolePermission, SecurityDbContext>

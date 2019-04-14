@@ -1,4 +1,4 @@
-﻿namespace Borg.Framework.Cms
+﻿namespace Borg.Framework.Cms.Contracts
 {
     public interface ICmsOperationResult
     {

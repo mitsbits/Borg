@@ -1,6 +1,7 @@
 ﻿using Borg.Framework.MVC.Middleware.SecurityHeaders;
 using Borg.Framework.Reflection;
-
+using Borg.Framework.Reflection.Services;
+using Borg.System.Backoffice.Lib;
 using Borg.System.Licencing;
 using Borg.System.Licencing.Contracts;
 using Microsoft.AspNetCore.Builder;
@@ -30,7 +31,9 @@ namespace Borg.Web.Client
 
             services.RegisterPlugableServices(loggerFactory);
             services.AddSingleton<IBorgLicenceService, MemoryMoqLicenceService>();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2).AddControllersAsServices();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2).ConfigureApplicationPartManager(p =>
+                p.FeatureProviders.Add(new GenericControllerFeatureProvider(new[] { new DepedencyAssemblyProvider(loggerFactory) })))
+                .AddControllersAsServices();
             services.AddPolicies();
             services.AddCmsUsers(loggerFactory, hostingEnvironment);
             services.ConfigureOptions(typeof(System.Backoffice.UiConfigureOptions));

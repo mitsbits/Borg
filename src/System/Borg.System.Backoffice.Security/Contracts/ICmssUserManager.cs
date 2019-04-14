@@ -1,4 +1,4 @@
-﻿using Borg.Framework.Cms;
+﻿using Borg.Framework.Cms.Contracts;
 using System.Threading.Tasks;
 
 namespace Borg.System.Backoffice.Security.Contracts
@@ -8,10 +8,5 @@ namespace Borg.System.Backoffice.Security.Contracts
         Task<ICmsOperationResult<TData>> Login(string user, string password);
 
         Task<ICmsOperationResult> SetPassword(string user, string password);
-    }
-
-    public interface ICmsRoleManager<TData>
-    {
-        Task<ICmsOperationResult<TData>> Get(string role);
     }
 }

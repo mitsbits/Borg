@@ -1,4 +1,5 @@
-﻿using Borg.Framework.DAL;
+﻿using Borg.Framework.Cms.Contracts;
+using Borg.Framework.DAL;
 
 namespace Borg.Framework.Cms
 {

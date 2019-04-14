@@ -3,7 +3,6 @@ using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -33,15 +32,35 @@ namespace Borg.Platform.EF.Instructions
         public virtual void OnModelCreating(ModelBuilder builder)
         {
             KeySequenceDefinition(builder);
+            SequenceDefinition(builder);
             //ManyToManyDefinition(builder);
             PrimaryKeyDefinition(builder);
             HasManyDefinition(builder);
         }
 
+        private static void SequenceDefinition(ModelBuilder builder)
+        {
+            var props = typeof(TEntity).GetProperties().Where(x => x.GetCustomAttribute<HasManyDefinitionAttribute>() != null);
+            foreach (var prop in props)
+            {
+                if (!prop.PropertyType.IsAssignableFrom(typeof(int))) throw new ApplicationException($"The property {prop.Name} has to be int");
+
+                var sequenceName = $"{typeof(TEntity).Name}_{prop.Name}";
+                var options = ScriptOptions.Default.AddReferences(typeof(TEntity).Assembly);
+                var keyExpr = $"x => x.{prop.Name}";
+                Expression<Func<TEntity, object>> keyExpression = AsyncHelpers.RunSync(() => CSharpScript.EvaluateAsync<Expression<Func<TEntity, object>>>(keyExpr, options));
+                builder.HasSequence<int>(sequenceName)
+                  .StartsAt(1)
+                  .IncrementsBy(1);
+
+                builder.Entity<TEntity>().Property(keyExpression).HasDefaultValueSql($"NEXT VALUE FOR {sequenceName}");
+            }
+        }
+
         private static void HasManyDefinition(ModelBuilder builder)
         {
             var props = typeof(TEntity).GetProperties().Where(x => x.GetCustomAttribute<HasManyDefinitionAttribute>() != null);
-            foreach(var prop in props)
+            foreach (var prop in props)
             {
                 var proptypeinf = prop.PropertyType;
                 if (proptypeinf.IsAssignableTo(typeof(ICollection<>))) continue;
@@ -54,8 +73,6 @@ namespace Borg.Platform.EF.Instructions
                 //Expression<Func<TEntity, IEnumerable<TRelatedEntity>>>
                 //builder.Entity<TEntity>().HasMany()
             }
-
-
         }
 
         private static void PrimaryKeyDefinition(ModelBuilder builder)
