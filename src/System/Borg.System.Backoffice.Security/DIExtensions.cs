@@ -1,4 +1,5 @@
 ﻿using Borg.System.Backoffice.Security;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -10,22 +11,23 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton<IPostConfigureOptions<BorgAuthenticationOptions>, BorgAuthenticationPostConfigureOptions>();
             services.AddAuthorization(options =>
             {
-                options.AddPolicy(BorgConstants.BackofficePolicyName,
+                options.AddPolicy(BorgSecurityConstants.BackofficePolicyName,
                     policy =>
                     {
-                        policy.AuthenticationSchemes.Add(BorgConstants.BackofficePolicyName);
+                        policy.AuthenticationSchemes.Add(BorgSecurityConstants.BackofficePolicyName);
                         policy.RequireAuthenticatedUser();
                         policy.Requirements.Add(new BorgRequirement());
                     });
             });
 
-            services.AddAuthentication()
+            services.AddAuthentication(BorgSecurityConstants.BackofficePolicyName)
                 //.AddScheme<BorgAuthenticationOptions, BorgAuthenticationHandler>(BorgConstants.BackofficePolicyName, null)
-                .AddCookie(BorgConstants.BackofficePolicyName, options =>
+                .AddCookie(BorgSecurityConstants.BackofficePolicyName, options =>
                 {
                     options.LoginPath = "/Backoffice/Account/Login/";
                     options.AccessDeniedPath = "/Backoffice/Account/Forbidden/";
-                    options.Cookie.Name = $"Borg{BorgConstants.BackofficePolicyName}";
+                    options.Cookie.Name = $"Borg{BorgSecurityConstants.BackofficePolicyName}";
+                    options.Cookie.SameSite = SameSiteMode.None;
                     options.ReturnUrlParameter = "returnurl";
                 })
                 ; ;

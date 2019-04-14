@@ -1,6 +1,6 @@
 ﻿namespace Borg.System.Backoffice.Security
 {
-    internal static class BorgConstants
+    public static class BorgSecurityConstants
     {
         public const string BackofficePolicyName = "Backoffice";
     }

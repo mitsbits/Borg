@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Borg.System.Backoffice.Security
@@ -7,14 +8,21 @@ namespace Borg.System.Backoffice.Security
     {
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, BorgRequirement requirement)
         {
-            var borgprincipal = context.User as BorgClaimsPrincipal;
+            var borgprincipal = context.User.Identities.FirstOrDefault(x => x.AuthenticationType == "Borg");
             if (borgprincipal == null)
             {
                 context.Fail();
             }
             else
             {
-                context.Succeed(requirement);
+                if (borgprincipal.IsAuthenticated)
+                {
+                    context.Succeed(requirement);
+                }
+                else
+                {
+                    context.Fail();
+                }
             }
 
             return Task.CompletedTask;

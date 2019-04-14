@@ -31,7 +31,8 @@ namespace Borg.Web.Client
 
             services.RegisterPlugableServices(loggerFactory);
             services.AddSingleton<IBorgLicenceService, MemoryMoqLicenceService>();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2).ConfigureApplicationPartManager(p =>
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .ConfigureApplicationPartManager(p =>
                 p.FeatureProviders.Add(new GenericControllerFeatureProvider(new[] { new DepedencyAssemblyProvider(loggerFactory) })))
                 .AddControllersAsServices();
             services.AddPolicies();

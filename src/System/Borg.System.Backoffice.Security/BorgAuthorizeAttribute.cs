@@ -10,7 +10,7 @@ namespace Borg.System.Backoffice.Security
         {
             if (!SkipAuthentication)
             {
-                Policy = BorgConstants.BackofficePolicyName;
+                Policy = BorgSecurityConstants.BackofficePolicyName;
             }
         }
     }

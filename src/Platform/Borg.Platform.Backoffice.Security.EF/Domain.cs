@@ -1,4 +1,5 @@
-﻿using Borg.Framework.EF.Instructions.Attributes;
+﻿using Borg.Framework.Cms;
+using Borg.Framework.EF.Instructions.Attributes;
 using Borg.Infrastructure.Core.DDD.Contracts;
 using Borg.Infrastructure.Core.DDD.Enums;
 using Borg.Platform.Backoffice.Security.EF.Data;
@@ -9,6 +10,7 @@ using System.Collections.Generic;
 namespace Borg.Platform.Backoffice.Security.EF
 {
     [KeySequenceDefinition(nameof(Id))]
+    [GenericEntity]
     public class CmsUser : UserBase
     {
         public ICollection<CmsUserPermission> Permissions { get; set; } = new HashSet<CmsUserPermission>();
@@ -17,6 +19,7 @@ namespace Borg.Platform.Backoffice.Security.EF
     }
 
     [KeySequenceDefinition(nameof(Id))]
+    [GenericEntity]
     public class CmsRole : RoleBase
     {
         public ICollection<CmsRolePermission> Permissions { get; set; } = new HashSet<CmsRolePermission>();
@@ -25,12 +28,14 @@ namespace Borg.Platform.Backoffice.Security.EF
     }
 
     [KeySequenceDefinition(nameof(Id))]
+    [GenericEntity]
     public class CmsUserPermission : PermissionBase
     {
         public virtual CmsUser User { get; set; }
     }
 
     [KeySequenceDefinition(nameof(Id))]
+    [GenericEntity]
     public class CmsRolePermission : PermissionBase
     {
         public virtual CmsRole Role { get; set; }

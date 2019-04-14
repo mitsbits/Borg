@@ -5,6 +5,7 @@ namespace Borg.Framework.Cms.Contracts
 {
     public interface ICmsContentPage : IHasTitle
     {
+
     }
 
     public interface ICmsEntityPage<TEntity> : ICmsContentPage where TEntity : IEntity
@@ -16,4 +17,6 @@ namespace Borg.Framework.Cms.Contracts
     {
         IPagedResult<TEntity> Data { get; }
     }
+
+
 }
