@@ -28,11 +28,16 @@ namespace Borg.Web.Client
             using (var scope = services.CreateScope())
             {
                 var seeds = scope.ServiceProvider.GetServices<IDbSeed>();
-                foreach(var seed in seeds)
+                foreach (var seed in seeds)
                 {
                     AsyncHelpers.RunSync(() => seed.EnsureUp());
                 }
 
+                var recipes = scope.ServiceProvider.GetServices<IDbRecipe>();
+                foreach (var recipe in recipes)
+                {
+                    AsyncHelpers.RunSync(() => recipe.Populate());
+                }
             }
         }
     }

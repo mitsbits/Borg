@@ -5,7 +5,6 @@ using Borg.Platform.Backoffice.Security.EF.Data;
 using Borg.Platform.EF.Instructions;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Borg.Platform.Backoffice.Security.EF
 {
@@ -14,7 +13,6 @@ namespace Borg.Platform.Backoffice.Security.EF
     {
         public ICollection<CmsUserPermission> Permissions { get; set; } = new HashSet<CmsUserPermission>();
 
-      
         public ICollection<UserRole> Roles { get; set; } = new HashSet<UserRole>();
     }
 
@@ -23,6 +21,7 @@ namespace Borg.Platform.Backoffice.Security.EF
     {
         public ICollection<CmsRolePermission> Permissions { get; set; } = new HashSet<CmsRolePermission>();
         public ICollection<UserRole> Users { get; set; } = new HashSet<UserRole>();
+        public bool IsSystem { get; set; }
     }
 
     [KeySequenceDefinition(nameof(Id))]
@@ -41,8 +40,10 @@ namespace Borg.Platform.Backoffice.Security.EF
     {
         [PrimaryKeyDefinition(1)]
         public int UserId { get; set; }
+
         [PrimaryKeyDefinition(2)]
         public int RoleId { get; set; }
+
         public virtual CmsUser User { get; set; }
         public virtual CmsRole Role { get; set; }
     }
@@ -93,7 +94,7 @@ namespace Borg.Platform.Backoffice.Security.EF
         public override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.Entity<CmsRole>().HasMany(x => x.Users).WithOne(x => x.Role).HasForeignKey(x => x.RoleId );
+            builder.Entity<CmsRole>().HasMany(x => x.Users).WithOne(x => x.Role).HasForeignKey(x => x.RoleId);
         }
     }
 
@@ -102,7 +103,7 @@ namespace Borg.Platform.Backoffice.Security.EF
         public override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.Entity<CmsUser>().HasMany(x=>x.Roles).WithOne(x=>x.User).HasForeignKey(x=>x.UserId);
+            builder.Entity<CmsUser>().HasMany(x => x.Roles).WithOne(x => x.User).HasForeignKey(x => x.UserId);
         }
     }
 
@@ -111,7 +112,6 @@ namespace Borg.Platform.Backoffice.Security.EF
         public override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
         }
     }
 }

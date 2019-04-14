@@ -1,15 +1,15 @@
 ﻿using System;
 
-namespace Borg.System.Backoffice.Security.Contracts
+namespace Borg.Framework.Cms
 {
     [Serializable]
-    public class CmssUserError : ICmssUserError<string>
+    public class CmsError : ICmsError<string>
     {
         private readonly Exception _exception;
         private readonly string _user;
         private readonly DateTimeOffset _eventOn;
 
-        public CmssUserError(string user, Exception exception = default(Exception), DateTimeOffset? eventOn = default(DateTimeOffset?)) : this()
+        public CmsError(string user, Exception exception = default(Exception), DateTimeOffset? eventOn = default(DateTimeOffset?)) : this()
         {
             _user = user;
             if (eventOn.HasValue)
@@ -22,12 +22,12 @@ namespace Borg.System.Backoffice.Security.Contracts
             }
         }
 
-        protected CmssUserError()
+        protected CmsError()
         {
             _eventOn = DateTimeOffset.UtcNow;
         }
 
-        public string User => _user;
+        public string Data => _user;
 
         public Exception Exception => _exception;
 
