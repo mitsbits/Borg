@@ -1,29 +1,23 @@
-﻿using Borg.Framework.EF.Contracts;
+﻿using Borg.Framework.EF;
+using Borg.Framework.EF.Contracts;
 using Borg.Infrastructure.Core.DI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Borg.Platform.Backoffice.Security.EF.Data
 {
     [PlugableService(ImplementationOf = typeof(IDbSeed), Lifetime = Lifetime.Scoped, OneOfMany = true, Order = 1)]
-    public class SecurityDbSeed : IDbSeed
+    public class SecurityDbSeed : DbSeed<SecurityDbContext>
     {
-        private readonly SecurityDbContext _db;
-        private readonly ILogger _logger;
 
-        public SecurityDbSeed(ILoggerFactory loggerFactory, SecurityDbContext db)
+
+        public SecurityDbSeed(SecurityDbContext db , ILoggerFactory loggerFactory = default(ILoggerFactory) ) :base(db, loggerFactory)
         {
-            _logger = loggerFactory == null ? NullLogger.Instance : loggerFactory.CreateLogger(GetType());
-            _db = db;
+
         }
 
-        public async Task EnsureUp()
-        {
-            _logger.Debug($"{nameof(SecurityDbSeed)} is about to run");
-            await _db.Database.MigrateAsync();
-            _logger.Debug($"{nameof(SecurityDbSeed)} run");
-        }
     }
 }

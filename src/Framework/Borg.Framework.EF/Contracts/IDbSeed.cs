@@ -1,9 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using Borg.Framework.Modularity;
+using System.Threading.Tasks;
 
 namespace Borg.Framework.EF.Contracts
 {
-    public interface IDbSeed
+    public interface IDbSeed : IRunOnHostStartUp, IChainLink
     {
-        Task EnsureUp();
+
     }
 }
