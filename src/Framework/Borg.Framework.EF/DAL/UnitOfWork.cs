@@ -17,7 +17,7 @@ namespace Borg.Framework.EF.DAL
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public TDbContext Context => _context;
+        protected virtual TDbContext Context => _context;
 
         public IQueryRepository<T> QueryRepo<T>() where T : class
         {

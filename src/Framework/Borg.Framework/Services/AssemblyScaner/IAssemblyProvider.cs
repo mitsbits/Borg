@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 
-namespace Borg.Framework.Reflection.Services
+namespace Borg.Framework.Services.AssemblyScaner
 {
     public interface IAssemblyProvider
     {

@@ -1,4 +1,5 @@
-﻿using Borg.Infrastructure.Core.DI;
+﻿using Borg.Framework.Services.AssemblyScaner;
+using Borg.Infrastructure.Core.DI;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using System;
@@ -9,7 +10,7 @@ using System.Runtime.Loader;
 
 namespace Borg.Framework.Reflection.Services
 {
-    [PlugableService(implementationOf: typeof(IAssemblyProvider), Lifetime = Lifetime.Singleton, OneOfMany = true)]
+    
     public class ReferenceAssemblyProvider : IAssemblyProvider
     {
         protected ILogger Logger { get; }
