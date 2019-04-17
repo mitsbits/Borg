@@ -1,30 +1,25 @@
 ﻿using Borg.Framework.EF.Contracts;
-using Borg.Infrastructure.Core;
 using Borg.Infrastructure.Core.Services.Factory;
 using Borg.Platform.EF.Instructions;
 using Borg.Platform.EF.Instructions.Attributes;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
 using System;
 using System.Linq;
 using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Borg.Framework.EF
 {
     public abstract class BorgDbContext : DbContext, IUOWDbContext
     {
-        protected BorgDbContext([NotNull] DbContextOptions options, Func<IBorgDbContextOptions> borgOptionsFactory = null) : base(options)
+        protected BorgDbContext([NotNull] DbContextOptions options, Func<BorgDbContextOptions> borgOptionsFactory = null) : base(options)
         {
             BorgOptions = borgOptionsFactory == null ? new BorgDbContextOptions() : borgOptionsFactory();
         }
 
-        protected BorgDbContext([NotNull] DbContextOptions options, IBorgDbContextOptions borgOptions = null) : base(options)
+        protected BorgDbContext([NotNull] DbContextOptions options, BorgDbContextOptions borgOptions = null) : this(options, ()=> borgOptions)
         {
-            BorgOptions = borgOptions == null ? new BorgDbContextOptions() : borgOptions;
+       
         }
 
         public virtual string Schema => BorgOptions.OverrideSchema.IsNullOrWhiteSpace()
@@ -62,36 +57,14 @@ namespace Borg.Framework.EF
                 if (t != null)
                 {
                     var attr = t.GetCustomAttribute<TableSchemaDefinitionAttribute>();
-                    entityType.Relational().Schema = attr != null ? attr.Schema.Slugify() : SchemaName;
+                    entityType.Relational().Schema = attr != null ? attr.Schema.Slugify() : Schema;
                 }
                 else
                 {
-                    entityType.Relational().Schema = SchemaName;
+                    entityType.Relational().Schema = Schema;
                 }
             }
         }
         #endregion
-    }
-
-    public abstract class DbSeed<TDbContext> : IDbSeed where TDbContext : DbContext
-    {
-        protected ILogger Logger { get; }
-        protected TDbContext DB { get; }
-
-        protected DbSeed(TDbContext dbContext, ILoggerFactory loggerFactory = null)
-        {
-            Preconditions.NotNull(dbContext, nameof(dbContext));
-            DB = dbContext;
-            Logger = loggerFactory == null ? NullLogger.Instance : loggerFactory.CreateLogger(GetType());
-        }
-
-        public virtual int Order { get; set; }
-
-        public virtual async Task Run(CancellationToken cancelationToken = default(CancellationToken))
-        {
-            Logger.Debug($"{nameof(IDbSeed)}:{GetType().Name} is about to run");
-            await DB.Database.MigrateAsync(cancelationToken);
-            Logger.Debug($"{nameof(IDbSeed)}:{GetType().Name} run");
-        }
     }
 }
