@@ -8,7 +8,6 @@ namespace Borg.Infra.Messaging
     {
         bool SupportsTopics { get; }
 
-        Task PublishAsync(Type messageType, object message, TimeSpan? delay = null,
-            CancellationToken cancellationToken = default(CancellationToken));
+        Task PublishAsync(Type messageType, object message, TimeSpan? delay = null, CancellationToken cancellationToken = default);
     }
 }

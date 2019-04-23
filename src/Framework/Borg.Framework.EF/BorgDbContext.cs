@@ -7,10 +7,12 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Borg.Framework.EF
 {
-    public abstract class BorgDbContext : DbContext, IUOWDbContext
+    public abstract class BorgDbContext : DbContext, IUOWDbContext, IUnitOfWork
     {
         protected BorgDbContext([NotNull] DbContextOptions options, Func<BorgDbContextOptions> borgOptionsFactory = null) : base(options)
         {
@@ -27,6 +29,27 @@ namespace Borg.Framework.EF
             : BorgOptions.OverrideSchema.Slugify();
 
         protected IBorgDbContextOptions BorgOptions { get; }
+
+        public virtual Task Save(CancellationToken cancelationToken = default)
+        {
+            var entries = ChangeTracker.Entries();
+            foreach (var entry in entries)
+            {
+                switch(entry.State)
+                {
+                    case EntityState.Added:
+                        break;
+                    case EntityState.Deleted:
+                        break;
+                    case EntityState.Modified:
+                        break;
+                    default:
+                        break;
+                }
+            }
+            return SaveChangesAsync(cancelationToken);
+        }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
