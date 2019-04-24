@@ -105,53 +105,6 @@ namespace Borg
             return otherTypeInfo.IsAssignableFrom(typeInfo);
         }
 
-        private static bool IsAssignableToGenericTypeDefinition(this TypeInfo typeInfo, TypeInfo genericTypeInfo)
-        {
-            var interfaceTypes = typeInfo.ImplementedInterfaces.Select(t => t.GetTypeInfo());
-
-            foreach (var interfaceType in interfaceTypes)
-            {
-                if (interfaceType.IsGenericType)
-                {
-                    var typeDefinitionTypeInfo = interfaceType
-                        .GetGenericTypeDefinition()
-                        .GetTypeInfo();
-
-                    if (typeDefinitionTypeInfo.Equals(genericTypeInfo))
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            if (typeInfo.IsGenericType)
-            {
-                var typeDefinitionTypeInfo = typeInfo
-                    .GetGenericTypeDefinition()
-                    .GetTypeInfo();
-
-                if (typeDefinitionTypeInfo.Equals(genericTypeInfo))
-                {
-                    return true;
-                }
-            }
-
-            var baseTypeInfo = typeInfo.BaseType?.GetTypeInfo();
-
-            if (baseTypeInfo == null)
-            {
-                return false;
-            }
-
-            return baseTypeInfo.IsAssignableToGenericTypeDefinition(genericTypeInfo);
-        }
-
-        /// <summary>
-        /// Find matching interface by name C# interface name convention.  Optionally use a filter.
-        /// </summary>
-        /// <param name="typeInfo"></param>
-        /// <param name="action"></param>
-        /// <returns></returns>
         public static IEnumerable<Type> FindMatchingInterface(this TypeInfo typeInfo, Action<TypeInfo, IImplementationTypeFilter> action)
         {
             var matchingInterfaceName = $"I{typeInfo.Name}";
@@ -285,5 +238,50 @@ namespace Borg
         {
             return type.IsValueType || type.GetConstructor(Type.EmptyTypes) != null;
         }
+
+        #region Private
+
+        private static bool IsAssignableToGenericTypeDefinition(this TypeInfo typeInfo, TypeInfo genericTypeInfo)
+        {
+            var interfaceTypes = typeInfo.ImplementedInterfaces.Select(t => t.GetTypeInfo());
+
+            foreach (var interfaceType in interfaceTypes)
+            {
+                if (interfaceType.IsGenericType)
+                {
+                    var typeDefinitionTypeInfo = interfaceType
+                        .GetGenericTypeDefinition()
+                        .GetTypeInfo();
+
+                    if (typeDefinitionTypeInfo.Equals(genericTypeInfo))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            if (typeInfo.IsGenericType)
+            {
+                var typeDefinitionTypeInfo = typeInfo
+                    .GetGenericTypeDefinition()
+                    .GetTypeInfo();
+
+                if (typeDefinitionTypeInfo.Equals(genericTypeInfo))
+                {
+                    return true;
+                }
+            }
+
+            var baseTypeInfo = typeInfo.BaseType?.GetTypeInfo();
+
+            if (baseTypeInfo == null)
+            {
+                return false;
+            }
+
+            return baseTypeInfo.IsAssignableToGenericTypeDefinition(genericTypeInfo);
+        }
+
+        #endregion Private
     }
 }

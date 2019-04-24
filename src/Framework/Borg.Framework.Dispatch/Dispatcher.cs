@@ -65,6 +65,7 @@ namespace Borg.Framework.Dispatch
         private Task PublishNotification(object notification, CancellationToken cancellationToken = default)
         {
             var notificationType = notification.GetType();
+
             var handler = _notificationHandlers.GetOrAdd(notificationType,
                 t => (NotificationHandlerWrapper)Activator.CreateInstance(typeof(NotificationHandlerWrapperImpl<>).MakeGenericType(notificationType)));
 

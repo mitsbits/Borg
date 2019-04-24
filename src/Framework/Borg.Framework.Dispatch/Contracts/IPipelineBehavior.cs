@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 
 namespace Borg.Framework.Dispatch.Contracts
@@ -10,7 +7,6 @@ namespace Borg.Framework.Dispatch.Contracts
 
     public interface IPipelineBehavior<in TRequest, TResponse>
     {
-
         Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next);
     }
 }

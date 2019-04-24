@@ -9,7 +9,6 @@
     <Folder Include="Collections\Hierarchy\" />
     <Folder Include="Era\" />
     <Folder Include="Numbers\" />
-    <Folder Include="Reflection\" />
     <Folder Include="Services\Factory\" />
   </ItemGroup>
 

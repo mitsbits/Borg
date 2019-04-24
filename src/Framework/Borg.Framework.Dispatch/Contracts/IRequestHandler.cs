@@ -1,15 +1,11 @@
 ﻿using Borg.Infrastructure.Core.DDD.ValueObjects;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Borg.Framework.Dispatch.Contracts
 {
-
     public interface IRequestHandler<in TRequest, TResponse>
-   
+
     {
         /// <summary>
         /// Handles a request
@@ -20,11 +16,9 @@ namespace Borg.Framework.Dispatch.Contracts
         Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken);
     }
 
-
     public interface IRequestHandler<in TRequest> : IRequestHandler<TRequest, Unit>
     {
     }
-
 
     public abstract class AsyncRequestHandler<TRequest> : IRequestHandler<TRequest>
     {
@@ -34,20 +28,16 @@ namespace Borg.Framework.Dispatch.Contracts
             return Unit.Value;
         }
 
-
         protected abstract Task Handle(TRequest request, CancellationToken cancellationToken);
     }
 
- 
     public abstract class RequestHandler<TRequest, TResponse> : IRequestHandler<TRequest, TResponse>
     {
         Task<TResponse> IRequestHandler<TRequest, TResponse>.Handle(TRequest request, CancellationToken cancellationToken)
             => Task.FromResult(Handle(request));
 
-
         protected abstract TResponse Handle(TRequest request);
     }
-
 
     public abstract class RequestHandler<TRequest> : IRequestHandler<TRequest>
     {
