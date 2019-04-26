@@ -23,20 +23,38 @@ namespace Borg.Platform.Dispatch.NetCore
 
         public T GetInstance<T>()
         {
-            logger.Trace($"{nameof(ServiceFactory)} requests service:{typeof(T)} ");
-            return serviceProvider.GetRequiredService<T>();
+            using (var scope = serviceProvider.CreateScope())
+            {
+                logger.Trace($"{nameof(ServiceFactory)} requests service:{typeof(T)} ");
+                return scope.ServiceProvider.GetRequiredService<T>();
+            }
+        }
+
+        public object GetInstance(Type type)
+        {
+            using (var scope = serviceProvider.CreateScope())
+            {
+                logger.Trace($"{nameof(ServiceFactory)} requests service:{type} ");
+                return scope.ServiceProvider.GetRequiredService(type);
+            }
         }
 
         public IEnumerable<T> GetInstances<T>()
         {
-            logger.Trace($"{nameof(ServiceFactory)} requests service:{typeof(T)} ");
-            return serviceProvider.GetServices<T>();
+            using (var scope = serviceProvider.CreateScope())
+            {
+                logger.Trace($"{nameof(ServiceFactory)} requests service:{typeof(T)} ");
+                return scope.ServiceProvider.GetServices<T>();
+            }
         }
 
         public IEnumerable GetInstances(Type type)
         {
-            logger.Trace($"{nameof(ServiceFactory)} requests service:{typeof(T)} ");
-            return serviceProvider.GetServices(type);
+            using (var scope = serviceProvider.CreateScope())
+            {
+                logger.Trace($"{nameof(ServiceFactory)} requests service:{type} ");
+                return scope.ServiceProvider.GetServices(type);
+            }
         }
     }
 }

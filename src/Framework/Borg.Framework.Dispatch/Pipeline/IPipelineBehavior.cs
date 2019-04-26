@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace Borg.Framework.Dispatch.Contracts
+namespace Borg.Framework.Dispatch.Pipeline
 {
     public delegate Task<TResponse> RequestHandlerDelegate<TResponse>();
 

@@ -36,6 +36,7 @@ namespace Borg.Web.Client
                 p.FeatureProviders.Add(new GenericControllerFeatureProvider(new[] { new DepedencyAssemblyProvider(loggerFactory) })))
                 .AddControllersAsServices();
             services.AddPolicies();
+            services.AddDispatcherNetCore();
             services.AddCmsUsers(loggerFactory, hostingEnvironment);
             services.ConfigureOptions(typeof(System.Backoffice.UiConfigureOptions));
         }

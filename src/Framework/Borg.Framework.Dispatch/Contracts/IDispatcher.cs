@@ -9,7 +9,7 @@ namespace Borg.Framework.Dispatch.Contracts
 
     public interface IDispatcheBlockingSender
     {
-        Task<object> Send(object request, CancellationToken cancellationToken = default);
+        Task Send(object request, CancellationToken cancellationToken = default);
 
         Task<TResponse> Send<TResponse, TRequest>(TRequest request, CancellationToken cancellationToken = default);
     }

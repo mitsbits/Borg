@@ -5,7 +5,7 @@ namespace Borg.Platform.Backoffice.Security.EF.Data
 {
     public class SecurityDbContext : BorgDbContext
     {
-        public SecurityDbContext(DbContextOptions<SecurityDbContext> options) : base(options)
+        public SecurityDbContext(DbContextOptions<SecurityDbContext> options) : base(options, ()=> new Framework.EF.Contracts.BorgDbContextOptions())
         {
         }
     }

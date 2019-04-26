@@ -1,4 +1,5 @@
-﻿using Borg.Framework.Services.AssemblyScaner;
+﻿
+using Borg.Framework.Services.AssemblyScanner;
 using Borg.Infrastructure.Core.DI;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;

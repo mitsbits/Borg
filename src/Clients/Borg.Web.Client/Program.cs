@@ -30,7 +30,7 @@ namespace Borg.Web.Client
                 var seeds = scope.ServiceProvider.GetServices<IDbSeed>();
                 foreach (var seed in seeds)
                 {
-                    AsyncHelpers.RunSync(() => seed.EnsureUp());
+                    AsyncHelpers.RunSync(() => seed.Run(default));
                 }
 
                 var recipes = scope.ServiceProvider.GetServices<IDbRecipe>();

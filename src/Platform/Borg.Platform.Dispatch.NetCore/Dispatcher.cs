@@ -1,8 +1,8 @@
 ﻿using Borg.Framework.Dispatch.Contracts;
 using Borg.Infrastructure.Core;
+using Borg.Infrastructure.Core.DDD.ValueObjects;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -21,6 +21,8 @@ namespace Borg.Platform.Dispatch.NetCore
             logger = loggerFactory == null ? NullLogger.Instance : loggerFactory.CreateLogger(GetType());
         }
 
+        #region IDispatchePublishSender
+
         public Task Publish(object notification, CancellationToken cancellationToken = default)
         {
             var notificationType = notification.GetType();
@@ -30,13 +32,13 @@ namespace Borg.Platform.Dispatch.NetCore
                 var handlerType = handler.GetType();
                 if (handlerType.IsSubclassOf(typeof(NotificationHandler)))
                 {
-                    logger.Trace($"Invoicing motification handler: {handlerType} for notification {notificationType}");
+                    logger.Trace($"Invoicing notification handler: {handlerType} for notification {notificationType}");
                     ((NotificationHandler)handler).Handle(notification);
                 }
 
                 if (handlerType.IsSubclassOf(typeof(AsyncNotificationHandler)))
                 {
-                    logger.Trace($"Invoicing motification handler: {handlerType} for notification {notificationType}");
+                    logger.Trace($"Invoicing notification handler: {handlerType} for notification {notificationType}");
                     ((AsyncNotificationHandler)handler).Handle(notification, cancellationToken);
                 }
             }
@@ -45,17 +47,72 @@ namespace Borg.Platform.Dispatch.NetCore
 
         public Task Publish<TNotification>(TNotification notification, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            var notificationType = notification.GetType();
+            var serviceType = typeof(INotificationHandler<TNotification>).MakeGenericType(notificationType);
+            foreach (var handler in serviceFactory.GetInstances(serviceType))
+            {
+                var handlerType = handler.GetType();
+                if (handlerType.IsSubclassOf(typeof(NotificationHandler)))
+                {
+                    logger.Trace($"Invoicing notification handler: {handlerType} for notification {notificationType}");
+                    ((NotificationHandler)handler).Handle(notification);
+                }
+
+                if (handlerType.IsSubclassOf(typeof(AsyncNotificationHandler)))
+                {
+                    logger.Trace($"Invoicing notification handler: {handlerType} for notification {notificationType}");
+                    ((AsyncNotificationHandler)handler).Handle(notification, cancellationToken);
+                }
+            }
+            return Task.CompletedTask;
         }
 
-        public Task<object> Send(object request, CancellationToken cancellationToken = default)
+        #endregion IDispatchePublishSender
+
+        public async Task Send(object request, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            var requestType = request.GetType();
+            var serviceType = typeof(IRequestHandler<>).MakeGenericType(requestType);
+            var handler = serviceFactory.GetInstance(serviceType);
+            if (handler != null)
+            {
+                var handlerType = handler.GetType();
+                if (handlerType.IsSubclassOfRawGeneric(typeof(RequestHandler)))
+                {
+                    logger.Trace($"Invoicing request handler: {handlerType} for notification {requestType}");
+                    handler.AsDynamic().Handle(request);
+                }
+
+                if (handlerType.IsSubclassOfRawGeneric(typeof(AsyncRequestHandler)))
+                {
+                    logger.Trace($"Invoicing request handler: {handlerType} for notification {requestType}");
+                    await handler.AsDynamic().Handle(request, cancellationToken);
+                }
+            }
         }
 
-        public Task<TResponse> Send<TResponse, TRequest>(TRequest request, CancellationToken cancellationToken = default)
+        public async Task<TResponse> Send<TResponse, TRequest>(TRequest request, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            var requestType = request.GetType();
+            var serviceType = typeof(IRequestHandler<,>).MakeGenericType(requestType, typeof(TResponse));
+            var handler = serviceFactory.GetInstance(serviceType);
+            if (handler != null)
+            {
+                var handlerType = handler.GetType();
+                if (handlerType.IsSubclassOfRawGeneric(typeof(RequestHandler)))
+                {
+                    logger.Trace($"Invoicing request handler: {handlerType} for notification {requestType}");
+                    return (TResponse)(handler.AsDynamic()).Handle(request);
+                }
+
+                if (handlerType.IsSubclassOfRawGeneric(typeof(AsyncRequestHandler)))
+                {
+                    logger.Trace($"Invoicing request handler: {handlerType} for notification {requestType}");
+                    var result = await (handler.AsDynamic()).Handle(request, cancellationToken);
+                    return (TResponse)result;
+                }
+            }
+            return default;
         }
     }
 }

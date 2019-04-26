@@ -1,8 +1,7 @@
 ﻿using Borg.Framework.Dispatch.Contracts;
+using Borg.Framework.Dispatch.Pipeline;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -37,10 +36,10 @@ namespace Borg.Framework.Dispatch
         public abstract Task<TResponse> Handle(object request, CancellationToken cancellationToken, ServiceFactory serviceFactory);
     }
 
-    internal class RequestHandlerWrapperImpl<TRequest, TResponse> : RequestHandlerWrapper<TResponse>      
+    internal class RequestHandlerWrapperImpl<TRequest, TResponse> : RequestHandlerWrapper<TResponse>
     {
         public override Task<TResponse> Handle(object request, CancellationToken cancellationToken,
-            ServiceFactory serviceFactory) 
+            ServiceFactory serviceFactory)
         {
             Task<TResponse> Handler() => GetHandler<IRequestHandler<TRequest, TResponse>>(serviceFactory).Handle((TRequest)request, cancellationToken);
 
@@ -49,7 +48,5 @@ namespace Borg.Framework.Dispatch
                 .Reverse()
                 .Aggregate((RequestHandlerDelegate<TResponse>)Handler, (next, pipeline) => () => pipeline.Handle((TRequest)request, cancellationToken, next))();
         }
-
-  
     }
 }

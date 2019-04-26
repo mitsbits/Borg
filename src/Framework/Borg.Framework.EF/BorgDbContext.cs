@@ -19,13 +19,12 @@ namespace Borg.Framework.EF
             BorgOptions = borgOptionsFactory == null ? new BorgDbContextOptions() : borgOptionsFactory();
         }
 
-        protected BorgDbContext([NotNull] DbContextOptions options, BorgDbContextOptions borgOptions = null) : this(options, ()=> borgOptions)
+        protected BorgDbContext([NotNull] DbContextOptions options, BorgDbContextOptions borgOptions = null) : this(options, () => borgOptions)
         {
-       
         }
 
         public virtual string Schema => BorgOptions.OverrideSchema.IsNullOrWhiteSpace()
-            ? GetType().Name.Replace("DbContext", string.Empty).Slugify() 
+            ? GetType().Name.Replace("DbContext", string.Empty).Slugify()
             : BorgOptions.OverrideSchema.Slugify();
 
         protected IBorgDbContextOptions BorgOptions { get; }
@@ -35,21 +34,23 @@ namespace Borg.Framework.EF
             var entries = ChangeTracker.Entries();
             foreach (var entry in entries)
             {
-                switch(entry.State)
+                switch (entry.State)
                 {
                     case EntityState.Added:
                         break;
+
                     case EntityState.Deleted:
                         break;
+
                     case EntityState.Modified:
                         break;
+
                     default:
                         break;
                 }
             }
             return SaveChangesAsync(cancelationToken);
         }
-
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -59,6 +60,7 @@ namespace Borg.Framework.EF
         }
 
         #region Private
+
         private void Map(ModelBuilder builder)
         {
             var maptype = typeof(EntityMap<,>);
@@ -67,8 +69,6 @@ namespace Borg.Framework.EF
             {
                 ((IEntityMap)New.Creator(map)).OnModelCreating(builder);
             }
-
-
         }
 
         private void TableSchema(ModelBuilder builder)
@@ -88,6 +88,7 @@ namespace Borg.Framework.EF
                 }
             }
         }
-        #endregion
+
+        #endregion Private
     }
 }

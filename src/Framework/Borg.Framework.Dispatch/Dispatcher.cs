@@ -72,7 +72,7 @@ namespace Borg.Framework.Dispatch
             return handler.Handle(notification, cancellationToken, _serviceFactory, PublishCore);
         }
 
-        public Task<object> Send(object request, CancellationToken cancellationToken = default)
+        public Task Send(object request, CancellationToken cancellationToken = default)
         {
             if (request == null)
             {

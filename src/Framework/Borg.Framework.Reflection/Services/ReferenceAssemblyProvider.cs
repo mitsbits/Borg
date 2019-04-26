@@ -1,5 +1,4 @@
-﻿using Borg.Framework.Services.AssemblyScaner;
-using Borg.Infrastructure.Core.DI;
+﻿using Borg.Framework.Services.AssemblyScanner;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using System;
@@ -10,7 +9,6 @@ using System.Runtime.Loader;
 
 namespace Borg.Framework.Reflection.Services
 {
-    
     public class ReferenceAssemblyProvider : IAssemblyProvider
     {
         protected ILogger Logger { get; }

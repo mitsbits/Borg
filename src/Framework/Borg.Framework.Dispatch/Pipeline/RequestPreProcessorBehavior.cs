@@ -1,10 +1,8 @@
 namespace Borg.Framework.Dispatch.Pipeline
 {
-    using Borg.Framework.Dispatch.Contracts;
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
-
 
     public class RequestPreProcessorBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     {
