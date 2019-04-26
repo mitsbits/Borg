@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Borg.Infrastructure.Core.DDD.Contracts
 {
-  public  interface IHasIdentity
+  public  interface IHaveIdentity
     {
         IDictionary<string, object> Identity { get; }
     }

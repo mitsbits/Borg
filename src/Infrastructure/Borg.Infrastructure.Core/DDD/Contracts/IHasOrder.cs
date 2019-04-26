@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Borg.Infrastructure.Core.DDD.Contracts
 {
-    public interface IHasOrder
+    public interface IHaveOrder
     {
         int Order { get; set; }
     }

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Borg.System.Backoffice.Security.Contracts
 {
-    public interface ICmsRoleManager<TData> where TData : IHasTitle, IEntity<int>
+    public interface ICmsRoleManager<TData> where TData : IHaveTitle, IEntity<int>
     {
         Task<ICmsOperationResult<TData>> Get(string role);
     }

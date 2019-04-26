@@ -22,7 +22,7 @@ namespace Borg.System.Backoffice.Security.Domain
     {
     }
 
-    public abstract class PermissionBase : IEntity<int>, ITreeNode<int>, IHasPermissionOperation
+    public abstract class PermissionBase : IEntity<int>, ITreeNode<int>, IHavePermissionOperation
     {
         public int Id { get; set; }
         public int ParentId { get; set; }
@@ -32,7 +32,7 @@ namespace Borg.System.Backoffice.Security.Domain
         public IEnumerable<(string key, object value)> Keys => new (string key, object value)[] { (key: nameof(Id), value: Id) };
     }
 
-    public abstract class UserBase : IEntity<int>, IHasPassword, IPerson, IActive
+    public abstract class UserBase : IEntity<int>, IHavePassword, IPerson, IActive
     {
         public int Id { get; set; }
         public string Email { get; set; }
@@ -43,7 +43,7 @@ namespace Borg.System.Backoffice.Security.Domain
         public IEnumerable<(string key, object value)> Keys => new (string key, object value)[] { (key: nameof(Id), value: Id) };
     }
 
-    public abstract class RoleBase : IEntity<int>, IHasTitle
+    public abstract class RoleBase : IEntity<int>, IHaveTitle
     {
         public int Id { get; set; }
         public string Title { get; set; }

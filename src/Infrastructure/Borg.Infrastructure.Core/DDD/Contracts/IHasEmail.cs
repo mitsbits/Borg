@@ -1,6 +1,6 @@
 ﻿namespace Borg.Infrastructure.Core.DDD.Contracts
 {
-    public interface IHasEmail
+    public interface IHaveEmail
     {
         string Email { get; set; }
     }

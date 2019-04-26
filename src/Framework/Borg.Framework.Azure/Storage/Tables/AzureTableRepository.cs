@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Borg.Framework.Azure.Storage.Tables
 {
-    public class AzureTableRepository<T> : IAzureTableRepository<T> where T : TableEntity, IHasCompositeKey<string>, new()
+    public class AzureTableRepository<T> : IAzureTableRepository<T> where T : TableEntity, IHaveCompositeKey<string>, new()
     {
         private readonly string _tableName = typeof(T).Name;
         private readonly CloudTable _table;

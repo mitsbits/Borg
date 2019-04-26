@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Borg.Framework.Azure.Storage.Tables
 {
-    public class AzureTableJsonRepository<T> : IAzureTableStoreRepository<T> where T : IHasCompositeKey<string>, new()
+    public class AzureTableJsonRepository<T> : IAzureTableStoreRepository<T> where T : IHaveCompositeKey<string>, new()
     {
         internal readonly string _tableName = typeof(T).Name;
         private readonly IAzureTableRepository<TableJsonEntity<T>> _inner;

@@ -17,11 +17,14 @@ namespace Borg.Framework.EF
         protected BorgDbContext([NotNull] DbContextOptions options, Func<BorgDbContextOptions> borgOptionsFactory = null) : base(options)
         {
             BorgOptions = borgOptionsFactory == null ? new BorgDbContextOptions() : borgOptionsFactory();
+            
         }
 
         protected BorgDbContext([NotNull] DbContextOptions options, BorgDbContextOptions borgOptions = null) : this(options, () => borgOptions)
         {
+
         }
+
 
         public virtual string Schema => BorgOptions.OverrideSchema.IsNullOrWhiteSpace()
             ? GetType().Name.Replace("DbContext", string.Empty).Slugify()
@@ -37,6 +40,7 @@ namespace Borg.Framework.EF
                 switch (entry.State)
                 {
                     case EntityState.Added:
+                   
                         break;
 
                     case EntityState.Deleted:

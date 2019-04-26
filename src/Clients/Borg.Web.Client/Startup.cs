@@ -7,6 +7,7 @@ using Borg.System.Licencing.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -36,8 +37,12 @@ namespace Borg.Web.Client
             services.AddSingleton<IBorgLicenceService, MemoryMoqLicenceService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .ConfigureApplicationPartManager(p =>
-                p.FeatureProviders.Add(new GenericControllerFeatureProvider(new[] { new DepedencyAssemblyProvider(loggerFactory) })))
+                p.FeatureProviders.Add(new BackOfficeEntityControllerFeatureProvider(new[] { new DepedencyAssemblyProvider(loggerFactory) })))
                 .AddControllersAsServices();
+            services.Configure<RouteOptions>(routeOptions =>
+            {
+                routeOptions.ConstraintMap.Add("genericController", typeof(BackOfficeEntityControllerConstraint));
+            });
             services.AddPolicies();
             services.AddDispatcherNetCore();
             services.AddCmsUsers(loggerFactory, hostingEnvironment, configuration);
@@ -63,6 +68,9 @@ namespace Borg.Web.Client
 
             app.UseMvc(routes =>
             {
+                routes.MapRoute(
+                    name: "areaGenericEntityRoute",
+                    template: "{area:exists}/entity/{controller:genericController}/{action=Index}/{id?}");
                 routes.MapRoute(
                     name: "areaRoute",
                     template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");

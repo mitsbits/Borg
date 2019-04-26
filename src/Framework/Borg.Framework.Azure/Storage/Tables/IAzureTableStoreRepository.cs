@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Borg.Framework.Azure.Storage.Tables
 {
-    public interface IAzureTableStoreRepository<T> : IRepository<T> where T : IHasCompositeKey<string>
+    public interface IAzureTableStoreRepository<T> : IRepository<T> where T : IHaveCompositeKey<string>
     {
         Task<T> Create(T entity, CancellationToken cancellationToken = default(CancellationToken));
 

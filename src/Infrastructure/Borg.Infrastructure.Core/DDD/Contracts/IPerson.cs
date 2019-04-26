@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Borg.Infrastructure.Core.DDD.Contracts
 {
-    public interface IPerson : IHasEmail, IHasName
+    public interface IPerson : IHaveEmail, IHaveName
     {
 
         string SurName { get; set; }

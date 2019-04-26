@@ -10,7 +10,7 @@ using System.Reflection;
 
 namespace Borg.Framework.Azure.Storage.Tables
 {
-    public class TableJsonEntity<T> : TableEntity, IExpandPropertiesToColumns, IHasCompositeKey<string> where T : IHasCompositeKey<string>
+    public class TableJsonEntity<T> : TableEntity, IExpandPropertiesToColumns, IHaveCompositeKey<string> where T : IHaveCompositeKey<string>
     {
         internal TableJsonEntity(string partitionKey, string rowKey, string jsonData)
         {

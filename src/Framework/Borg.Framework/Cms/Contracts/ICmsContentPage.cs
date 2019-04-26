@@ -3,7 +3,7 @@ using Borg.Infrastructure.Core.DDD.Contracts;
 
 namespace Borg.Framework.Cms.Contracts
 {
-    public interface ICmsContentPage : IHasTitle
+    public interface ICmsContentPage : IHaveTitle
     {
 
     }

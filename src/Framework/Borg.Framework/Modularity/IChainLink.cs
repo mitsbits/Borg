@@ -2,7 +2,7 @@
 
 namespace Borg.Framework.Modularity
 {
-    public interface IChainLink : IHasOrder
+    public interface IChainLink : IHaveOrder
     {
     }
 }

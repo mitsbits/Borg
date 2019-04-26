@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Borg.Infrastructure.Core.DDD.Contracts
 {
-   public interface IHasPermissionOperation
+   public interface IHavePermissionOperation
     {
         PermissionOperation PermissionOperation { get; set; }
     }
