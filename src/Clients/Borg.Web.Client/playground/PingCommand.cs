@@ -1,5 +1,4 @@
 ﻿using Borg.Framework.Dispatch.Contracts;
-using Borg.Infrastructure.Core.DDD.ValueObjects;
 using Borg.Infrastructure.Core.DI;
 using System.Threading;
 using System.Threading.Tasks;
@@ -48,8 +47,8 @@ namespace Borg.Web.Client.playground
         }
     }
 
-    [PlugableService(ImplementationOf = typeof(IRequestHandler<PingCommand, PongResponse>), Lifetime = Lifetime.Scoped, OneOfMany = true, Order = 1)]
-    public class PingQueryHandler : AsyncRequestHandler<PingCommand, PongResponse>
+    [PlugableService(ImplementationOf = typeof(IRequestHandler<PingQuery, PongResponse>), Lifetime = Lifetime.Scoped, OneOfMany = true, Order = 1)]
+    public class PingQueryHandler : AsyncRequestHandler<PingQuery, PongResponse>
     {
         public override Task<object> Handle(object request, CancellationToken cancellationToken)
         {
@@ -59,7 +58,7 @@ namespace Borg.Web.Client.playground
         }
     }
 
-    [PlugableService(ImplementationOf = typeof(INotificationHandler<PingCommand>), Lifetime = Lifetime.Scoped, OneOfMany = true, Order = 1)]
+    [PlugableService(ImplementationOf = typeof(INotificationHandler<PingNotification>), Lifetime = Lifetime.Scoped, OneOfMany = true, Order = 1)]
     public class PingNotificationHandler : NotificationHandler<PingNotification>
     {
         public override void Handle(object notification)

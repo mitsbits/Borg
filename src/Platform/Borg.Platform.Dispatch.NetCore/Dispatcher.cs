@@ -1,6 +1,5 @@
 ﻿using Borg.Framework.Dispatch.Contracts;
 using Borg.Infrastructure.Core;
-using Borg.Infrastructure.Core.DDD.ValueObjects;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using System.Threading;
@@ -48,7 +47,7 @@ namespace Borg.Platform.Dispatch.NetCore
         public Task Publish<TNotification>(TNotification notification, CancellationToken cancellationToken = default)
         {
             var notificationType = notification.GetType();
-            var serviceType = typeof(INotificationHandler<TNotification>).MakeGenericType(notificationType);
+            var serviceType = typeof(INotificationHandler<TNotification>);
             foreach (var handler in serviceFactory.GetInstances(serviceType))
             {
                 var handlerType = handler.GetType();

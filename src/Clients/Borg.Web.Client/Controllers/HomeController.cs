@@ -24,7 +24,7 @@ namespace Borg.Web.Client.Controllers
             var bar = _cache.GetString("foo1");
 
             await _dispatcher.Send(new PingBlindCommand(), cancellationToken: default);
-            var result = await _dispatcher.Send<PongResponse, PingBlindCommand>(new PingBlindCommand(), cancellationToken: default);
+            var result = await _dispatcher.Send<PongResponse, PingCommand>(new PingCommand(), cancellationToken: default);
             _dispatcher.Publish<PingNotification>(new PingNotification()).AnyContext();
             return View();
         }

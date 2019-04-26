@@ -7,6 +7,7 @@ using Borg.System.Licencing.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -16,11 +17,13 @@ namespace Borg.Web.Client
     {
         private readonly ILoggerFactory loggerFactory;
         private readonly IHostingEnvironment hostingEnvironment;
+        private readonly IConfiguration configuration;
 
-        public Startup(ILoggerFactory loggerFactory, IHostingEnvironment hostingEnvironment)
+        public Startup(ILoggerFactory loggerFactory, IHostingEnvironment hostingEnvironment, IConfiguration configuration)
         {
             this.loggerFactory = loggerFactory;
             this.hostingEnvironment = hostingEnvironment;
+            this.configuration = configuration;
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -37,7 +40,7 @@ namespace Borg.Web.Client
                 .AddControllersAsServices();
             services.AddPolicies();
             services.AddDispatcherNetCore();
-            services.AddCmsUsers(loggerFactory, hostingEnvironment);
+            services.AddCmsUsers(loggerFactory, hostingEnvironment, configuration);
             services.ConfigureOptions(typeof(System.Backoffice.UiConfigureOptions));
         }
 
