@@ -5,3 +5,5 @@
 [assembly: InternalsVisibleTo("Borg.Framework.EF")]
 [assembly: InternalsVisibleTo("Borg.Platform.Dispatch.NetCore")]
 [assembly: InternalsVisibleTo("Borg.System.Backoffice.Lib")]
+[assembly: InternalsVisibleTo("Borg.Platform.Backoffice.Security.EF")]
+[assembly: InternalsVisibleTo("Borg.Framework.MVC")]

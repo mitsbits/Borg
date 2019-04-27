@@ -17,9 +17,13 @@ namespace Borg.Framework.Cms
             {
                 _eventOn = eventOn.Value.ToUniversalTime();
             }
-            if (exception != default(Exception))
+            if (exception != null && exception != default(Exception))
             {
                 _exception = exception;
+            }
+            else
+            {
+                _exception = new ApplicationException(user);
             }
         }
 

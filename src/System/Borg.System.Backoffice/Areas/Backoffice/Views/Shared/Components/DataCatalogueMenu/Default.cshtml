@@ -1,0 +1,21 @@
+﻿@model IDictionary<string, string>
+
+<li class="treeview">
+    <a href="#">
+        <i class="fa fa-database"></i> <span>Catalogues</span>
+        <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+        </span>
+    </a>
+    <ul class="treeview-menu">
+        @foreach (var key in Model.Keys)
+        {
+            var title = Model[key];
+            <li>
+                <a href="@key">
+                    <i class="fa fa-circle-o"></i> @title
+                </a>
+            </li>
+        }
+    </ul>
+</li>

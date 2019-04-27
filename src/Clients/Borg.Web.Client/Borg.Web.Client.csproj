@@ -23,4 +23,55 @@
     <ProjectReference Include="..\..\System\Borg.System.Licencing\Borg.System.Licencing.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Areas\Backoffice\Views\Account\Login.cshtml">
+      <Pack>false</Pack>
+    </Content>
+    <Content Update="Areas\Backoffice\Views\BackOfficeEntity\ColumnSelection.cshtml">
+      <Pack>false</Pack>
+    </Content>
+    <Content Update="Areas\Backoffice\Views\BackOfficeEntity\EditorTemapltes\HeaderColumn.cshtml">
+      <Pack>false</Pack>
+    </Content>
+    <Content Update="Areas\Backoffice\Views\BackOfficeEntity\Index.cshtml">
+      <Pack>false</Pack>
+    </Content>
+    <Content Update="Areas\Backoffice\Views\Home\Index.cshtml">
+      <Pack>false</Pack>
+    </Content>
+    <Content Update="Areas\Backoffice\Views\PlugableServices\Index.cshtml">
+      <Pack>false</Pack>
+    </Content>
+    <Content Update="Areas\Backoffice\Views\Shared\Layout\_bottom.cshtml">
+      <Pack>false</Pack>
+    </Content>
+    <Content Update="Areas\Backoffice\Views\Shared\Layout\_footer.cshtml">
+      <Pack>false</Pack>
+    </Content>
+    <Content Update="Areas\Backoffice\Views\Shared\Layout\_head.cshtml">
+      <Pack>false</Pack>
+    </Content>
+    <Content Update="Areas\Backoffice\Views\Shared\Layout\_header.cshtml">
+      <Pack>false</Pack>
+    </Content>
+    <Content Update="Areas\Backoffice\Views\Shared\Layout\_nav.cshtml">
+      <Pack>false</Pack>
+    </Content>
+    <Content Update="Areas\Backoffice\Views\Shared\Layout\_sidebar.cshtml">
+      <Pack>false</Pack>
+    </Content>
+    <Content Update="Areas\Backoffice\Views\Shared\_EmptyLayout.cshtml">
+      <Pack>false</Pack>
+    </Content>
+    <Content Update="Areas\Backoffice\Views\Shared\_Layout.cshtml">
+      <Pack>false</Pack>
+    </Content>
+    <Content Update="Areas\Backoffice\Views\_ViewImports.cshtml">
+      <Pack>false</Pack>
+    </Content>
+    <Content Update="Areas\Backoffice\Views\_ViewStart.cshtml">
+      <Pack>false</Pack>
+    </Content>
+  </ItemGroup>
+
 </Project>

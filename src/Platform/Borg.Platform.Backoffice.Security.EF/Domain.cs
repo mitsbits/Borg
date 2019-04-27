@@ -10,7 +10,7 @@ using System.Collections.Generic;
 namespace Borg.Platform.Backoffice.Security.EF
 {
     [KeySequenceDefinition(nameof(Id))]
-    [GenericEntity]
+    [GenericEntity(Plural = "Cms Users", Singular = "Cms User")]
     public class CmsUser : UserBase
     {
         public ICollection<CmsUserPermission> Permissions { get; set; } = new HashSet<CmsUserPermission>();
@@ -68,7 +68,7 @@ namespace Borg.Platform.Backoffice.Security.EF
         public int Id { get; set; }
         public string Email { get; set; }
         public string PasswordHash { get; set; }
-        public string SurName { get; set; }
+        public string Surname { get; set; }
         public string Name { get; set; }
         public bool IsActive { get; set; }
         public IEnumerable<(string key, object value)> Keys => new (string key, object value)[] { (key: nameof(Id), value: Id) };

@@ -1,0 +1,42 @@
+﻿@model Borg.System.Backoffice.Lib.HeaderColumn
+@using Borg.System.Backoffice.Lib
+@{
+    Func<HeaderColumn, string> _setChecekd = (v) => v.Visible && v.IsSimple ? "checked='checked'" : string.Empty;
+    Func<HeaderColumn, string> _setDisabled = (v) => !v.IsSimple ? "disabled" : "";
+    Func<HeaderColumn, string> _setDirectionClass = (v) => !v.IsSimple ? "hidden" : "";
+    Func<HeaderColumn, string> _setButtonClass = (v) => !v.IsSimple ? "btn-default" : "";
+    Func<SortDirection, string> _setIcon = (s) => (s == SortDirection.Ascending) ? $"<span class='glyphicon glyphicon-arrow-up' title='{SortDirection.Ascending}'></span>" :
+    (s == SortDirection.Descending) ? $"<span class='glyphicon glyphicon-arrow-down' title='{SortDirection.Descending}'></span>"
+    : $"<span class='glyphicon glyphicon-ban-circle' title='{SortDirection.None}'></span>";
+}
+  
+        <div  class="pull-left btn  @_setButtonClass(Model)"  >
+           
+            <span class="handle">
+                <i class="fa fa-ellipsis-v"></i>
+                <i class="fa fa-ellipsis-v"></i>
+            </span>
+            <label class="@((Model.Visible)?"":"text-muted")" @_setDisabled(Model)>
+
+                @if (Model.IsSimple)
+                {
+                    <b class="margin text-blue">@Model.Title</b>
+                    <input type="hidden" asp-for="Title" />
+                }
+                else
+                {
+                    <i>@Model.Title</i>
+                }
+                <input type="checkbox" @_setChecekd(Model) class="minimal-red @_setDirectionClass(Model)" @_setDisabled(Model) />
+            </label>
+            <span class="@_setDirectionClass(Model)">
+                @foreach (SortDirection direction in Enum.GetValues(typeof(SortDirection)))
+                {
+                    @Html.Raw(_setIcon(direction))
+                    <label >
+
+                        <input asp-for="SortDirection" type="radio" value="@direction" class="minimal-red" />
+                    </label>
+                }
+            </span>
+        </div>

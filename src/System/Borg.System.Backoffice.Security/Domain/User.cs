@@ -37,7 +37,7 @@ namespace Borg.System.Backoffice.Security.Domain
         public int Id { get; set; }
         public string Email { get; set; }
         public string PasswordHash { get; set; }
-        public string SurName { get; set; }
+        public string Surname { get; set; }
         public string Name { get; set; }
         public bool IsActive { get; set; }
         public IEnumerable<(string key, object value)> Keys => new (string key, object value)[] { (key: nameof(Id), value: Id) };

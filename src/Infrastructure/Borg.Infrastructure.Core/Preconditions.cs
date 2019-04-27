@@ -1,7 +1,9 @@
 ﻿using JetBrains.Annotations;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
-
+using System.Linq;
 namespace Borg.Infrastructure.Core
 {
     [DebuggerStepThrough]
@@ -78,6 +80,26 @@ namespace Borg.Infrastructure.Core
             }
 
             if (value < 0)
+            {
+                NotEmpty(parameterName, nameof(parameterName));
+
+                throw new ArgumentException("Int value cannot be less than zero.", parameterName);
+            }
+
+            return value;
+        }
+
+
+        [ContractAnnotation("value:null => halt")]
+        public static IEnumerable<T> NotEmpty<T>(IEnumerable<T> value, [InvokerParameterName, NotNull] string parameterName)
+        {
+            if (ReferenceEquals(value, null))
+            {
+             
+                throw new ArgumentNullException(parameterName);
+            }
+
+            if (value.Count() < 0)
             {
                 NotEmpty(parameterName, nameof(parameterName));
 

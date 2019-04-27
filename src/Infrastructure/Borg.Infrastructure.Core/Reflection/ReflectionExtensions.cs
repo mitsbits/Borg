@@ -239,6 +239,28 @@ namespace Borg
             return type.IsValueType || type.GetConstructor(Type.EmptyTypes) != null;
         }
 
+        public static bool IsSimple(this PropertyInfo type)
+        {
+            return type.PropertyType.IsSimple();
+        }
+        public static bool IsSimple(this Type type)
+        {
+            return type.GetTypeInfo().IsSimple();
+        }
+
+        public static bool IsSimple(this TypeInfo type)
+        {
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+            {
+                // nullable type, check if the nested type is simple.
+                return IsSimple((type.GetGenericArguments()[0]).GetTypeInfo());
+            }
+            return type.IsPrimitive
+              || type.IsEnum
+              || type.Equals(typeof(string))
+              || type.Equals(typeof(decimal));
+        }
+
         #region Private
 
         private static bool IsAssignableToGenericTypeDefinition(this TypeInfo typeInfo, TypeInfo genericTypeInfo)

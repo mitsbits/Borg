@@ -1,6 +1,7 @@
 ﻿using Borg.Framework.MVC.Middleware.SecurityHeaders;
 using Borg.Framework.Reflection;
 using Borg.Framework.Reflection.Services;
+using Borg.Framework.Services.AssemblyScanner;
 using Borg.System.Backoffice.Lib;
 using Borg.System.Licencing;
 using Borg.System.Licencing.Contracts;
@@ -33,8 +34,12 @@ namespace Borg.Web.Client
         {
             services.AddSingleton<IBorgLicenceService>(new Borg.System.Licencing.MemoryMoqLicenceService());
 
+            services.AddSingleton<IAssemblyProvider>(new DepedencyAssemblyProvider(loggerFactory));
+            services.AddSingleton<IAssemblyProvider>(new ReferenceAssemblyProvider(loggerFactory, GetType().Assembly));
+
             services.RegisterPlugableServices(loggerFactory);
             services.AddSingleton<IBorgLicenceService, MemoryMoqLicenceService>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .ConfigureApplicationPartManager(p =>
                 p.FeatureProviders.Add(new BackOfficeEntityControllerFeatureProvider(new[] { new DepedencyAssemblyProvider(loggerFactory) })))

@@ -122,9 +122,14 @@ namespace Borg
             return source.Distinct(new WhitespaceAgnosticComparer());
         }
 
-        public static string SplitUpperCaseToString(this string text)
+        public static string SplitUpperCaseToWords(this string text)
         {
             return Regex.Replace(text, "([A-Z])", " $1", RegexOptions.Compiled).Trim();
+        }
+
+        public static string SplitCamelCaseToWords(this string text)
+        {
+            return Regex.Replace(text, @"(\B[A-Z]+?(?=[A-Z][^A-Z])|\B[A-Z]+?(?=[^A-Z]))", " $1", RegexOptions.Compiled).Trim();
         }
 
         public static byte[] ToBytes(this string text)

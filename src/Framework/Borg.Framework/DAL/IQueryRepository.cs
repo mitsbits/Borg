@@ -10,7 +10,7 @@ namespace Borg.Framework.DAL
     public interface IQueryRepository<T> : IRepository<T> where T : class
     {
         Task<IPagedResult<T>> Find(Expression<Func<T, bool>> predicate, int page, int records,
-            IEnumerable<OrderByInfo<T>> orderBy, CancellationToken cancellationToken = default(CancellationToken),
+            IEnumerable<OrderByInfo<T>> orderBy = null, CancellationToken cancellationToken = default(CancellationToken),
             params Expression<Func<T, dynamic>>[] paths);
     }
 }
