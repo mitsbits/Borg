@@ -1,7 +1,11 @@
-﻿using Borg.Framework.MVC.Middleware.SecurityHeaders;
+﻿using Borg.Framework.Modularity;
+using Borg.Framework.MVC.Middleware.SecurityHeaders;
+using Borg.Framework.MVC.Sevices;
 using Borg.Framework.Reflection;
 using Borg.Framework.Reflection.Services;
 using Borg.Framework.Services.AssemblyScanner;
+using Borg.Framework.Services.Serializer;
+using Borg.Infrastructure.Core.Services.Serializer;
 using Borg.System.Backoffice.Lib;
 using Borg.System.Licencing;
 using Borg.System.Licencing.Contracts;
@@ -33,11 +37,12 @@ namespace Borg.Web.Client
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IBorgLicenceService>(new Borg.System.Licencing.MemoryMoqLicenceService());
-
+            services.RegisterPlugableServices(loggerFactory);
             services.AddSingleton<IAssemblyProvider>(new DepedencyAssemblyProvider(loggerFactory));
             services.AddSingleton<IAssemblyProvider>(new ReferenceAssemblyProvider(loggerFactory, GetType().Assembly));
-
-            services.RegisterPlugableServices(loggerFactory);
+            services.AddScoped<IUserSession, UserSession>();
+            services.AddSingleton<ISerializer, JsonNetSerializer>();
+            services.AddHttpContextAccessor();
             services.AddSingleton<IBorgLicenceService, MemoryMoqLicenceService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)

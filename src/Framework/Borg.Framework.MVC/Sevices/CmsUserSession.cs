@@ -9,18 +9,19 @@ using System.Security.Claims;
 
 namespace Borg.Framework.MVC.Sevices
 {
-    public abstract class UserSession : Tidings, IUserSession, ICanContextualize
+    [Serializable]
+    public  class UserSession : Tidings, IUserSession, ICanContextualize
     {
         protected const string SettingsCookieName = "Borg.UserSession"; //TODO: retrieve from settings
         protected const string SessionStartKey = "Borg.SessionStartKey";//TODO: retrieve from settings
 
-        protected UserSession(IHttpContextAccessor httpContextAccessor, ISerializer serializer)
+        public UserSession(IHttpContextAccessor httpContextAccessor, ISerializer serializer)
         {
             Preconditions.NotNull(httpContextAccessor, nameof(httpContextAccessor));
             Preconditions.NotNull(serializer, nameof(serializer));
             HttpContext = httpContextAccessor.HttpContext;
             Serializer = serializer;
-            SessionId = HttpContext.Session.Id;
+            SessionId = Guid.NewGuid().ToString();
             ReadState();
             SaveState();
         }
@@ -142,7 +143,7 @@ namespace Borg.Framework.MVC.Sevices
 
         #region ICanContextualize
 
-        public abstract bool ContextAcquired { get; protected set; }
+        public  bool ContextAcquired { get; protected set; }
 
         #endregion ICanContextualize
 

@@ -3,6 +3,7 @@ using System;
 
 namespace Borg.Infrastructure.Core.DTO
 {
+    [Serializable]
     public class Tiding : Catalogued, IHaveWeight, ICloneable, ICloneable<Tiding>
     {
         public Tiding()

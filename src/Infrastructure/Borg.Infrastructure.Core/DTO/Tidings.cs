@@ -6,6 +6,7 @@ using System.Linq;
 
 namespace Borg.Infrastructure.Core.DTO
 {
+    [Serializable]
     public class Tidings : ICollection<Tiding>, IDictionary<string, string>, IReadOnlyList<Tiding>, IEnumerable<Tiding>, ICloneable, ICloneable<Tidings>
     {
         private readonly ICollection<Tiding> _bucket;
