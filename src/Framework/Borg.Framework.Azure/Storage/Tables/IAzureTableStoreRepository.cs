@@ -1,6 +1,4 @@
 using Borg.Framework.DAL;
-using Borg.Infrastructure.Core.DDD.Contracts;
-using Borg.Infrastructure.Core.DDD.ValueObjects;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;

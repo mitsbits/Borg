@@ -1,5 +1,3 @@
-using Borg.Infrastructure.Core.DDD.Contracts;
-using Borg.Infrastructure.Core.DDD.ValueObjects;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using Newtonsoft.Json;

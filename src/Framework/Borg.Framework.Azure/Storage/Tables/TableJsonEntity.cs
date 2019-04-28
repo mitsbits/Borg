@@ -1,6 +1,4 @@
-﻿using Borg.Infrastructure.Core.DDD.Contracts;
-using Borg.Infrastructure.Core.DDD.ValueObjects;
-using Microsoft.WindowsAzure.Storage.Table;
+﻿using Microsoft.WindowsAzure.Storage.Table;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -33,7 +31,8 @@ namespace Borg.Framework.Azure.Storage.Tables
         }
 
         public string Data { get; set; }
-        public CompositeKey<string> CompositeKey => CompositeKey<string>.Create(PartitionKey, RowKey);
+
+        AzureTableCompositeKey IHaveTableKey.Key => AzureTableCompositeKey.Create(PartitionKey, RowKey);
 
         public T Payload()
         {

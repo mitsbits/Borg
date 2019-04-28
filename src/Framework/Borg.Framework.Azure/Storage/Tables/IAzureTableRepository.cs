@@ -1,5 +1,4 @@
 ﻿using Borg.Framework.DAL;
-using Borg.Infrastructure.Core.DDD.ValueObjects;
 using Microsoft.WindowsAzure.Storage.Table;
 using System.Collections.Generic;
 using System.Threading;

@@ -4,14 +4,12 @@ using System.Linq;
 
 namespace Borg.Infrastructure.Core.DDD.ValueObjects
 {
-
     [Serializable]
     public class CompositeKey : CompositeKey<object>
     {
-
     }
 
-    public class CompositeKey<TKey>: ValueObject<CompositeKey<TKey>> 
+    public class CompositeKey<TKey> : ValueObject<CompositeKey<TKey>>
     {
         protected readonly List<(string key, TKey value)> _data;
 
@@ -23,13 +21,13 @@ namespace Borg.Infrastructure.Core.DDD.ValueObjects
                 Add(incoming.key, incoming.value);
             }
         }
+
         public CompositeKey()
         {
             _data = new List<(string key, TKey value)>();
         }
 
-
-        public void Add(string key, TKey value)
+        public virtual void Add(string key, TKey value)
         {
             if (_data.Any(x => x.key == key)) throw new System.Exception("key already in collection");
             _data.Add((key, value));
