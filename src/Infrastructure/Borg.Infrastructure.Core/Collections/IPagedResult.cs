@@ -2,6 +2,7 @@
 
 namespace Borg.Infrastructure.Core.Collections
 {
+
     public interface IPagedResult<T> : IPagedResult, IList<T>
     {
         IList<T> Records { get; }

@@ -7,7 +7,7 @@
     <div class="col-md-3">
         <div class="box box-default collapsed-box">
             <div class="box-header with-border">
-                <h3 class="box-title">Expandable</h3>
+                <h3 class="box-title">Actions</h3>
 
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse">
@@ -18,7 +18,7 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body" style="display: none;">
-                The body of the box
+                Actions like...
             </div>
             <!-- /.box-body -->
         </div>
@@ -26,6 +26,10 @@
     </div>
     <partial name="~/Areas/Backoffice/Views/BAckOfficeEntity/ColumnSelection.cshtml" model="@Model" />
 </div>
+
+<partial name="~/Areas/Backoffice/Views/BackofficeEntity/Grid.cshtml" model="@Model" />
+
+
 
 @section bottomscripts{
 

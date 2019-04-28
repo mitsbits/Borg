@@ -1,5 +1,6 @@
 ﻿@model Borg.System.Backoffice.Lib.EntityGridViewModel
 @using Borg.System.Backoffice.Lib
+@using Borg.Infrastructure.Core
 @{
     Func<HeaderColumn, string> _setChecekd = (v) => v.Visible && v.IsSimple ? "checked='checked'" : string.Empty;
     Func<HeaderColumn, string> _setDisabled = (v) => !v.IsSimple ? "disabled" : "";
@@ -29,6 +30,10 @@
                 {
                 <div class="pull-left btn  @_setButtonClass(Model.HeaderColumns[i])" id="@Model.HeaderColumns[i].Order">
                     <input type="hidden" asp-for="@Model.HeaderColumns[i].Order" />
+                    <input type="hidden" asp-for="@Model.HeaderColumns[i].IsSimple" />
+             
+                    <input type="hidden" asp-for="@Model.HeaderColumns[i].Title" />
+                    <input type="hidden" asp-for="@Model.HeaderColumns[i].Property" />
                     <span class="handle">
                         <i class="fa fa-ellipsis-v"></i>
                         <i class="fa fa-ellipsis-v"></i>
@@ -44,16 +49,28 @@
                         {
                             <i>@Model.Title</i>
                         }
-                        <input type="checkbox" @_setChecekd(Model.HeaderColumns[i]) class="minimal-red @_setDirectionClass(Model.HeaderColumns[i])" @_setDisabled(Model.HeaderColumns[i]) />
+                        <input type="hidden" asp-for="@Model.HeaderColumns[i].Title" />
+                        @if (Model.HeaderColumns[i].IsSimple)
+                        {
+                            <input asp-for="@Model.HeaderColumns[i].Visible" type="checkbox" class="minimal-red @_setDirectionClass(Model.HeaderColumns[i])" />
+                        }
+
                     </label>
                     <span class="@_setDirectionClass(Model.HeaderColumns[i])">
-                        @foreach (SortDirection direction in Enum.GetValues(typeof(SortDirection)))
-                        {
+                        @foreach (SortDirection direction in Enum.GetValues(typeof(SortDirection))) 
+{
                             @Html.Raw(_setIcon(direction))
-                            <label>
-
+                        <label>
+                            @if (Model.HeaderColumns[i].IsSimple)
+                            {
                                 <input asp-for="@Model.HeaderColumns[i].SortDirection" type="radio" value="@direction" class="minimal-red" />
-                            </label>
+                            }
+                            else
+                            {
+
+                            }
+
+                        </label>
                         }
                     </span>
                 </div>

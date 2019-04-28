@@ -27,13 +27,13 @@
     <Content Update="Areas\Backoffice\Views\Account\Login.cshtml">
       <Pack>false</Pack>
     </Content>
-    <Content Update="Areas\Backoffice\Views\BackOfficeEntity\ColumnSelection.cshtml">
+    <Content Update="Areas\Backoffice\Views\BackofficeEntity\ColumnSelection.cshtml">
       <Pack>false</Pack>
     </Content>
-    <Content Update="Areas\Backoffice\Views\BackOfficeEntity\EditorTemapltes\HeaderColumn.cshtml">
+    <Content Update="Areas\Backoffice\Views\BackofficeEntity\EditorTemapltes\HeaderColumn.cshtml">
       <Pack>false</Pack>
     </Content>
-    <Content Update="Areas\Backoffice\Views\BackOfficeEntity\Index.cshtml">
+    <Content Update="Areas\Backoffice\Views\BackofficeEntity\Index.cshtml">
       <Pack>false</Pack>
     </Content>
     <Content Update="Areas\Backoffice\Views\Home\Index.cshtml">

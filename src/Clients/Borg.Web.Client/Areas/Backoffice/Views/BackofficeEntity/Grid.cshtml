@@ -1,0 +1,72 @@
+﻿@model Borg.System.Backoffice.Lib.EntityGridViewModel
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="box box-default">
+            @if (Model.PagerData.TotalRecords > 0)
+            {
+            }
+
+            <div class="box-body">
+
+                @if (Model.PagerData.TotalRecords > 0)
+                {
+
+
+
+
+                    <table class="table table-bordered">
+                        <tbody>
+
+                            <tr>
+                                <th style="width: 10px"><input type="checkbox" /></th>
+                                @foreach (var hcol in Model.HeaderColumns.OrderBy(x => x.Order))
+                                {
+                                    if (hcol.Visible)
+                                    {
+                                        <th>@hcol.Title</th>
+                                    }
+                                }
+                            </tr>
+
+                            @foreach (var row in Model.PagerData)
+                            {
+                        <tr>
+                            <td><input type="checkbox" /></td>
+                            @foreach (var hcol in Model.HeaderColumns.OrderBy(x => x.Order))
+                            {
+                                if (hcol.Visible)
+                                {
+                                    var type = row.GetType();
+                                    var value = type.GetProperty(hcol.Property).GetValue(row, null);
+                                    if (value != null)
+                                    {
+                                        <td>@value </td>
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                    }
+
+                                }
+                            }
+                        </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                }
+                else
+                {
+
+                    <p>no results</p>
+                }
+            </div>
+            <div class="box-footer">
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
