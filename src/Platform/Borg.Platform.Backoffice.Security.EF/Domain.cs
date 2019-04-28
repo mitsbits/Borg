@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace Borg.Platform.Backoffice.Security.EF
 {
-    [KeySequenceDefinition(nameof(Id))]
+    [KeySequenceDefinition(Column = nameof(Id))]
     [GenericEntity(Plural = "Cms Users", Singular = "Cms User")]
     public class CmsUser : UserBase
     {
@@ -19,7 +19,7 @@ namespace Borg.Platform.Backoffice.Security.EF
         public ICollection<UserRole> Roles { get; set; } = new HashSet<UserRole>();
     }
 
-    [KeySequenceDefinition(nameof(Id))]
+    [KeySequenceDefinition(Column = nameof(Id))]
     [GenericEntity(Plural = "Cms Roles", Singular = "Cms Role")]
     public class CmsRole : RoleBase
     {
@@ -28,14 +28,14 @@ namespace Borg.Platform.Backoffice.Security.EF
         public bool IsSystem { get; set; }
     }
 
-    [KeySequenceDefinition(nameof(Id))]
+    [KeySequenceDefinition(Column = nameof(Id))]
     [GenericEntity(Plural = "Cms User Permissions", Singular = "Cms User Permission")]
     public class CmsUserPermission : PermissionBase
     {
         public virtual CmsUser User { get; set; }
     }
 
-    [KeySequenceDefinition(nameof(Id))]
+    [KeySequenceDefinition(Column = nameof(Id))]
     [GenericEntity(Plural = "Cms Role Permissions", Singular = "Cms Role Permission")]
     public class CmsRolePermission : PermissionBase
     {
@@ -44,10 +44,10 @@ namespace Borg.Platform.Backoffice.Security.EF
 
     public class UserRole
     {
-        [PrimaryKeyDefinition(1)]
+        [PrimaryKeyDefinition(order: 1)]
         public int UserId { get; set; }
 
-        [PrimaryKeyDefinition(2)]
+        [PrimaryKeyDefinition(order: 2)]
         public int RoleId { get; set; }
 
         public virtual CmsUser User { get; set; }
@@ -61,7 +61,16 @@ namespace Borg.Platform.Backoffice.Security.EF
         public int Depth { get; set; }
         public string Resource { get; set; }
         public PermissionOperation PermissionOperation { get; set; }
-        public IEnumerable<(string key, object value)> Keys => new (string key, object value)[] { (key: nameof(Id), value: Id) };
+
+        public CompositeKey Keys
+        {
+            get
+            {
+                var keys = new CompositeKey();
+                keys.Add(nameof(Id), Id);
+                return keys;
+            }
+        }
     }
 
     public abstract class UserBase : IEntity<int>, IHavePassword, IPerson, IActive
@@ -72,6 +81,7 @@ namespace Borg.Platform.Backoffice.Security.EF
         public string Surname { get; set; }
         public string Name { get; set; }
         public bool IsActive { get; set; }
+
         public CompositeKey Keys
         {
             get
@@ -87,7 +97,16 @@ namespace Borg.Platform.Backoffice.Security.EF
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public IEnumerable<(string key, object value)> Keys => new (string key, object value)[] { (key: nameof(Id), value: Id) };
+
+        public CompositeKey Keys
+        {
+            get
+            {
+                var keys = new CompositeKey();
+                keys.Add(nameof(Id), Id);
+                return keys;
+            }
+        }
     }
 
     public class CmsRolePermissionMap : EntityMap<CmsRolePermission, SecurityDbContext>

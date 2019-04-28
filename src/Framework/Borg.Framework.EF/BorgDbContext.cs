@@ -1,7 +1,7 @@
 ﻿using Borg.Framework.EF.Contracts;
 using Borg.Infrastructure.Core.Services.Factory;
 using Borg.Platform.EF.Instructions;
-using Borg.Platform.EF.Instructions.Attributes;
+
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -60,7 +60,6 @@ namespace Borg.Framework.EF
         {
             base.OnModelCreating(builder);
             Map(builder);
-            TableSchema(builder);
         }
 
         #region Private
@@ -75,23 +74,7 @@ namespace Borg.Framework.EF
             }
         }
 
-        private void TableSchema(ModelBuilder builder)
-        {
-            foreach (var (entityType, t) in from entityType in builder.Model.GetEntityTypes()
-                                            let t = entityType.ClrType
-                                            select (entityType, t))
-            {
-                if (t != null)
-                {
-                    var attr = t.GetCustomAttribute<TableSchemaDefinitionAttribute>();
-                    entityType.Relational().Schema = attr != null ? attr.Schema.Slugify() : Schema;
-                }
-                else
-                {
-                    entityType.Relational().Schema = Schema;
-                }
-            }
-        }
+
 
         #endregion Private
     }

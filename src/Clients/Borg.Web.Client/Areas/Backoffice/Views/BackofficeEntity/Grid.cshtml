@@ -60,7 +60,7 @@
 
                                                 var builder = new System.Text.StringBuilder(Url.Action("Detail"));
                                                 builder.Append("?");
-                                                foreach (var id in ids)
+                                                foreach (var id in ids.Values)
                                                 {
                                                     builder.Append($"{id.key}={id.value}&");
                                                 }

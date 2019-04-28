@@ -3,8 +3,9 @@ using System;
 
 namespace Borg.Infrastructure.Core.DDD.Contracts
 {
-    public interface IHaveCompositeKey<T> where T : IEquatable<T>
+    public interface IHaveCompositeKey 
     {
-        CompositeKey<T> CompositeKey { get; }
+        CompositeKey CompositeKey { get; }
     }
+
 }

@@ -7,8 +7,7 @@ namespace Borg.Framework.DAL
 {
     public static class OrderByExtensions
     {
-        public static IQueryable<TEntity> OrderBy<TEntity>(this IQueryable<TEntity> source, string orderByProperty,
-            bool desc) where TEntity : class
+        public static IQueryable<TEntity> OrderBy<TEntity>(this IQueryable<TEntity> source, string orderByProperty, bool desc) where TEntity : class
         {
             var command = desc ? "OrderByDescending" : "OrderBy";
 

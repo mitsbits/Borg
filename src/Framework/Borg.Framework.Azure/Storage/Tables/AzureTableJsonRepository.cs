@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Borg.Framework.Azure.Storage.Tables
 {
-    public class AzureTableJsonRepository<T> : IAzureTableStoreRepository<T> where T : IHaveCompositeKey<string>, new()
+    public class AzureTableJsonRepository<T> : IAzureTableStoreRepository<T> where T : IHaveTableKey, new()
     {
         internal readonly string _tableName = typeof(T).Name;
         private readonly IAzureTableRepository<TableJsonEntity<T>> _inner;
@@ -24,7 +24,7 @@ namespace Borg.Framework.Azure.Storage.Tables
             return created.Payload();
         }
 
-        public async Task Delete(CompositeKey<string> key, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task Delete(AzureTableCompositeKey key, CancellationToken cancellationToken = default(CancellationToken))
         {
             await _inner.Delete(key, cancellationToken);
         }
@@ -35,7 +35,7 @@ namespace Borg.Framework.Azure.Storage.Tables
             return found.Select(x => x.Payload());
         }
 
-        public async Task<T> Get(CompositeKey<string> key, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<T> Get(AzureTableCompositeKey key, CancellationToken cancellationToken = default(CancellationToken))
         {
             var found = await _inner.Get(key, cancellationToken);
             return found.Payload();

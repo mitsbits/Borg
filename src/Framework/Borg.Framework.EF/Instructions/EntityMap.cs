@@ -40,7 +40,7 @@ namespace Borg.Platform.EF.Instructions
 
         private static void SequenceDefinition(ModelBuilder builder)
         {
-            var props = typeof(TEntity).GetProperties().Where(x => x.GetCustomAttribute<HasManyDefinitionAttribute>() != null);
+            var props = typeof(TEntity).GetProperties().Where(x => x.GetCustomAttribute<SequenceDefinitionAttribute>() != null);
             foreach (var prop in props)
             {
                 if (!prop.PropertyType.IsAssignableFrom(typeof(int))) throw new ApplicationException($"The property {prop.Name} has to be int");

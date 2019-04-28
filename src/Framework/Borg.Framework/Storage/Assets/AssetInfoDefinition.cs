@@ -1,4 +1,5 @@
 ﻿using Borg.Framework.Storage.Assets.Contracts;
+using Borg.Infrastructure.Core.DDD.ValueObjects;
 using System;
 using System.Collections.Generic;
 
@@ -28,6 +29,14 @@ namespace Borg.Framework.Storage.Assets
             set => _currentFile = value;
         }
 
-        public IEnumerable<(string key, object value)> Keys => new (string key, object value)[] { (key: nameof(Id), value: Id) };
+        public CompositeKey Keys
+        {
+            get
+            {
+                var keys = new CompositeKey();
+                keys.Add(nameof(Id), Id);
+                return keys;
+            }
+        }
     }
 }
