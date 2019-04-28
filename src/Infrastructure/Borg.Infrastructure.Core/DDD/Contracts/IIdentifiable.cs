@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Borg.Infrastructure.Core.DDD.ValueObjects;
+using System.Linq;
 
 namespace Borg.Infrastructure.Core.DDD.Contracts
 {
     public interface IIdentifiable
     {
-        IEnumerable<(string key, object value)> Keys { get; }
+        CompositeKey Keys { get; }
     }
 }

@@ -28,57 +28,55 @@
 
                 @for (var i = 0; i < Model.HeaderColumns.Count; i++)
                 {
-                <div class="pull-left btn  @_setButtonClass(Model.HeaderColumns[i])" id="@Model.HeaderColumns[i].Order">
                     <input type="hidden" asp-for="@Model.HeaderColumns[i].Order" />
                     <input type="hidden" asp-for="@Model.HeaderColumns[i].IsSimple" />
-             
                     <input type="hidden" asp-for="@Model.HeaderColumns[i].Title" />
                     <input type="hidden" asp-for="@Model.HeaderColumns[i].Property" />
-                    <span class="handle">
-                        <i class="fa fa-ellipsis-v"></i>
-                        <i class="fa fa-ellipsis-v"></i>
-                    </span>
-                    <label class="@((Model.HeaderColumns[i].Visible)?"":"text-muted")" @_setDisabled(Model.HeaderColumns[i])>
+                    <div class="pull-left with-border btn btn-sm  @_setButtonClass(Model.HeaderColumns[i])" id="@Model.HeaderColumns[i].Order">
 
-                        @if (Model.HeaderColumns[i].IsSimple)
-                        {
-                            <b class="margin text-blue">@Model.HeaderColumns[i].Title</b>
-                            <input type="hidden" asp-for="@Model.HeaderColumns[i].Title" />
-                        }
-                        else
-                        {
-                            <i>@Model.Title</i>
-                        }
-                        <input type="hidden" asp-for="@Model.HeaderColumns[i].Title" />
-                        @if (Model.HeaderColumns[i].IsSimple)
-                        {
-                            <input asp-for="@Model.HeaderColumns[i].Visible" type="checkbox" class="minimal-red @_setDirectionClass(Model.HeaderColumns[i])" />
-                        }
+                        <span class="handle">
+                            <i class="fa fa-ellipsis-v"></i>
+                            <i class="fa fa-ellipsis-v"></i>
+                        </span>
+                        <label class="@((Model.HeaderColumns[i].Visible)?"":"text-muted")" @_setDisabled(Model.HeaderColumns[i])>
 
-                    </label>
-                    <span class="@_setDirectionClass(Model.HeaderColumns[i])">
-                        @foreach (SortDirection direction in Enum.GetValues(typeof(SortDirection))) 
-{
-                            @Html.Raw(_setIcon(direction))
-                        <label>
                             @if (Model.HeaderColumns[i].IsSimple)
                             {
-                                <input asp-for="@Model.HeaderColumns[i].SortDirection" type="radio" value="@direction" class="minimal-red" />
+                                <b class="margin">@Model.HeaderColumns[i].Title</b>
                             }
                             else
                             {
-
+                                <i>@Model.HeaderColumns[i].Title</i>
+                            }
+       
+                            @if (Model.HeaderColumns[i].IsSimple)
+                            {
+                                <input asp-for="@Model.HeaderColumns[i].Visible" type="checkbox" class="minimal-red @_setDirectionClass(Model.HeaderColumns[i])" />
                             }
 
                         </label>
-                        }
-                    </span>
-                </div>
+                        <span class="@_setDirectionClass(Model.HeaderColumns[i])">
+                            @foreach (SortDirection direction in Enum.GetValues(typeof(SortDirection)))
+                            {
+                                @Html.Raw(_setIcon(direction))
+                                <label>
+                                    @if (Model.HeaderColumns[i].IsSimple)
+                                    {
+                                        <input asp-for="@Model.HeaderColumns[i].SortDirection" type="radio" value="@direction" class="minimal-red" />
+                                    }
+                                    else
+                                    {
+
+                                    }
+                               </label>
+                            }
+                        </span>
+                    </div>
 
                 }
             </div>
             <div class="box-footer">
-                <input type="hidden" asp-for="@Model.ReorderColumns" id="reorderColumns"/>
+                <input type="hidden" asp-for="@Model.ReorderColumns" id="reorderColumns" />
                 <input type="submit" class="btn btn-success pull-right" value="Submit" />
             </div>
 

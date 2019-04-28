@@ -2,7 +2,7 @@
 
 <li class="treeview">
     <a href="#">
-        <i class="fa fa-database"></i> <span>Catalogues</span>
+        <i class="fa fa-cube"></i> <span>Catalogues</span>
         <span class="pull-right-container">
             <i class="fa fa-angle-left pull-right"></i>
         </span>
@@ -17,13 +17,13 @@
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
-                <ul c>
+                <ul class="treeview-menu">
                     @foreach (var innerKey in Model[key].Keys)
                     {
                         var title = Model[key][innerKey];
                         <li>
                             <a href="@innerKey">
-                                <i class="fa fa-circle-o"></i> @title
+                                 @title
                             </a>
                         </li>
                     }

@@ -43,7 +43,7 @@ namespace Borg.System.Backoffice.Lib.ViewComponents
                             innerDict.Add(Url.RouteUrl(new { Controller = type.Name }), EntityPluralTitle(type));
                         }
                     }
-                    if (innerDict.Count() > 1)
+                    if (innerDict.Count() > 0)
                     {
                         _cache.Add(group.Key.Name.SplitCamelCaseToWords(), innerDict);
                     }

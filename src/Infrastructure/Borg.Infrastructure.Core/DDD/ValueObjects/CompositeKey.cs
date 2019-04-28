@@ -1,26 +1,29 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Borg.Infrastructure.Core.DDD.ValueObjects
 {
-    public class CompositeKey<T> : ValueObject<CompositeKey<T>> where T : IEquatable<T>
+    public class CompositeKey : ValueObject<CompositeKey>
     {
-        internal CompositeKey(T partition, T row)
+        private readonly List<(string key, object value)> _data;
+
+        public CompositeKey()
         {
-            Partition = partition;
-            Row = row;
+            _data = new List<(string key, object value)>();
         }
 
-        public T Partition { get; }
-        public T Row { get; }
+  
 
-        public static CompositeKey<T> Create(T partition, T row)
+        public void Add(string key, object value)
         {
-            return new CompositeKey<T>(partition, row);
+            _data.Add((key, value));
         }
+
+        private IEnumerable<(string key, object value)> Keys => _data;
 
         public override string ToString()
         {
-            return $"P:{Partition}|R:{Row}";
+            return string.Join("", _data.Select(x => $"[{x.key}:{x.value}]"));
         }
     }
 }

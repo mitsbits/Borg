@@ -2,6 +2,7 @@
 using Borg.Framework.EF.Instructions.Attributes;
 using Borg.Infrastructure.Core.DDD.Contracts;
 using Borg.Infrastructure.Core.DDD.Enums;
+using Borg.Infrastructure.Core.DDD.ValueObjects;
 using Borg.Platform.Backoffice.Security.EF.Data;
 using Borg.Platform.EF.Instructions;
 using Microsoft.EntityFrameworkCore;
@@ -71,7 +72,15 @@ namespace Borg.Platform.Backoffice.Security.EF
         public string Surname { get; set; }
         public string Name { get; set; }
         public bool IsActive { get; set; }
-        public IEnumerable<(string key, object value)> Keys => new (string key, object value)[] { (key: nameof(Id), value: Id) };
+        public CompositeKey Keys
+        {
+            get
+            {
+                var keys = new CompositeKey();
+                keys.Add(nameof(Id), Id);
+                return keys;
+            }
+        }
     }
 
     public abstract class RoleBase : IEntity<int>, IHaveTitle
