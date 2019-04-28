@@ -1,4 +1,4 @@
-﻿using Borg.Infrastructure.Core.Collections;
+﻿using Borg;
 using Shouldly;
 using System.Collections.Generic;
 using Xunit;

@@ -1,8 +1,10 @@
-﻿using Borg.Infrastructure.Core.Services.Serializer;
+﻿using Borg.Infrastructure.Core;
+using Borg.Infrastructure.Core.DTO;
+using Borg.Infrastructure.Core.Services.Serializer;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Borg.Infrastructure.Core.DTO
+namespace Borg
 {
     public static class TidingExtensions
     {
@@ -29,7 +31,7 @@ namespace Borg.Infrastructure.Core.DTO
             tiding.Hint = typeof(T).FullName;
         }
 
-        public static T GetValue<T>(this Tiding tiding, ISerializer serializer )
+        public static T GetValue<T>(this Tiding tiding, ISerializer serializer)
         {
             Preconditions.NotNull(tiding, nameof(tiding));
             Preconditions.NotNull(serializer, nameof(serializer));

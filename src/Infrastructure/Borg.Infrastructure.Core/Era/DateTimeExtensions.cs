@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Borg.Infrastructure.Core.Era
+namespace Borg
 {
     public static class DateTimeExtensions
     {

@@ -243,6 +243,7 @@ namespace Borg
         {
             return type.PropertyType.IsSimple();
         }
+
         public static bool IsSimple(this Type type)
         {
             return type.GetTypeInfo().IsSimple();

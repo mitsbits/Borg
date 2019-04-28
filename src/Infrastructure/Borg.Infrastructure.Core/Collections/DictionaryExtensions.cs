@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Borg.Infrastructure.Core.Collections
+namespace Borg
 {
     public static class DictionaryExtensions
     {
