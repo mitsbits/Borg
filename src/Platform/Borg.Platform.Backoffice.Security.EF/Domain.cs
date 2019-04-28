@@ -19,7 +19,7 @@ namespace Borg.Platform.Backoffice.Security.EF
     }
 
     [KeySequenceDefinition(nameof(Id))]
-    [GenericEntity]
+    [GenericEntity(Plural = "Cms Roles", Singular = "Cms Role")]
     public class CmsRole : RoleBase
     {
         public ICollection<CmsRolePermission> Permissions { get; set; } = new HashSet<CmsRolePermission>();
@@ -28,14 +28,14 @@ namespace Borg.Platform.Backoffice.Security.EF
     }
 
     [KeySequenceDefinition(nameof(Id))]
-    [GenericEntity]
+    [GenericEntity(Plural = "Cms User Permissions", Singular = "Cms User Permission")]
     public class CmsUserPermission : PermissionBase
     {
         public virtual CmsUser User { get; set; }
     }
 
     [KeySequenceDefinition(nameof(Id))]
-    [GenericEntity]
+    [GenericEntity(Plural = "Cms Role Permissions", Singular = "Cms Role Permission")]
     public class CmsRolePermission : PermissionBase
     {
         public virtual CmsRole Role { get; set; }

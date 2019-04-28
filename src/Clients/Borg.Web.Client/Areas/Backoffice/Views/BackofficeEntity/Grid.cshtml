@@ -1,4 +1,5 @@
-﻿@model Borg.System.Backoffice.Lib.EntityGridViewModel
+﻿@using Borg.Infrastructure.Core.DDD.Contracts
+@model Borg.System.Backoffice.Lib.EntityGridViewModel
 <div class="row">
     <div class="col-md-12">
 
@@ -12,9 +13,6 @@
                 @if (Model.PagerData.TotalRecords > 0)
                 {
 
-
-
-
                     <table class="table table-bordered">
                         <tbody>
 
@@ -27,30 +25,59 @@
                                         <th>@hcol.Title</th>
                                     }
                                 }
+                                <th></th>
                             </tr>
 
                             @foreach (var row in Model.PagerData)
                             {
-                        <tr>
-                            <td><input type="checkbox" /></td>
-                            @foreach (var hcol in Model.HeaderColumns.OrderBy(x => x.Order))
-                            {
-                                if (hcol.Visible)
-                                {
-                                    var type = row.GetType();
-                                    var value = type.GetProperty(hcol.Property).GetValue(row, null);
-                                    if (value != null)
+                                <tr>
+                                    <td><input type="checkbox" /></td>
+                                    @foreach (var hcol in Model.HeaderColumns.OrderBy(x => x.Order))
                                     {
-                                        <td>@value </td>
-                                    }
-                                    else
-                                    {
-                                        <td></td>
-                                    }
+                                        if (hcol.Visible)
+                                        {
+                                            var type = row.GetType();
+                                            var value = type.GetProperty(hcol.Property).GetValue(row, null);
+                                            if (value != null)
+                                            {
+                                                <td>@value </td>
+                                            }
+                                            else
+                                            {
+                                                <td></td>
+                                            }
 
-                                }
-                            }
-                        </tr>
+                                        }
+
+                                    }
+                                    <td>
+                                        @{
+                                            var identifiable = row as IIdentifiable;
+                                            var url = string.Empty;
+                                            if (identifiable != null)
+                                            {
+                                                var ids = identifiable.Keys;
+
+                                                var builder = new System.Text.StringBuilder(Url.Action("Detail"));
+                                                builder.Append("?");
+                                                foreach (var id in ids)
+                                                {
+                                                    builder.Append($"{id.key}={id.value}&");
+                                                }
+                                                url = builder.ToString().TrimEnd('&');
+                                            }
+
+                                            var title = row.GetType().Name;
+
+                                            var titled = row as IHaveTitle;
+                                            if (titled != null)
+                                            {
+                                                title = titled.Title;
+                                            }
+                                        }
+                                        <a href="@url" title="@title">@title</a>
+                                    </td>
+                                </tr>
                             }
                         </tbody>
                     </table>
@@ -63,10 +90,7 @@
                 }
             </div>
             <div class="box-footer">
-
             </div>
-
         </div>
-
     </div>
 </div>
