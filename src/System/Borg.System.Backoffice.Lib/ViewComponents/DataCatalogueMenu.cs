@@ -1,6 +1,7 @@
 ﻿using Borg.Framework.Cms;
 using Borg.Framework.Services.AssemblyScanner;
 using Borg.Infrastructure.Core;
+using Borg.Platform.EF.Instructions;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace Borg.System.Backoffice.Lib.ViewComponents
     public class DataCatalogueMenu : ViewComponent
     {
         private readonly IEnumerable<IAssemblyProvider> assemblyProviders;
-        private static IDictionary<string, string> _cache;
+        private static  IDictionary<string, IDictionary<string, string>> _cache;
 
         public DataCatalogueMenu(IEnumerable<IAssemblyProvider> assemblyProviders)
         {
@@ -25,10 +26,29 @@ namespace Borg.System.Backoffice.Lib.ViewComponents
         {
             if (_cache == null)
             {
+                _cache = new Dictionary<string, IDictionary<string, string>>();
                 var types = assemblyProviders.SelectMany(x => x.GetAssemblies()).SelectMany(x => x.GetTypes())
                         .Where(x => x.GetCustomAttribute<GenericEntityAttribute>() != null).OrderBy(x => x.FullName).Distinct();
+                var maps = assemblyProviders.SelectMany(x => x.GetAssemblies()).SelectMany(x => x.GetTypes()).
+                    Where(x => x.IsSubclassOfRawGeneric(typeof(EntityMap<,>)) && !x.IsAbstract);
 
-                _cache = types.ToDictionary(x => Url.RouteUrl(new { Controller = x.Name }), x => EntityPluralTitle(x));
+                var grouprdMaps = maps.GroupBy(x => x.BaseType.GetGenericArguments()[1]);
+                foreach(var group in grouprdMaps)
+                {
+                    var innerDict = new Dictionary<string, string>();
+                    foreach(var type in types)
+                    {
+                        if (group.Any(x=>x.BaseType.GetGenericArguments()[0] == type))
+                        {
+                            innerDict.Add(Url.RouteUrl(new { Controller = type.Name }), EntityPluralTitle(type));
+                        }
+                    }
+                    if (innerDict.Count() > 1)
+                    {
+                        _cache.Add(group.Key.Name.SplitCamelCaseToWords(), innerDict);
+                    }
+                }
+
             }
 
             return View(_cache);
