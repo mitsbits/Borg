@@ -22,7 +22,7 @@ namespace Borg.System.Backoffice.Lib
         public void PopulateFeature(IEnumerable<ApplicationPart> parts, ControllerFeature feature)
         {
             var types = assemblyProviders.SelectMany(x => x.GetAssemblies()).SelectMany(x => x.GetTypes()
-            .Where(t => t.ImplementsInterface(typeof(IEntity)) && !t.IsAbstract && t.GetCustomAttribute<GenericEntityAttribute>() != null).Distinct());
+            .Where(t => t.ImplementsInterface(typeof(IEntity)) && !t.IsAbstract && t.GetCustomAttribute<CmsEntityAttribute>() != null).Distinct());
             foreach (var entityType in types)
             {
                 var typeName = entityType.Name + "Controller";

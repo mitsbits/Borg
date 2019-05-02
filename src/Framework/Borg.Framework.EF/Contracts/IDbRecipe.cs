@@ -1,9 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using Borg.Framework.Modularity;
 
 namespace Borg.Framework.EF.Contracts
 {
-    public interface IDbRecipe
+    public interface IDbRecipe : IRunOnHostStartUp, IChainLink
     {
-        Task Populate();
     }
 }

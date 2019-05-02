@@ -2,13 +2,10 @@
 
 namespace Borg.Platform.Backoffice.Security.EF.Data.Migrations
 {
-    public partial class third : Migration
+    public partial class mig1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.EnsureSchema(
-                name: "security");
-
             migrationBuilder.CreateSequence<int>(
                 name: "CmsRole_Id");
 
@@ -23,11 +20,11 @@ namespace Borg.Platform.Backoffice.Security.EF.Data.Migrations
 
             migrationBuilder.CreateTable(
                 name: "CmsRole",
-                schema: "security",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false, defaultValueSql: "NEXT VALUE FOR CmsRole_Id"),
-                    Title = table.Column<string>(nullable: true)
+                    Title = table.Column<string>(nullable: true),
+                    IsSystem = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -37,13 +34,12 @@ namespace Borg.Platform.Backoffice.Security.EF.Data.Migrations
 
             migrationBuilder.CreateTable(
                 name: "CmsUser",
-                schema: "security",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false, defaultValueSql: "NEXT VALUE FOR CmsUser_Id"),
                     Email = table.Column<string>(nullable: true),
                     PasswordHash = table.Column<string>(nullable: true),
-                    SurName = table.Column<string>(nullable: true),
+                    Surname = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true),
                     IsActive = table.Column<bool>(nullable: false)
                 },
@@ -55,7 +51,6 @@ namespace Borg.Platform.Backoffice.Security.EF.Data.Migrations
 
             migrationBuilder.CreateTable(
                 name: "CmsRolePermission",
-                schema: "security",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false, defaultValueSql: "NEXT VALUE FOR CmsRolePermission_Id"),
@@ -72,7 +67,6 @@ namespace Borg.Platform.Backoffice.Security.EF.Data.Migrations
                     table.ForeignKey(
                         name: "FK_CmsRolePermission_CmsRole_RoleId",
                         column: x => x.RoleId,
-                        principalSchema: "security",
                         principalTable: "CmsRole",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -80,7 +74,6 @@ namespace Borg.Platform.Backoffice.Security.EF.Data.Migrations
 
             migrationBuilder.CreateTable(
                 name: "CmsUserPermission",
-                schema: "security",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false, defaultValueSql: "NEXT VALUE FOR CmsUserPermission_Id"),
@@ -97,7 +90,6 @@ namespace Borg.Platform.Backoffice.Security.EF.Data.Migrations
                     table.ForeignKey(
                         name: "FK_CmsUserPermission_CmsUser_UserId",
                         column: x => x.UserId,
-                        principalSchema: "security",
                         principalTable: "CmsUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -105,80 +97,61 @@ namespace Borg.Platform.Backoffice.Security.EF.Data.Migrations
 
             migrationBuilder.CreateTable(
                 name: "UserRole",
-                schema: "security",
                 columns: table => new
                 {
                     UserId = table.Column<int>(nullable: false),
-                    RoleId = table.Column<int>(nullable: false),
-                    CmsRoleId = table.Column<int>(nullable: true),
-                    CmsUserId = table.Column<int>(nullable: true)
+                    RoleId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserRole", x => new { x.RoleId, x.UserId })
                         .Annotation("SqlServer:Clustered", true);
                     table.ForeignKey(
-                        name: "FK_UserRole_CmsRole_CmsRoleId",
-                        column: x => x.CmsRoleId,
-                        principalSchema: "security",
+                        name: "FK_UserRole_CmsRole_RoleId",
+                        column: x => x.RoleId,
                         principalTable: "CmsRole",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserRole_CmsUser_CmsUserId",
-                        column: x => x.CmsUserId,
-                        principalSchema: "security",
+                        name: "FK_UserRole_CmsUser_UserId",
+                        column: x => x.UserId,
                         principalTable: "CmsUser",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_CmsRolePermission_RoleId",
-                schema: "security",
                 table: "CmsRolePermission",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CmsUserPermission_UserId",
-                schema: "security",
                 table: "CmsUserPermission",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserRole_CmsRoleId",
-                schema: "security",
+                name: "IX_UserRole_UserId",
                 table: "UserRole",
-                column: "CmsRoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserRole_CmsUserId",
-                schema: "security",
-                table: "UserRole",
-                column: "CmsUserId");
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "CmsRolePermission",
-                schema: "security");
+                name: "CmsRolePermission");
 
             migrationBuilder.DropTable(
-                name: "CmsUserPermission",
-                schema: "security");
+                name: "CmsUserPermission");
 
             migrationBuilder.DropTable(
-                name: "UserRole",
-                schema: "security");
+                name: "UserRole");
 
             migrationBuilder.DropTable(
-                name: "CmsRole",
-                schema: "security");
+                name: "CmsRole");
 
             migrationBuilder.DropTable(
-                name: "CmsUser",
-                schema: "security");
+                name: "CmsUser");
 
             migrationBuilder.DropSequence(
                 name: "CmsRole_Id");

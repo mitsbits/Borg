@@ -2,7 +2,7 @@
 
 namespace Borg.Framework.EF
 {
-    public class EFEntityAttribute : GenericEntityAttribute
+    public class EFEntityAttribute : CmsEntityAttribute
     {
     }
 }

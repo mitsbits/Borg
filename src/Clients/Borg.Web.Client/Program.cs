@@ -36,7 +36,7 @@ namespace Borg.Web.Client
                 var recipes = scope.ServiceProvider.GetServices<IDbRecipe>();
                 foreach (var recipe in recipes)
                 {
-                    AsyncHelpers.RunSync(() => recipe.Populate());
+                    AsyncHelpers.RunSync(() => recipe.Run(default));
                 }
             }
         }

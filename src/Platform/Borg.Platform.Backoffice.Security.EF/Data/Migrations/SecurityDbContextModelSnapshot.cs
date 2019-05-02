@@ -36,7 +36,7 @@ namespace Borg.Platform.Backoffice.Security.EF.Data.Migrations
                     b.HasKey("Id")
                         .HasAnnotation("SqlServer:Clustered", true);
 
-                    b.ToTable("CmsRole","security");
+                    b.ToTable("CmsRole");
                 });
 
             modelBuilder.Entity("Borg.Platform.Backoffice.Security.EF.CmsRolePermission", b =>
@@ -60,7 +60,7 @@ namespace Borg.Platform.Backoffice.Security.EF.Data.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("CmsRolePermission","security");
+                    b.ToTable("CmsRolePermission");
                 });
 
             modelBuilder.Entity("Borg.Platform.Backoffice.Security.EF.CmsUser", b =>
@@ -82,7 +82,7 @@ namespace Borg.Platform.Backoffice.Security.EF.Data.Migrations
                     b.HasKey("Id")
                         .HasAnnotation("SqlServer:Clustered", true);
 
-                    b.ToTable("CmsUser","security");
+                    b.ToTable("CmsUser");
                 });
 
             modelBuilder.Entity("Borg.Platform.Backoffice.Security.EF.CmsUserPermission", b =>
@@ -106,7 +106,7 @@ namespace Borg.Platform.Backoffice.Security.EF.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("CmsUserPermission","security");
+                    b.ToTable("CmsUserPermission");
                 });
 
             modelBuilder.Entity("Borg.Platform.Backoffice.Security.EF.UserRole", b =>
@@ -120,7 +120,7 @@ namespace Borg.Platform.Backoffice.Security.EF.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserRole","security");
+                    b.ToTable("UserRole");
                 });
 
             modelBuilder.Entity("Borg.Platform.Backoffice.Security.EF.CmsRolePermission", b =>
