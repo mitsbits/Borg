@@ -4,8 +4,8 @@ using System.Text;
 
 namespace Borg.Infrastructure.Core.DDD.Contracts
 {
-    public interface ILanguage
+    public interface ILanguage: IHaveTitle
     {
-        string TwoLetterCode { get; set; }
+        string TwoLetterISO { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Borg.Infrastructure.Core
 {
@@ -10,7 +11,7 @@ namespace Borg.Infrastructure.Core
     internal static class Preconditions
     {
         [ContractAnnotation("value:null => halt")]
-        public static T NotNull<T>([NoEnumeration] T value, [InvokerParameterName, NotNull] string parameterName)
+        public static T NotNull<T>([NoEnumeration] T value, [InvokerParameterName, NotNull] string parameterName, [CallerMemberName] string callerName = "")
             where T : class
         {
             if (ReferenceEquals(value, null))
@@ -24,7 +25,7 @@ namespace Borg.Infrastructure.Core
         }
 
         [ContractAnnotation("value:null => halt")]
-        public static string NotEmpty(string value, [InvokerParameterName, NotNull] string parameterName)
+        public static string NotEmpty(string value, [InvokerParameterName, NotNull] string parameterName, [CallerMemberName] string callerName = "")
         {
             if (ReferenceEquals(value, null))
             {
@@ -44,7 +45,7 @@ namespace Borg.Infrastructure.Core
         }
 
         [ContractAnnotation("value:null => halt")]
-        public static DateTime NotEmpty(DateTime value, [InvokerParameterName, NotNull] string parameterName)
+        public static DateTime NotEmpty(DateTime value, [InvokerParameterName, NotNull] string parameterName, [CallerMemberName] string callerName = "")
         {
             if (value.Equals(default(DateTime)))
             {
@@ -57,7 +58,7 @@ namespace Borg.Infrastructure.Core
         }
 
         [ContractAnnotation("value:null => halt")]
-        public static TEnum IsDefined<TEnum>(TEnum value, [InvokerParameterName, NotNull] string parameterName) where TEnum : struct
+        public static TEnum IsDefined<TEnum>(TEnum value, [InvokerParameterName, NotNull] string parameterName, [CallerMemberName] string callerName = "") where TEnum : struct
         {
             if (!Enum.IsDefined(typeof(TEnum), value))
             {
@@ -70,7 +71,7 @@ namespace Borg.Infrastructure.Core
         }
 
         [ContractAnnotation("value:null => halt")]
-        public static int PositiveOrZero([NoEnumeration] int value, [InvokerParameterName, NotNull] string parameterName)
+        public static int PositiveOrZero([NoEnumeration] int value, [InvokerParameterName, NotNull] string parameterName, [CallerMemberName] string callerName = "")
         {
             if (ReferenceEquals(value, null))
             {
@@ -90,7 +91,7 @@ namespace Borg.Infrastructure.Core
         }
 
         [ContractAnnotation("value:null => halt")]
-        public static IEnumerable<T> NotEmpty<T>(IEnumerable<T> value, [InvokerParameterName, NotNull] string parameterName)
+        public static IEnumerable<T> NotEmpty<T>(IEnumerable<T> value, [InvokerParameterName, NotNull] string parameterName, [CallerMemberName] string callerName = "")
         {
             if (ReferenceEquals(value, null))
             {

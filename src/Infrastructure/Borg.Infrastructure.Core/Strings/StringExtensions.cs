@@ -54,8 +54,8 @@ namespace Borg
 
         public static string Repeat(this string c, int times)
         {
-            Preconditions.PositiveOrZero(times, nameof(times));
-            Preconditions.NotEmpty(c, nameof(c));
+            times = Preconditions.PositiveOrZero(times, nameof(times));
+            c = Preconditions.NotEmpty(c, nameof(c));
             var repeatedStrArray = Enumerable.Repeat(c.ToCharArray(), times).SelectMany(x => x);
             return new string(repeatedStrArray.ToArray());
         }

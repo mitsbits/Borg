@@ -1,4 +1,5 @@
-﻿using Borg.Framework.Cms;
+﻿
+using Borg.Framework.Cms.Annotations;
 using Borg.Framework.DAL;
 using Borg.Framework.EF.Contracts;
 using Borg.Framework.Modularity;

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Borg.Framework.Cms
+namespace Borg.Framework.Cms.Annotations
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
     public class CmsEntityAttribute : Attribute

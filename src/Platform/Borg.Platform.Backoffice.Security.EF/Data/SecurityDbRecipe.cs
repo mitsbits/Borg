@@ -18,7 +18,7 @@ namespace Borg.Platform.Backoffice.Security.EF.Data
 
         protected override Task RunLocal(SecurityDbContext context, CancellationToken cancelationToken = default)
         {
-            throw new global::System.NotImplementedException();
+            return Task.CompletedTask;
         }
     }
 }
