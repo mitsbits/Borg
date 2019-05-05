@@ -3,7 +3,7 @@ using System.Text.Encodings.Web;
 
 namespace Borg
 {
-    public static class IHtmlContentExtensions
+    public static partial class IHtmlContentExtensions
     {
         public static string GetString(this IHtmlContent content)
         {

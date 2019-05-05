@@ -1,4 +1,4 @@
-﻿using Borg.Framework.Cms;
+﻿using Borg.Framework.Cms.Annotations;
 using Borg.Framework.Services.AssemblyScanner;
 using Borg.Infrastructure.Core.DDD.Contracts;
 using Microsoft.AspNetCore.Http;

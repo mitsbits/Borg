@@ -1,4 +1,4 @@
-﻿using Borg.Framework.Cms;
+﻿using Borg.Framework.Cms.Annotations;
 
 namespace Borg.Framework.EF
 {

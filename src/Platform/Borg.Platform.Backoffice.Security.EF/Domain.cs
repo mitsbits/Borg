@@ -1,4 +1,4 @@
-﻿using Borg.Framework.Cms;
+﻿using Borg.Framework.Cms.Annotations;
 using Borg.Framework.EF.Instructions.Attributes;
 using Borg.Infrastructure.Core.DDD.Contracts;
 using Borg.Infrastructure.Core.DDD.Enums;

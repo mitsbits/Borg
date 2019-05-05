@@ -1,7 +1,8 @@
 ﻿namespace Borg.Infrastructure.Core.DDD.Contracts
 {
-    public interface ILanguage : IHaveTitle
+    public interface IHaveLanguage
     {
         string TwoLetterISO { get; set; }
+        ILanguage Language { get; }
     }
 }

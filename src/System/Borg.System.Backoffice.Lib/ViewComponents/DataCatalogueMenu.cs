@@ -1,4 +1,4 @@
-﻿using Borg.Framework.Cms;
+﻿using Borg.Framework.Cms.Annotations;
 using Borg.Framework.Services.AssemblyScanner;
 using Borg.Infrastructure.Core;
 using Borg.Platform.EF.Instructions;
@@ -13,7 +13,7 @@ namespace Borg.System.Backoffice.Lib.ViewComponents
     public class DataCatalogueMenu : ViewComponent
     {
         private readonly IEnumerable<IAssemblyProvider> assemblyProviders;
-        private static  IDictionary<string, IDictionary<string, string>> _cache;
+        private static IDictionary<string, IDictionary<string, string>> _cache;
 
         public DataCatalogueMenu(IEnumerable<IAssemblyProvider> assemblyProviders)
         {
@@ -33,12 +33,12 @@ namespace Borg.System.Backoffice.Lib.ViewComponents
                     Where(x => x.IsSubclassOfRawGeneric(typeof(EntityMap<,>)) && !x.IsAbstract);
 
                 var grouprdMaps = maps.GroupBy(x => x.BaseType.GetGenericArguments()[1]);
-                foreach(var group in grouprdMaps)
+                foreach (var group in grouprdMaps)
                 {
                     var innerDict = new Dictionary<string, string>();
-                    foreach(var type in types)
+                    foreach (var type in types)
                     {
-                        if (group.Any(x=>x.BaseType.GetGenericArguments()[0] == type))
+                        if (group.Any(x => x.BaseType.GetGenericArguments()[0] == type))
                         {
                             innerDict.Add(Url.RouteUrl(new { Controller = type.Name }), EntityPluralTitle(type));
                         }
@@ -48,7 +48,6 @@ namespace Borg.System.Backoffice.Lib.ViewComponents
                         _cache.Add(group.Key.Name.SplitCamelCaseToWords(), innerDict);
                     }
                 }
-
             }
 
             return View(_cache);

@@ -1,5 +1,4 @@
-﻿
-using Borg.Framework.Cms.Annotations;
+﻿using Borg.Framework.Cms.Annotations;
 using Borg.Framework.DAL;
 using Borg.Framework.EF.Contracts;
 using Borg.Framework.Modularity;
@@ -23,7 +22,7 @@ using System.Threading.Tasks;
 namespace Borg.System.Backoffice.Lib
 {
     [BackOfficeEntityControllerName]
-    [Route("{area}/entity/{controller:genericController}/{action=Index}/")]
+    //[Route("{area}/entity/{controller:genericController}/{action=Index}/")]
     public class BackOfficeEntityController<TEntity, TDbContext> : BackOfficeController where TEntity : class, IEntity, new() where TDbContext : DbContext
     {
         private static string HeaderColumnsCacheKey = $"{typeof(TEntity).Name}:{nameof(HeaderColumn)}Definition";
@@ -34,6 +33,8 @@ namespace Borg.System.Backoffice.Lib
 
         private string _entityPluralTitle;
         private string _entitySingularTitle;
+
+        protected readonly DmlOperation mode;
 
         private string EntityPluralTitle()
         {
@@ -74,10 +75,17 @@ namespace Borg.System.Backoffice.Lib
         public BackOfficeEntityController(ILoggerFactory loggerFactory, IUnitOfWork<TDbContext> uow, IUserSession userSession)
         {
             logger = loggerFactory == null ? NullLogger.Instance : loggerFactory.CreateLogger(GetType());
-            Preconditions.NotNull(uow, nameof(uow));
-            Preconditions.NotNull(userSession, nameof(userSession));
-            this.uow = uow;
-            this.userSession = userSession;
+            this.uow = Preconditions.NotNull(uow, nameof(uow));
+            this.userSession = Preconditions.NotNull(userSession, nameof(userSession));
+            mode = DetermineMode();
+        }
+
+        private DmlOperation DetermineMode()
+        {
+            if (ControllerContext.Action() == nameof(Detail)) return DmlOperation.Update;
+            if (ControllerContext.Action() == nameof(Create)) return DmlOperation.Create;
+            if (ControllerContext.Action() == nameof(Delete)) return DmlOperation.Delete;
+            return DmlOperation.Update;
         }
 
         [HttpGet]
@@ -102,7 +110,6 @@ namespace Borg.System.Backoffice.Lib
         [HttpGet]
         public async Task<IActionResult> Detail()
         {
-
             if (typeof(TEntity).ImplementsInterface(typeof(IIdentifiable)))
             {
                 var props = typeof(TEntity).GetProperties();
@@ -135,34 +142,46 @@ namespace Borg.System.Backoffice.Lib
             return BadRequest();
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Create()
+        {
+            var model = await uow.New<TEntity>();
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete()
+        {
+            return BadRequest();
+        }
 
         [HttpPost]
-
         public IActionResult SetColumnSelection(EntityGridViewModel<TEntity> model)
         {
-            userSession.Setting<IEnumerable<HeaderColumn>>(HeaderColumnsCacheKey);
-            if (model.ReorderColumns.IsNullOrWhiteSpace())
+            if (mode != DmlOperation.Query)
             {
-                return RedirectToRoute(new { action = "index" });
+                userSession.Setting<IEnumerable<HeaderColumn>>(HeaderColumnsCacheKey);
+                if (model.ReorderColumns.IsNullOrWhiteSpace())
+                {
+                    return RedirectToRoute(new { action = "index" });
+                }
+                var colOrder = model.ReorderColumns.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                var newOrder = colOrder.Select(x => int.Parse(x)).ToArray();
+                var newHeaderColums = new List<HeaderColumn>();
+                for (var i = 0; i < newOrder.Count(); i++)
+                {
+                    var currentOrder = newOrder[i];
+                    var current = model.HeaderColumns.FirstOrDefault(x => x.Order == currentOrder);
+                    current.Order = i;
+                    newHeaderColums.Add(current);
+                }
+                userSession.Setting<IEnumerable<HeaderColumn>>(HeaderColumnsCacheKey, newHeaderColums);
             }
-            var colOrder = model.ReorderColumns.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            var newOrder = colOrder.Select(x => int.Parse(x)).ToArray();
-            var newHeaderColums = new List<HeaderColumn>();
-            for (var i = 0; i < newOrder.Count(); i++)
-            {
-                var currentOrder = newOrder[i];
-                var current = model.HeaderColumns.FirstOrDefault(x => x.Order == currentOrder);
-                current.Order = i;
-                newHeaderColums.Add(current);
-            }
-            userSession.Setting<IEnumerable<HeaderColumn>>(HeaderColumnsCacheKey, newHeaderColums);
 
             return RedirectToRoute(new { action = "index" });
         }
 
-
         #region Private
-
 
         private static List<OrderByInfo<TEntity>> GetOrderBy(IEnumerable<HeaderColumn> savedHeaderColumns)
         {
@@ -192,6 +211,7 @@ namespace Borg.System.Backoffice.Lib
             }
             return userSession.Setting<IEnumerable<HeaderColumn>>(HeaderColumnsCacheKey);
         }
-        #endregion
+
+        #endregion Private
     }
 }

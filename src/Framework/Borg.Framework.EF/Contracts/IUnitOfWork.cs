@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Borg.Framework.EF.Contracts
 {
-    public interface IUnitOfWork<out TDbContext> : IUnitOfWork where TDbContext : DbContext
+    public interface IUnitOfWork<out TDbContext> : IUnitOfWork, IEntityFactory where TDbContext : DbContext
     {
         IQueryRepository<T> QueryRepo<T>() where T : class;
 

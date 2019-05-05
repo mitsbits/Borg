@@ -22,26 +22,47 @@ namespace Borg.Framework.Services.Multilingual
             source = new ConcurrentDictionary<string, string>(cultureInfos.Select(x => new KeyValuePair<string, string>(x.TwoLetterISOLanguageName, x.Name)));
         }
 
-
         public IEnumerable<ILanguage> Languages()
         {
             return source.Select(x => new Language(x.Key, x.Value));
         }
 
-        class Language : ValueObject<Language>, ILanguage
+        internal class Language : ValueObject<Language>, ILanguage
         {
             private readonly string key;
             private readonly string title;
-            public Language(string key, string title)
+
+            public Language(string key, string title) : this(key, title, false)
             {
-                Preconditions.NotEmpty(key, nameof(key));
-                Preconditions.NotEmpty(title, nameof(title));
+            }
+
+            internal Language(string key, string title, bool allowEmpty)
+            {
+                if (!allowEmpty)
+                {
+                    this.key = Preconditions.NotEmpty(key, nameof(key));
+                    this.title = Preconditions.NotEmpty(title, nameof(title));
+                }
+                else
+                {
+                    this.key = string.Empty;
+                    this.title = string.Empty;
+                }
                 this.key = key;
                 this.title = title;
+            }
+
+            internal static Language Enpty()
+            {
+                return new Language(string.Empty, string.Empty, true);
             }
 
             public string TwoLetterISO { get => key; set { throw new ApplicationException($"{nameof(TwoLetterISO)} is set at the constructor"); } }
             public string Title { get => title; set { throw new ApplicationException($"{nameof(Title)} is set at the constructor"); } }
         }
     }
+}
+
+namespace Borg
+{
 }

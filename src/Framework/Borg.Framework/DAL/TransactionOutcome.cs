@@ -8,6 +8,7 @@
 
     public enum DmlOperation
     {
+        Query,
         Create,
         Update,
         Delete

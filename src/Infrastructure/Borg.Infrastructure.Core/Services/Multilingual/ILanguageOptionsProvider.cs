@@ -5,7 +5,6 @@ namespace Borg.Infrastructure.Core.Services.Multilingual
 {
     public interface ILanguageOptionsProvider
     {
-
         IEnumerable<ILanguage> Languages();
     }
 }

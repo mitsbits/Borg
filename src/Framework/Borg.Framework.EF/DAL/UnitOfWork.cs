@@ -29,7 +29,7 @@ namespace Borg.Framework.EF.DAL
             return Context.ReadWriteRepo<T, TDbContext>();
         }
 
-        public async Task Save(CancellationToken cancelationToken = default(CancellationToken))
+        public async Task Save(CancellationToken cancelationToken = default)
         {
             try
             {
@@ -42,6 +42,12 @@ namespace Borg.Framework.EF.DAL
                     "user after you loaded it. The edit operation was cancelled and the " +
                     "currect values in the database are displayed. Please try again.", exception);
             }
+        }
+
+        public Task<TEntity> New<TEntity>() where TEntity : class
+        {
+            if (Context.EntityIsMapped<TEntity, TDbContext>()) throw new EntityNotMappedException<TDbContext>(typeof(TEntity));
+            return Task.FromResult(Infrastructure.Core.Services.Factory.New<TEntity>.Instance.Invoke()); //TODO: this is not a nice namespace, move it to Borg
         }
 
         public void Dispose()
