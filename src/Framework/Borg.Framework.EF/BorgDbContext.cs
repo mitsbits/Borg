@@ -62,6 +62,8 @@ namespace Borg.Framework.EF
             Map(builder);
         }
 
+
+
         #region Private
 
         private void Map(ModelBuilder builder)

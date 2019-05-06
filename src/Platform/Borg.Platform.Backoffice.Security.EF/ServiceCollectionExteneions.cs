@@ -1,4 +1,5 @@
-﻿using Borg.Framework.EF.Contracts;
+﻿using Borg.Framework.EF;
+using Borg.Framework.EF.Contracts;
 using Borg.Framework.EF.DAL;
 using Borg.Platform.Backoffice.Security.EF;
 using Borg.Platform.Backoffice.Security.EF.Data;
@@ -23,6 +24,8 @@ namespace Microsoft.Extensions.DependencyInjection
                 options.UseSqlServer(configuration[$"{nameof(SecurityDbContext)}:ConnectionString"], opt =>
                 {
                     opt.EnableRetryOnFailure(3, TimeSpan.FromSeconds(30), new int[0]);
+                    var config = configuration.GetSection($"{nameof(SecurityDbContext)}:Configuration").Get<BorgDbContextConfiguration>();
+                    opt.CommandTimeout(config.CommandTimeout);
                 });
                 options.UseLoggerFactory(loggerFactory).EnableDetailedErrors(environment.IsDevelopment()).EnableSensitiveDataLogging(environment.IsDevelopment());
             });

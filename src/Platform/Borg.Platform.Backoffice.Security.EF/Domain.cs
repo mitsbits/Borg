@@ -93,6 +93,7 @@ namespace Borg.Platform.Backoffice.Security.EF
                 return keys;
             }
         }
+
     }
 
     public abstract class RoleBase : IEntity<int>, IHaveTitle

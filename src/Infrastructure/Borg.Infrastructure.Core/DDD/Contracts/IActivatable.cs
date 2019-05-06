@@ -8,8 +8,7 @@ namespace Borg.Infrastructure.Core.DDD.Contracts
     }
 
     public interface IActivatable : IActive
-    {
-        bool IsCurrentlyActive { get; set; }
+    {   
         DateTimeOffset? ActiveFrom { get; set; }
         DateTimeOffset? ActiveTo { get; set; }
     }
