@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Borg.Infrastructure.Core.DDD.Contracts
 {
@@ -8,6 +6,7 @@ namespace Borg.Infrastructure.Core.DDD.Contracts
     {
         TKey ParentId { get; set; }
     }
+
     public interface ITreeNode : IEntity
     {
         int Depth { get; set; }

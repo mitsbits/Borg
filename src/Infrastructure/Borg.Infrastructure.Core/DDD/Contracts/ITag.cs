@@ -1,7 +1,6 @@
 ﻿namespace Borg.Infrastructure.Core.DDD.Contracts
 {
-    public interface IHaveSlug
+    public interface ITag : IHaveTitle, IHaveSlug, IActive
     {
-        string Slug { get; set; }
     }
 }
