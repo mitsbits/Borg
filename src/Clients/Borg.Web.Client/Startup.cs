@@ -39,7 +39,7 @@ namespace Borg.Web.Client
             services.AddSingleton<IBorgLicenceService>(new Borg.System.Licencing.MemoryMoqLicenceService());
             services.RegisterPlugableServices(loggerFactory);
             services.AddSingleton<IAssemblyProvider>(new DepedencyAssemblyProvider(loggerFactory));
-            services.AddSingleton<IAssemblyProvider>(new ReferenceAssemblyProvider(loggerFactory, GetType().Assembly));
+            services.AddSingleton<IAssemblyProvider>(new ReferenceAssemblyProvider(loggerFactory, null, GetType().Assembly));
             services.AddScoped<IUserSession, UserSession>();
             services.AddSingleton<ISerializer, JsonNetSerializer>();
             services.AddHttpContextAccessor();

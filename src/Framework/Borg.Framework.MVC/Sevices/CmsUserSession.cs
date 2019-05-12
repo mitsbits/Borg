@@ -10,7 +10,7 @@ using System.Security.Claims;
 namespace Borg.Framework.MVC.Sevices
 {
     [Serializable]
-    public  class UserSession : Tidings, IUserSession, ICanContextualize
+    public class UserSession : Tidings, IUserSession, ICanContextualize
     {
         protected const string SettingsCookieName = "Borg.UserSession"; //TODO: retrieve from settings
         protected const string SessionStartKey = "Borg.SessionStartKey";//TODO: retrieve from settings
@@ -143,7 +143,7 @@ namespace Borg.Framework.MVC.Sevices
 
         #region ICanContextualize
 
-        public  bool ContextAcquired { get; protected set; }
+        public bool ContextAcquired { get; protected set; }
 
         #endregion ICanContextualize
 

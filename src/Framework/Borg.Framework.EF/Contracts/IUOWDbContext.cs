@@ -2,7 +2,6 @@
 {
     public interface IUOWDbContext
     {
-        string Schema { get; }
     }
 
     public interface IBorgDbContextOptions

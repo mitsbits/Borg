@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Borg.Framework.EF
 {
-    public abstract class BorgDbContext : DbContext, IUOWDbContext, IUnitOfWork
+    public abstract class BorgDbContext : DbContext, IUnitOfWork
     {
         protected BorgDbContext([NotNull] DbContextOptions options, Func<BorgDbContextOptions> borgOptionsFactory = null) : base(options)
         {

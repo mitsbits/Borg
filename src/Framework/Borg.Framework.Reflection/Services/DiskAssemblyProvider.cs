@@ -1,8 +1,4 @@
-﻿
-using Borg.Framework.Services.AssemblyScanner;
-using Borg.Infrastructure.Core.DI;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
+﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,25 +7,22 @@ using System.Runtime.Loader;
 
 namespace Borg.Framework.Reflection.Services
 {
-   
-    public class DiskAssemblyProvider : IAssemblyProvider
+    public class DiskAssemblyProvider : AssemblyProvider
     {
-        protected ILogger Logger { get; }
         private readonly string _path;
         private readonly bool _includingSubpaths;
 
-        public DiskAssemblyProvider(ILoggerFactory loggerFactory, string path, bool includingSubpaths = false)
+        public DiskAssemblyProvider(ILoggerFactory loggerFactory, string path, bool includingSubpaths = false, Func<Assembly, bool> predicate = null) : base(loggerFactory, predicate)
         {
-            Logger = loggerFactory != null ? loggerFactory.CreateLogger(GetType()) : NullLogger.Instance;
             _path = path;
             _includingSubpaths = includingSubpaths;
         }
 
-        public IEnumerable<Assembly> GetAssemblies()
+        protected override IEnumerable<Assembly> Candidates()
         {
-            var assemblies = new List<Assembly>();
-            GetAssembliesFromPath(assemblies, _path, _includingSubpaths);
-            return assemblies;
+            var source = new List<Assembly>();
+            GetAssembliesFromPath(source, _path, _includingSubpaths);
+            return source;
         }
 
         private void GetAssembliesFromPath(List<Assembly> assemblies, string path, bool includingSubpaths)

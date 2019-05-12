@@ -1,55 +1,33 @@
-﻿using Borg.Framework.Services.AssemblyScanner;
-using Microsoft.Extensions.DependencyModel;
+﻿using Microsoft.Extensions.DependencyModel;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 
 namespace Borg.Framework.Reflection.Services
 {
-    public class DepedencyAssemblyProvider : IAssemblyProvider
+    public class DepedencyAssemblyProvider : AssemblyProvider
     {
-        protected ILogger Logger { get; }
-
-        public DepedencyAssemblyProvider(ILoggerFactory loggerFactory)
+        public DepedencyAssemblyProvider(ILoggerFactory loggerFactory, Func<Assembly, bool> predicate = null) : base(loggerFactory, predicate)
         {
-            Logger = loggerFactory != null ? loggerFactory.CreateLogger(GetType()) : NullLogger.Instance;
         }
 
-        public IEnumerable<Assembly> GetAssemblies()
+        protected override IEnumerable<Assembly> Candidates()
         {
-            var assemblies = new List<Assembly>();
-            GetAssembliesFromDependencyContext(assemblies);
-            return assemblies;
-        }
-
-        private void GetAssembliesFromDependencyContext(List<Assembly> assemblies)
-        {
-            Logger.Info("Discovering and loading assemblies from DependencyContext");
-
+            var source = new List<Assembly>();
             foreach (CompilationLibrary compilationLibrary in DependencyContext.Default.CompileLibraries)
             {
-                Assembly assembly = null;
-
                 try
                 {
-                    assembly = AssemblyLoadContext.Default.LoadFromAssemblyName(new AssemblyName(compilationLibrary.Name));
-
-                    if (!assemblies.Any(a => string.Equals(a.FullName, assembly.FullName, StringComparison.OrdinalIgnoreCase)))
-                    {
-                        assemblies.Add(assembly);
-                        Logger.Info("Assembly '{0}' is discovered and loaded", assembly.FullName);
-                    }
+                    source.Add(AssemblyLoadContext.Default.LoadFromAssemblyName(new AssemblyName(compilationLibrary.Name)));
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    Logger.Warn("Error loading assembly '{0}'", compilationLibrary.Name);
-                    Logger.Warn(e.ToString());
+                    Logger.Warn(ex.ToString());
                 }
             }
+            return source;
         }
     }
 }
