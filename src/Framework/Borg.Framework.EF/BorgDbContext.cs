@@ -1,18 +1,28 @@
-﻿using Borg.Framework.EF.Contracts;
+﻿using Borg.Framework.DAL;
+using Borg.Framework.EF.Contracts;
 using Borg.Infrastructure.Core.Services.Factory;
 using Borg.Platform.EF.Instructions;
 
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Borg.Framework.EF
 {
-    public abstract class BorgDbContext : DbContext, IUnitOfWork
+    public abstract class BorgDbContext : DbContext
     {
+        private bool enableOnConfiguring;
+        private IConfiguration configuration;
+
+        protected BorgDbContext(IConfiguration configuration)
+        {
+            this.configuration = configuration;
+            enableOnConfiguring = true;
+        }
+
         protected BorgDbContext([NotNull] DbContextOptions options, Func<BorgDbContextOptions> borgOptionsFactory = null) : base(options)
         {
             BorgOptions = borgOptionsFactory == null ? new BorgDbContextOptions() : borgOptionsFactory();
@@ -20,6 +30,8 @@ namespace Borg.Framework.EF
 
         protected BorgDbContext([NotNull] DbContextOptions options, BorgDbContextOptions borgOptions = null) : this(options, () => borgOptions)
         {
+            ChangeTracker.Tracked += OnEntityTracked;
+            ChangeTracker.StateChanged += OnEntityStateChanged;
         }
 
         public virtual string Schema => BorgOptions.OverrideSchema.IsNullOrWhiteSpace()
@@ -28,28 +40,19 @@ namespace Borg.Framework.EF
 
         protected IBorgDbContextOptions BorgOptions { get; }
 
-        public virtual Task Save(CancellationToken cancelationToken = default)
+        protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            var entries = ChangeTracker.Entries();
-            foreach (var entry in entries)
+            base.OnConfiguring(options);
+            if (enableOnConfiguring)
             {
-                switch (entry.State)
+                options.UseSqlServer(configuration[$"{GetType().Name}:ConnectionString"], opt =>
                 {
-                    case EntityState.Added:
-
-                        break;
-
-                    case EntityState.Deleted:
-                        break;
-
-                    case EntityState.Modified:
-                        break;
-
-                    default:
-                        break;
-                }
+                    opt.EnableRetryOnFailure(3, TimeSpan.FromSeconds(30), new int[0]);
+                    var config = configuration.GetSection($"{GetType().Name}:Configuration").Get<BorgDbContextConfiguration>();
+                    opt.CommandTimeout(config.CommandTimeout);
+                });
+                // options.UseLoggerFactory(loggerFactory).EnableDetailedErrors(environment.IsDevelopment()).EnableSensitiveDataLogging(environment.IsDevelopment());
             }
-            return SaveChangesAsync(cancelationToken);
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -68,6 +71,14 @@ namespace Borg.Framework.EF
             {
                 ((IEntityMap)New.Creator(map)).OnModelCreating(builder);
             }
+        }
+
+        private void OnEntityTracked(object sender, EntityTrackedEventArgs e)
+        {
+        }
+
+        private void OnEntityStateChanged(object sender, EntityStateChangedEventArgs e)
+        {
         }
 
         #endregion Private

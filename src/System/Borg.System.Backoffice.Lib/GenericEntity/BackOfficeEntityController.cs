@@ -145,7 +145,7 @@ namespace Borg.System.Backoffice.Lib
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            var model = await uow.New<TEntity>();
+            var model = await uow.NewInstance<TEntity>();
             return View(model);
         }
 

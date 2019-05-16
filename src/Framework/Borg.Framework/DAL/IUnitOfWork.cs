@@ -6,6 +6,10 @@ namespace Borg.Framework.DAL
 {
     public interface IUnitOfWork : IDisposable
     {
-        Task Save(CancellationToken cancelationToken = default(CancellationToken));
+        IQueryRepository<T> QueryRepo<T>() where T : class;
+
+        IReadWriteRepository<T> ReadWriteRepo<T>() where T : class;
+
+        Task Save(CancellationToken cancelationToken = default);
     }
 }
