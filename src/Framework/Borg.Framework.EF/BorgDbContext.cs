@@ -1,64 +1,80 @@
-﻿using Borg.Framework.DAL;
-using Borg.Framework.EF.Contracts;
+﻿using Borg.Framework.EF.Contracts;
 using Borg.Infrastructure.Core.Services.Factory;
 using Borg.Platform.EF.Instructions;
-
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using System;
 using System.Linq;
 
 namespace Borg.Framework.EF
 {
-    public abstract class BorgDbContext : DbContext
+    public abstract class BorgDbContext<TConfiguration> : BorgDbContext where TConfiguration : IConfiguration
     {
-        private bool enableOnConfiguring;
+        protected BorgDbContext(ILoggerFactory loggerFactory, TConfiguration configuration) : base(loggerFactory, configuration)
+        {
+        }
+    }
+
+    public abstract partial class BorgDbContext : DbContext
+    {
         private IConfiguration configuration;
 
-        protected BorgDbContext(IConfiguration configuration)
+        protected EventHandler<EntityTrackedEventArgs> TrackedEventHandler;
+        protected EventHandler<EntityStateChangedEventArgs> StateChangedEventHandler;
+
+        protected readonly ILogger Logger;
+
+        private readonly SetUpMode Mode = SetUpMode.None;
+
+        protected BorgDbContext(ILoggerFactory loggerFactory, IConfiguration configuration)
         {
+            Logger = loggerFactory == null ? NullLogger.Instance : loggerFactory.CreateLogger(GetType());
             this.configuration = configuration;
-            enableOnConfiguring = true;
+            Mode = SetUpMode.Configuration;
         }
 
         protected BorgDbContext([NotNull] DbContextOptions options, Func<BorgDbContextOptions> borgOptionsFactory = null) : base(options)
         {
-            BorgOptions = borgOptionsFactory == null ? new BorgDbContextOptions() : borgOptionsFactory();
         }
 
         protected BorgDbContext([NotNull] DbContextOptions options, BorgDbContextOptions borgOptions = null) : this(options, () => borgOptions)
         {
-            ChangeTracker.Tracked += OnEntityTracked;
-            ChangeTracker.StateChanged += OnEntityStateChanged;
+            ChangeTracker.Tracked += TrackedEventHandler;
+            ChangeTracker.StateChanged += StateChangedEventHandler;
         }
 
-        public virtual string Schema => BorgOptions.OverrideSchema.IsNullOrWhiteSpace()
-            ? GetType().Name.Replace("DbContext", string.Empty).Slugify()
-            : BorgOptions.OverrideSchema.Slugify();
+        public virtual string Schema => (Mode == SetUpMode.Configuration) ? CheckOptionsForSchemaName() : GetType().Name.Replace("DbContext", string.Empty).Slugify();
 
-        protected IBorgDbContextOptions BorgOptions { get; }
+
+
+        private BorgDbContextConfiguration BorgOptions { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             base.OnConfiguring(options);
-            if (enableOnConfiguring)
+
+            if (Mode == SetUpMode.Configuration)
             {
-                options.UseSqlServer(configuration[$"{GetType().Name}:ConnectionString"], opt =>
-                {
-                    opt.EnableRetryOnFailure(3, TimeSpan.FromSeconds(30), new int[0]);
-                    var config = configuration.GetSection($"{GetType().Name}:Configuration").Get<BorgDbContextConfiguration>();
-                    opt.CommandTimeout(config.CommandTimeout);
-                });
-                // options.UseLoggerFactory(loggerFactory).EnableDetailedErrors(environment.IsDevelopment()).EnableSensitiveDataLogging(environment.IsDevelopment());
+                SetUpConfig(options);
             }
         }
+
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
             Map(builder);
+        }
+
+        protected enum SetUpMode
+        {
+            None,
+            Configuration
         }
 
         #region Private
@@ -72,15 +88,32 @@ namespace Borg.Framework.EF
                 ((IEntityMap)New.Creator(map)).OnModelCreating(builder);
             }
         }
-
         private void OnEntityTracked(object sender, EntityTrackedEventArgs e)
         {
         }
-
         private void OnEntityStateChanged(object sender, EntityStateChangedEventArgs e)
         {
         }
+        private string CheckOptionsForSchemaName()
+        {
+            return (BorgOptions?.Overrides?.Schema ?? string.Empty).IsNullOrWhiteSpace()
+              ? GetType().Name.Replace("DbContext", string.Empty).Slugify()
+              : BorgOptions?.Overrides?.Schema;
+        }
+        private void SetUpConfig(DbContextOptionsBuilder options)
+        {
+            ChangeTracker.Tracked += TrackedEventHandler;
+            ChangeTracker.StateChanged += StateChangedEventHandler;
 
+            BorgOptions = Configurator<BorgDbContextConfiguration>.Build(Logger, configuration, GetType());
+            options.UseSqlServer(configuration[$"{GetType().Name}:ConnectionString"], opt =>
+            {
+                opt.EnableRetryOnFailure(3, TimeSpan.FromSeconds(30), new int[0]);
+
+                opt.CommandTimeout(BorgOptions.Overrides.CommandTimeout);
+            });
+            options.EnableDetailedErrors(BorgOptions.Overrides.EnableDetailedErrors);
+        }
         #endregion Private
     }
 }
