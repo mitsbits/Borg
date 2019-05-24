@@ -64,7 +64,6 @@ namespace Borg.Framework.EF
         }
 
 
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -88,12 +87,7 @@ namespace Borg.Framework.EF
                 ((IEntityMap)New.Creator(map)).OnModelCreating(builder);
             }
         }
-        private void OnEntityTracked(object sender, EntityTrackedEventArgs e)
-        {
-        }
-        private void OnEntityStateChanged(object sender, EntityStateChangedEventArgs e)
-        {
-        }
+
         private string CheckOptionsForSchemaName()
         {
             return (BorgOptions?.Overrides?.Schema ?? string.Empty).IsNullOrWhiteSpace()

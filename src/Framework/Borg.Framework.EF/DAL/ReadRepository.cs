@@ -1,4 +1,5 @@
 ﻿using Borg.Framework.DAL;
+using Borg.Infrastructure.Core;
 using Borg.Infrastructure.Core.Collections;
 using Borg.Platform.EF.Exceptions;
 using Microsoft.EntityFrameworkCore;
@@ -12,20 +13,18 @@ namespace Borg.Framework.EF.DAL
 {
     public class ReadRepository<T, TDbContext> : IReadRepository<T> where T : class where TDbContext : DbContext
     {
-        private readonly TDbContext _dbContext;
-
         public ReadRepository(TDbContext dbContext)
         {
-            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
-            if (!_dbContext.EntityIsMapped<T, TDbContext>()) throw new EntityNotMappedException<TDbContext>(typeof(T));
+            Context = Preconditions.NotNull(dbContext, nameof(dbContext));
+            if (!Context.EntityIsMapped<T, TDbContext>()) throw new EntityNotMappedException<TDbContext>(typeof(T));
         }
 
-        protected TDbContext Context => _dbContext;
+        protected TDbContext Context { get; }
 
         public async Task<IPagedResult<T>> Find(Expression<Func<T, bool>> predicate, int page, int records, IEnumerable<OrderByInfo<T>> orderBy, CancellationToken cancellationToken = default(CancellationToken), params Expression<Func<T, dynamic>>[] paths)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            return await _dbContext.Fetch(predicate, page, records, orderBy, cancellationToken, false, paths);
+            return await Context.Fetch(predicate, page, records, orderBy, cancellationToken, false, paths);
         }
     }
 }

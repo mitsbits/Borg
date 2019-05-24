@@ -47,31 +47,6 @@ namespace Borg.Framework.DAL
             return ApplyOrder(source, property, "ThenByDescending");
         }
 
-        private static IOrderedQueryable<T> ApplyOrder<T>(IQueryable<T> source, string property, string methodName)
-        {
-            var props = property.Split('.');
-            var type = typeof(T);
-            var arg = Expression.Parameter(type, "x");
-            Expression expr = arg;
-            foreach (var prop in props)
-            {
-                var pi = type.GetProperty(prop);
-                expr = Expression.Property(expr, pi);
-                type = pi.PropertyType;
-            }
-            var delegateType = typeof(Func<,>).MakeGenericType(typeof(T), type);
-            var lambda = Expression.Lambda(delegateType, expr, arg);
-
-            var result = typeof(Queryable).GetMethods().Single(
-                    method => method.Name == methodName
-                              && method.IsGenericMethodDefinition
-                              && method.GetGenericArguments().Length == 2
-                              && method.GetParameters().Length == 2)
-                .MakeGenericMethod(typeof(T), type)
-                .Invoke(null, new object[] { source, lambda });
-            return (IOrderedQueryable<T>)result;
-        }
-
         public static OrderByInfo<T> GetSorter<T>(this Expression<Func<T, dynamic>> property, bool ascending = true)
             where T : class
         {
@@ -115,6 +90,31 @@ namespace Borg.Framework.DAL
             Expression<Func<T, dynamic>> property, bool ascending = true) where T : class
         {
             return builder.Add(new OrderByInfo<T>(property, ascending));
+        }
+
+        private static IOrderedQueryable<T> ApplyOrder<T>(IQueryable<T> source, string property, string methodName)
+        {
+            var props = property.Split('.');
+            var type = typeof(T);
+            var arg = Expression.Parameter(type, "x");
+            Expression expr = arg;
+            foreach (var prop in props)
+            {
+                var pi = type.GetProperty(prop);
+                expr = Expression.Property(expr, pi);
+                type = pi.PropertyType;
+            }
+            var delegateType = typeof(Func<,>).MakeGenericType(typeof(T), type);
+            var lambda = Expression.Lambda(delegateType, expr, arg);
+
+            var result = typeof(Queryable).GetMethods().Single(
+                    method => method.Name == methodName
+                              && method.IsGenericMethodDefinition
+                              && method.GetGenericArguments().Length == 2
+                              && method.GetParameters().Length == 2)
+                .MakeGenericMethod(typeof(T), type)
+                .Invoke(null, new object[] { source, lambda });
+            return (IOrderedQueryable<T>)result;
         }
     }
 }

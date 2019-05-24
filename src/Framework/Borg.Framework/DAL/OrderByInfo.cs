@@ -1,4 +1,5 @@
-﻿using Borg.Infrastructure.Core.DDD;
+﻿using Borg.Infrastructure.Core;
+using Borg.Infrastructure.Core.DDD;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -36,7 +37,7 @@ namespace Borg.Framework.DAL
 
         public OrderByInfo(Expression<Func<T, TKey>> property, bool ascending = true)
         {
-            Property = property ?? throw new ArgumentNullException(nameof(property));
+            Property = Preconditions.NotNull(property, nameof(property));
             Ascending = ascending;
             TruePropertyName = TruePropertyNameInternal(Property);
         }
@@ -84,7 +85,7 @@ namespace Borg.Framework.DAL
 
         private void SetDirective(string directive)
         {
-            if (string.IsNullOrWhiteSpace(directive.Trim())) throw new ArgumentNullException(nameof(directive));
+            directive = Preconditions.NotEmpty(directive, nameof(directive));
 
             var input = directive.Trim().Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
             var propName = input[0].Trim();
@@ -139,7 +140,7 @@ namespace Borg.Framework.DAL
         private static PropertyInfo GetProperty(Type type, string propName)
         {
             var prop = type.GetProperty(propName, BindingFlags.Public | BindingFlags.Instance);
-            if (prop == null) throw new ArgumentException(nameof(prop));
+            prop = Preconditions.NotNull(prop, nameof(prop));
             return prop;
         }
     }

@@ -1,23 +1,21 @@
 ﻿using Borg.Framework.DAL;
 using Borg.Framework.EF.Contracts;
+using Borg.Infrastructure.Core;
 using Borg.Platform.EF.Exceptions;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Borg.Framework.EF.DAL
 {
-    public class UnitOfWork<TDbContext> : IUnitOfWork<TDbContext> where TDbContext : DbContext
+    public class UnitOfWork<TDbContext> : IUnitOfWork<TDbContext> where TDbContext : BorgDbContext
     {
-        private readonly TDbContext _context;
-
-        public UnitOfWork(TDbContext context)
+        public UnitOfWork(TDbContext dbContext)
         {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
+            Context = Preconditions.NotNull(dbContext, nameof(dbContext));
         }
 
-        protected virtual TDbContext Context => _context;
+        protected virtual TDbContext Context { get; }
 
         public IQueryRepository<T> QueryRepo<T>() where T : class
         {
@@ -30,6 +28,12 @@ namespace Borg.Framework.EF.DAL
         }
 
         public async Task Save(CancellationToken cancelationToken = default)
+        {
+            await Save(cancelationToken, false);
+        }
+
+
+        private async Task Save(CancellationToken cancelationToken = default, bool supreseEvents = false)
         {
             try
             {
@@ -52,7 +56,7 @@ namespace Borg.Framework.EF.DAL
 
         public void Dispose()
         {
-            _context.Dispose();
+            Context.Dispose();
         }
     }
 }
