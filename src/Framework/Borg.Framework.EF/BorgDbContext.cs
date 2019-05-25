@@ -9,6 +9,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Borg.Framework.EF
 {
@@ -23,8 +26,8 @@ namespace Borg.Framework.EF
     {
         private IConfiguration configuration;
 
-        protected EventHandler<EntityTrackedEventArgs> TrackedEventHandler;
-        protected EventHandler<EntityStateChangedEventArgs> StateChangedEventHandler;
+        public EventHandler<EntityTrackedEventArgs> TrackedEventHandler;
+        public EventHandler<EntityStateChangedEventArgs> StateChangedEventHandler;
 
         protected readonly ILogger Logger;
 
@@ -52,6 +55,7 @@ namespace Borg.Framework.EF
 
 
         private BorgDbContextConfiguration BorgOptions { get; set; }
+        public bool IsWrappedByUOW { get; set; } = false;
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
@@ -62,7 +66,6 @@ namespace Borg.Framework.EF
                 SetUpConfig(options);
             }
         }
-
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -96,18 +99,19 @@ namespace Borg.Framework.EF
         }
         private void SetUpConfig(DbContextOptionsBuilder options)
         {
-            ChangeTracker.Tracked += TrackedEventHandler;
-            ChangeTracker.StateChanged += StateChangedEventHandler;
+            //ChangeTracker.Tracked += TrackedEventHandler;
+            //ChangeTracker.StateChanged += StateChangedEventHandler;
 
             BorgOptions = Configurator<BorgDbContextConfiguration>.Build(Logger, configuration, GetType());
             options.UseSqlServer(configuration[$"{GetType().Name}:ConnectionString"], opt =>
             {
                 opt.EnableRetryOnFailure(3, TimeSpan.FromSeconds(30), new int[0]);
-
                 opt.CommandTimeout(BorgOptions.Overrides.CommandTimeout);
             });
             options.EnableDetailedErrors(BorgOptions.Overrides.EnableDetailedErrors);
         }
         #endregion Private
     }
+
+
 }

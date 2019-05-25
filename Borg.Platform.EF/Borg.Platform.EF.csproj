@@ -8,4 +8,8 @@
     <ProjectReference Include="..\src\Framework\Borg.Framework.EF\Borg.Framework.EF.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="CMS\Domain\" />
+  </ItemGroup>
+
 </Project>

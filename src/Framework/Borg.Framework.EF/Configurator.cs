@@ -43,8 +43,9 @@ namespace Borg.Framework.EF
         private string GetContextName(Type type)
         {
             Preconditions.NotNull(type, nameof(type));
-            var name = type.Name.Replace("DbContext", string.Empty).Slugify();
+            var name = type.Name.Replace("Context", string.Empty).Slugify();
             logger.Debug($"Resolving configuration {name} for {type.Name}");
+            if (!name.EndsWith("db")) name += "db";
             return name;
         }
     }

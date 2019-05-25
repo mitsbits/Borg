@@ -1,11 +1,12 @@
 ﻿using Borg.Framework.EF;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace Borg.Platform.Backoffice.Security.EF.Data
 {
-    public class SecurityDbContext : BorgDbContext
+    public class SecurityDbContext : BorgDbContext<IConfiguration>
     {
-        public SecurityDbContext(DbContextOptions<SecurityDbContext> options) : base(options, () => new Framework.EF.Contracts.BorgDbContextOptions())
+        public SecurityDbContext(ILoggerFactory loggerFactory, IConfiguration configuration) : base(loggerFactory, configuration)
         {
         }
     }

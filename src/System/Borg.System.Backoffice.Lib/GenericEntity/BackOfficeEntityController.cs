@@ -77,16 +77,16 @@ namespace Borg.System.Backoffice.Lib
             logger = loggerFactory == null ? NullLogger.Instance : loggerFactory.CreateLogger(GetType());
             this.uow = Preconditions.NotNull(uow, nameof(uow));
             this.userSession = Preconditions.NotNull(userSession, nameof(userSession));
-            mode = DetermineMode();
+            mode = DmlOperation.Update; 
         }
 
-        private DmlOperation DetermineMode()
-        {
-            if (ControllerContext.Action() == nameof(Detail)) return DmlOperation.Update;
-            if (ControllerContext.Action() == nameof(Create)) return DmlOperation.Create;
-            if (ControllerContext.Action() == nameof(Delete)) return DmlOperation.Delete;
-            return DmlOperation.Update;
-        }
+        //private DmlOperation DetermineMode()
+        //{
+        //    if (ControllerContext.Action() == nameof(Detail)) return DmlOperation.Update;
+        //    if (ControllerContext.Action() == nameof(Create)) return DmlOperation.Create;
+        //    if (ControllerContext.Action() == nameof(Delete)) return DmlOperation.Delete;
+        //    return DmlOperation.Update;
+        //}
 
         [HttpGet]
         public async Task<IActionResult> Index()

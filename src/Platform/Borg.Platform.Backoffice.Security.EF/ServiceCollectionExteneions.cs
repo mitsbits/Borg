@@ -19,16 +19,8 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             services.AddScoped<ICmsUserManager<CmsUser>, CmsUserManager>();
             services.AddSingleton<ICmsUserPasswordValidator, BorgCmsUserPasswordValidator>();
-            services.AddDbContext<SecurityDbContext>(options =>
-            {
-                options.UseSqlServer(configuration[$"{nameof(SecurityDbContext)}:ConnectionString"], opt =>
-                {
-                    opt.EnableRetryOnFailure(3, TimeSpan.FromSeconds(30), new int[0]);
-                    var config = configuration.GetSection($"{nameof(SecurityDbContext)}:Configuration").Get<BorgDbContextConfiguration>();
-                    opt.CommandTimeout(config.CommandTimeout);
-                });
-                options.UseLoggerFactory(loggerFactory).EnableDetailedErrors(environment.IsDevelopment()).EnableSensitiveDataLogging(environment.IsDevelopment());
-            });
+            services.AddScoped(p => new SecurityDbContext(loggerFactory, configuration));
+      
             services.AddScoped<IUnitOfWork<SecurityDbContext>, UnitOfWork<SecurityDbContext>>();
             return services;
         }

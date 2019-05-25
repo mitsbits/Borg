@@ -65,7 +65,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Borg.Platform.Dispatch.NetC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Borg.Platform", "src\Framework\Borg.Platform\Borg.Platform.csproj", "{5D8C44C6-F0F4-4CE9-9292-7C1728D02835}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Borg.Platform.EF", "Borg.Platform.EF\Borg.Platform.EF.csproj", "{47BA4061-E9CB-47B4-9631-ED64F3BB51C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Borg.Platform.EF", "Borg.Platform.EF\Borg.Platform.EF.csproj", "{47BA4061-E9CB-47B4-9631-ED64F3BB51C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Borg.Web.Clients.Razor", "src\Clients\Borg.Web.Clients.Razor\Borg.Web.Clients.Razor.csproj", "{F7911461-0FA2-4152-AF7A-AC25FB43E052}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -165,6 +167,10 @@ Global
 		{47BA4061-E9CB-47B4-9631-ED64F3BB51C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47BA4061-E9CB-47B4-9631-ED64F3BB51C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47BA4061-E9CB-47B4-9631-ED64F3BB51C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7911461-0FA2-4152-AF7A-AC25FB43E052}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7911461-0FA2-4152-AF7A-AC25FB43E052}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7911461-0FA2-4152-AF7A-AC25FB43E052}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7911461-0FA2-4152-AF7A-AC25FB43E052}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -200,6 +206,7 @@ Global
 		{205B4ED6-BE02-4914-BF32-D8E7D2C95F1F} = {AC4B273F-94EA-490A-B574-4D560134FF73}
 		{5D8C44C6-F0F4-4CE9-9292-7C1728D02835} = {AC4B273F-94EA-490A-B574-4D560134FF73}
 		{47BA4061-E9CB-47B4-9631-ED64F3BB51C6} = {AC4B273F-94EA-490A-B574-4D560134FF73}
+		{F7911461-0FA2-4152-AF7A-AC25FB43E052} = {8CAD543D-104F-4658-9CE7-E4D489A8004B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4604E16C-EB8F-4064-9E9C-D3C2258BAF70}

@@ -3,6 +3,7 @@ using Borg.Framework.EF.Contracts;
 using Borg.Infrastructure.Core;
 using Borg.Platform.EF.Exceptions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,6 +14,9 @@ namespace Borg.Framework.EF.DAL
         public UnitOfWork(TDbContext dbContext)
         {
             Context = Preconditions.NotNull(dbContext, nameof(dbContext));
+            Context.IsWrappedByUOW = true;
+            Context.TrackedEventHandler += OnTracked;
+            Context.StateChangedEventHandler += OnStateChanged;
         }
 
         protected virtual TDbContext Context { get; }
@@ -31,7 +35,6 @@ namespace Borg.Framework.EF.DAL
         {
             await Save(cancelationToken, false);
         }
-
 
         private async Task Save(CancellationToken cancelationToken = default, bool supreseEvents = false)
         {
@@ -56,7 +59,17 @@ namespace Borg.Framework.EF.DAL
 
         public void Dispose()
         {
+            Context.TrackedEventHandler -= OnTracked;
+            Context.StateChangedEventHandler -= OnStateChanged;
             Context.Dispose();
+        }
+
+        private void OnTracked(object sender, EntityTrackedEventArgs e)
+        {
+        }
+
+        private void OnStateChanged(object sender, EntityStateChangedEventArgs e)
+        {
         }
     }
 }
