@@ -4,12 +4,12 @@ using System;
 
 namespace Borg.Framework.Cms.BuildingBlocks
 {
-    public abstract class MultilingualEntity<TKey> : IMultilingualEntity<TKey> where TKey : IEquatable<TKey>
+    public abstract class MultilingualEntity<TKey, TLanguage> : IMultilingualEntity<TKey, TLanguage> where TKey : IEquatable<TKey> where TLanguage : ILanguage
     {
-        public abstract TKey Id { get; }
+        public TKey Id { get; set; }
         public virtual CompositeKey Keys => CompositeKeyInternal();
         public virtual string TwoLetterISO { get; set; }
-        public abstract ILanguage Language { get; }
+        public virtual TLanguage Language { get; set; }
 
         private CompositeKey CompositeKeyInternal()
         {
@@ -17,6 +17,11 @@ namespace Borg.Framework.Cms.BuildingBlocks
                 .AddKey(nameof(Id)).AddValue(Id)
                 .AddKey(nameof(TwoLetterISO)).AddValue(TwoLetterISO)
                 .Build();
+        }
+
+        public override string ToString()
+        {
+            return $"{GetType().Name}:{Keys}";
         }
     }
 }

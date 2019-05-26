@@ -1,29 +1,31 @@
-﻿using Borg.Infrastructure.Core.DDD.ValueObjects;
+﻿using Borg.Infrastructure.Core;
+using Borg.Infrastructure.Core.DDD.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Borg.Framework.Azure.Storage.Tables
 {
-    public class AzureTableCompositeKey : CompositeKey<string>
+    public class AzureTableCompositeKey : CompositeKey
     {
         public AzureTableCompositeKey() : base()
         {
         }
 
         public AzureTableCompositeKey(string partition, string row) : base(
-            new List<(string key, string value)>(new[] { (partition: partition, row: row) }))
+            new List<(string key, object value)>(new[] { (partition: partition, row: row as object) }))
         {
         }
 
-        public override void Add(string key, string value)
+        public override void Add(string key, object value)
         {
-            if (key != nameof(Partition) && key != nameof(Row)) throw new InvalidOperationException(nameof(key));
+            key = Preconditions.NotEmpty(key, nameof(key));
+            value = Preconditions.NotNull(value, nameof(key));
             base.Add(key, value);
         }
 
-        public string Partition => _data.FirstOrDefault(x => x.key == nameof(Partition)).value;
-        public string Row => _data.FirstOrDefault(x => x.key == nameof(Row)).value;
+        public string Partition => _data.FirstOrDefault(x => x.key == nameof(Partition)).value.ToString();
+        public string Row => _data.FirstOrDefault(x => x.key == nameof(Row)).value.ToString();
 
         public static AzureTableCompositeKey Create(string partition, string row)
         {

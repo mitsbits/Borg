@@ -33,9 +33,38 @@ namespace Borg.Platform.EF.Instructions
         {
             KeySequenceDefinition(builder);
             SequenceDefinition(builder);
+            UniqueIndexDefinition(builder);
             //ManyToManyDefinition(builder);
             PrimaryKeyDefinition(builder);
             HasManyDefinition(builder);
+        }
+
+        private static void UniqueIndexDefinition(ModelBuilder builder)
+        {
+            var props = typeof(TEntity).GetProperties().Where(x => x.GetCustomAttribute<UniqueIndexDefinitionAttribute>() != null);
+            if (!props.Any()) return;
+            var options = ScriptOptions.Default.AddReferences(typeof(TEntity).Assembly);
+            var dataset = props.Select(x => new { prop = x, attr = x.GetCustomAttribute<UniqueIndexDefinitionAttribute>() });
+            var groups = dataset.GroupBy(x => x.attr.IndexName);
+            foreach (var @group in groups)
+            {
+                if (@group.Count() == 1)
+                {
+                    var prop = props.First();
+                    var keyExpr = $"x => x.{prop.Name}";
+                    Expression<Func<TEntity, object>> keyExpression = AsyncHelpers.RunSync(() => CSharpScript.EvaluateAsync<Expression<Func<TEntity, object>>>(keyExpr, options));
+                    builder.Entity<TEntity>().HasIndex(keyExpression).IsUnique().HasName(@group.Key);
+                }
+                else
+                {
+                    var sb = new StringBuilder("x => new { ");
+                    sb.Append(string.Join(", ", @group.OrderBy(x => x.attr.Order).Select(x => $"x.{x.prop.Name}")));
+                    sb.Append(" }");
+                    var keyExpr = sb.ToString();
+                    Expression<Func<TEntity, object>> keyExpression = AsyncHelpers.RunSync(() => CSharpScript.EvaluateAsync<Expression<Func<TEntity, object>>>(keyExpr, options));
+                    builder.Entity<TEntity>().HasIndex(keyExpression).IsUnique().HasName(@group.Key);
+                }
+            }
         }
 
         private static void SequenceDefinition(ModelBuilder builder)

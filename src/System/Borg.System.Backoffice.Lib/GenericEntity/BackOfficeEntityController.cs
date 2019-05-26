@@ -77,7 +77,7 @@ namespace Borg.System.Backoffice.Lib
             logger = loggerFactory == null ? NullLogger.Instance : loggerFactory.CreateLogger(GetType());
             this.uow = Preconditions.NotNull(uow, nameof(uow));
             this.userSession = Preconditions.NotNull(userSession, nameof(userSession));
-            mode = DmlOperation.Update; 
+            mode = DmlOperation.Update;
         }
 
         //private DmlOperation DetermineMode()

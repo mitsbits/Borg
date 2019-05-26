@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Borg.Platform.EF\Borg.Platform.EF.csproj" />
     <ProjectReference Include="..\..\Framework\Borg.Framework.EF\Borg.Framework.EF.csproj" />
     <ProjectReference Include="..\..\Framework\Borg.Framework.Reflection\Borg.Framework.Reflection.csproj" />
     <ProjectReference Include="..\..\Platform\Borg.Platform.Backoffice.Security.EF\Borg.Platform.Backoffice.Security.EF.csproj" />

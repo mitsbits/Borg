@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="CMS\Domain\" />
+    <Folder Include="Data\Migrations\" />
   </ItemGroup>
 
 </Project>

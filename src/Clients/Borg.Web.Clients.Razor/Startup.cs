@@ -57,6 +57,7 @@ namespace Borg.Web.Clients.Razor
             services.AddPolicies();
             services.AddDispatcherNetCore();
             services.AddCmsUsers(loggerFactory, hostingEnvironment, configuration);
+            services.AddCmsCore(loggerFactory, configuration);
             services.ConfigureOptions(typeof(System.Backoffice.UiConfigureOptions));
         }
 
