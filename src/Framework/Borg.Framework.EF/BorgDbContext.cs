@@ -103,7 +103,7 @@ namespace Borg.Framework.EF
             //ChangeTracker.StateChanged += StateChangedEventHandler;
 
             BorgOptions = Configurator<BorgDbContextConfiguration>.Build(Logger, configuration, GetType());
-            options.UseSqlServer(configuration[$"{GetType().Name}:ConnectionString"], opt =>
+            options.UseSqlServer(BorgOptions.ConnectionString, opt =>
             {
                 opt.EnableRetryOnFailure(3, TimeSpan.FromSeconds(30), new int[0]);
                 opt.CommandTimeout(BorgOptions.Overrides.CommandTimeout);
