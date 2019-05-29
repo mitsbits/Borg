@@ -1,6 +1,5 @@
 ﻿using Borg.Infrastructure.Core;
 using Borg.Infrastructure.Core.DDD.ValueObjects;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 

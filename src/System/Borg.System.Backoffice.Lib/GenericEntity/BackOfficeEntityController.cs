@@ -39,7 +39,7 @@ namespace Borg.System.Backoffice.Lib
         private string EntityPluralTitle()
         {
             if (!_entityPluralTitle.IsNullOrWhiteSpace()) return _entityPluralTitle;
-            var attr = typeof(TEntity).GetCustomAttribute<CmsEntityAttribute>();
+            var attr = typeof(TEntity).GetCustomAttribute<CmsAggregateRootAttribute>();
             if (attr != null)
             {
                 if (attr.Plural.IsNullOrWhiteSpace())
@@ -57,7 +57,7 @@ namespace Borg.System.Backoffice.Lib
         private string EntitySingularTitle()
         {
             if (!_entitySingularTitle.IsNullOrWhiteSpace()) return _entityPluralTitle;
-            var attr = typeof(TEntity).GetCustomAttribute<CmsEntityAttribute>();
+            var attr = typeof(TEntity).GetCustomAttribute<CmsAggregateRootAttribute>();
             if (attr != null)
             {
                 if (attr.Singular.IsNullOrWhiteSpace())

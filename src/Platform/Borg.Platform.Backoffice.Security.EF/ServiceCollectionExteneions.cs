@@ -1,15 +1,12 @@
-﻿using Borg.Framework.EF;
-using Borg.Framework.EF.Contracts;
+﻿using Borg.Framework.EF.Contracts;
 using Borg.Framework.EF.DAL;
 using Borg.Platform.Backoffice.Security.EF;
 using Borg.Platform.Backoffice.Security.EF.Data;
 using Borg.System.Backoffice.Security;
 using Borg.System.Backoffice.Security.Contracts;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using System;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -20,7 +17,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<ICmsUserManager<CmsUser>, CmsUserManager>();
             services.AddSingleton<ICmsUserPasswordValidator, BorgCmsUserPasswordValidator>();
             services.AddScoped(p => new SecurityDbContext(loggerFactory, configuration));
-      
+
             services.AddScoped<IUnitOfWork<SecurityDbContext>, UnitOfWork<SecurityDbContext>>();
             return services;
         }

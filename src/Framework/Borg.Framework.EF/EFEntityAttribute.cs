@@ -2,7 +2,7 @@
 
 namespace Borg.Framework.EF
 {
-    public class EFEntityAttribute : CmsEntityAttribute
+    public class EFEntityAttribute : CmsAggregateRootAttribute
     {
     }
 }

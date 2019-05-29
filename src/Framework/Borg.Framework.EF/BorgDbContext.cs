@@ -9,15 +9,16 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using System;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Borg.Framework.EF
 {
     public abstract class BorgDbContext<TConfiguration> : BorgDbContext where TConfiguration : IConfiguration
     {
         protected BorgDbContext(ILoggerFactory loggerFactory, TConfiguration configuration) : base(loggerFactory, configuration)
+        {
+        }
+
+        protected BorgDbContext([NotNull] DbContextOptions options) : base(options)
         {
         }
     }
@@ -40,6 +41,10 @@ namespace Borg.Framework.EF
             Mode = SetUpMode.Configuration;
         }
 
+        protected BorgDbContext([NotNull] DbContextOptions options) : base(options)
+        {
+        }
+
         protected BorgDbContext([NotNull] DbContextOptions options, Func<BorgDbContextOptions> borgOptionsFactory = null) : base(options)
         {
         }
@@ -51,8 +56,6 @@ namespace Borg.Framework.EF
         }
 
         public virtual string Schema => (Mode == SetUpMode.Configuration) ? CheckOptionsForSchemaName() : GetType().Name.Replace("DbContext", string.Empty).Slugify();
-
-
 
         private BorgDbContextConfiguration BorgOptions { get; set; }
         public bool IsWrappedByUOW { get; set; } = false;
@@ -83,8 +86,12 @@ namespace Borg.Framework.EF
 
         private void Map(ModelBuilder builder)
         {
-            var maptype = typeof(EntityMap<,>);
+            var maptype = typeof(EntityMapBase<,>);
             var maps = GetType().Assembly.GetTypes().Where(t => t.IsSubclassOfRawGeneric(maptype) && !t.IsAbstract && t.BaseType.GenericTypeArguments[1] == GetType());
+            var entities = GetType().Assembly.GetTypes().Where(x => x.IsCmsAggregateRoot());
+            var havemap = maps.Select(x => x.BaseType.GenericTypeArguments[1]).Distinct().ToArray();
+            var orphans = entities.Where(x => maps.Any(m => m.))
+
             foreach (var map in maps)
             {
                 ((IEntityMap)New.Creator(map)).OnModelCreating(builder);
@@ -97,6 +104,7 @@ namespace Borg.Framework.EF
               ? GetType().Name.Replace("DbContext", string.Empty).Slugify()
               : BorgOptions?.Overrides?.Schema;
         }
+
         private void SetUpConfig(DbContextOptionsBuilder options)
         {
             //ChangeTracker.Tracked += TrackedEventHandler;
@@ -110,8 +118,7 @@ namespace Borg.Framework.EF
             });
             options.EnableDetailedErrors(BorgOptions.Overrides.EnableDetailedErrors);
         }
+
         #endregion Private
     }
-
-
 }

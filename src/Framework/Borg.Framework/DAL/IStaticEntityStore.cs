@@ -1,13 +1,12 @@
-﻿using System;
+﻿using Borg.Infrastructure.Core.DDD.Contracts;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Borg.Infrastructure.Core.DDD.Contracts;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Borg.Framework.DAL
 {
@@ -15,6 +14,7 @@ namespace Borg.Framework.DAL
     {
         IStaticEntityStore<TEntity> EntityStore<TEntity>() where TEntity : IEntity;
     }
+
     public interface IStaticEntityStore<out TEntity> where TEntity : IEntity
     {
         IQueryable<TEntity> Query { get; }
@@ -22,14 +22,16 @@ namespace Borg.Framework.DAL
 
     public abstract class StaticEntityStore<TEntity> : IStaticEntityStore<TEntity> where TEntity : IEntity
     {
-        static ReaderWriterLock _rwl = new ReaderWriterLock();
+        private static ReaderWriterLock _rwl = new ReaderWriterLock();
         private const int _timeOut = 100;
         private readonly List<TEntity> _data = new List<TEntity>();
         protected readonly ILogger _logger;
+
         protected StaticEntityStore(ILoggerFactory loggerFactory)
         {
             _logger = loggerFactory == null ? NullLogger.Instance : loggerFactory.CreateLogger(GetType());
         }
+
         protected virtual Task Populate(IEnumerable<TEntity> collection)
         {
             _logger.Info("Populating static store for {type}", typeof(TEntity).FullName);
@@ -57,6 +59,7 @@ namespace Borg.Framework.DAL
             }
             return Task.CompletedTask;
         }
+
         public IQueryable<TEntity> Query { get; }
     }
 }

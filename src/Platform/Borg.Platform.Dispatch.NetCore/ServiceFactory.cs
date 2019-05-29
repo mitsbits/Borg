@@ -1,5 +1,4 @@
-﻿using Borg.Infrastructure.Core;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Borg.Framework;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using System;
@@ -10,49 +9,79 @@ namespace Borg.Platform.Dispatch.NetCore
 {
     public class ServiceFactory
     {
-        private readonly IServiceProvider serviceProvider;
         private readonly ILogger logger;
 
-        public ServiceFactory(IServiceProvider serviceProvider)
+        public ServiceFactory()
         {
-            this.serviceProvider = Preconditions.NotNull(serviceProvider, nameof(serviceProvider));
-            var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
+            var loggerFactory = ServiceLocator.Current.GetInstance<ILoggerFactory>();
             logger = loggerFactory == null ? NullLogger.Instance : loggerFactory.CreateLogger(GetType());
         }
 
         public T GetInstance<T>()
         {
-            using (var scope = serviceProvider.CreateScope())
+            using (var scope = ServiceLocator.Current.GetScopedRequiredInstance<T>(out var service))
             {
-                logger.Trace($"{nameof(ServiceFactory)} requests service:{typeof(T)} ");
-                return scope.ServiceProvider.GetRequiredService<T>();
+                logger.Trace($"{nameof(ServiceFactory)} requests service:{typeof(T)}");
+                if (service != null)
+                {
+                    return service;
+                }
+                else
+                {
+                    logger.Trace($"{nameof(ServiceFactory)} failed to find service:{typeof(T)}");
+                    return default;
+                }
             }
         }
 
         public object GetInstance(Type type)
         {
-            using (var scope = serviceProvider.CreateScope())
+            using (var scope = ServiceLocator.Current.GetScopedRequiredInstance(type, out var service))
             {
-                logger.Trace($"{nameof(ServiceFactory)} requests service:{type} ");
-                return scope.ServiceProvider.GetRequiredService(type);
+                logger.Trace($"{nameof(ServiceFactory)} requests service:{type}");
+                if (service != null)
+                {
+                    return service;
+                }
+                else
+                {
+                    logger.Trace($"{nameof(ServiceFactory)} failed to find service:{type} ");
+                    return default;
+                }
             }
         }
 
         public IEnumerable<T> GetInstances<T>()
         {
-            using (var scope = serviceProvider.CreateScope())
+            using (var scope = ServiceLocator.Current.GetScopedInstances<T>(out var service))
             {
-                logger.Trace($"{nameof(ServiceFactory)} requests service:{typeof(T)} ");
-                return scope.ServiceProvider.GetServices<T>();
+                logger.Trace($"{nameof(ServiceFactory)} requests services:{typeof(T)}");
+                if (service != null)
+                {
+                    return service;
+                }
+                else
+                {
+                    logger.Trace($"{nameof(ServiceFactory)} failed to find services:{typeof(T)}");
+                    return default;
+                }
             }
         }
 
         public IEnumerable GetInstances(Type type)
         {
-            using (var scope = serviceProvider.CreateScope())
+            using (var scope = ServiceLocator.Current.GetScopedInstances(type, out var service))
             {
-                logger.Trace($"{nameof(ServiceFactory)} requests service:{type} ");
-                return scope.ServiceProvider.GetServices(type);
+                logger.Trace($"{nameof(ServiceFactory)} requests services:{type}");
+                if (service != null)
+                {
+                    return service;
+                }
+                else
+                {
+                    logger.Trace($"{nameof(ServiceFactory)} failed to find services:{type} ");
+                    return default;
+                }
             }
         }
     }

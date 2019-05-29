@@ -5,19 +5,17 @@ using Borg.Infrastructure.Core.DDD.Contracts;
 
 namespace Borg.Platform.EF.CMS.Domain
 {
-    [CmsEntity(Plural = "Menus", Singular = "Menu")]
+    [CmsAggregateRoot(Plural = "Menus", Singular = "Menu")]
     [KeySequenceDefinition]
     public class CmsMenu : Entity<int>, IHaveTitle
     {
         public string Title { get; protected set; }
     }
 
-    [CmsEntity(Plural = "Menus", Singular = "Menu")]
+    [CmsAggregateRoot(Plural = "Menus", Singular = "Menu")]
     [KeySequenceDefinition]
     public class CmsMenuItem : MultilingualEntity<int, CmsLanguage>, IHaveTitle
     {
         public string Title { get; protected set; }
-
-    
     }
 }

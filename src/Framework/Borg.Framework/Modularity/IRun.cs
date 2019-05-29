@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Borg.Framework.Modularity
 {
-    public interface IRunOnHostStartUp : IRun
+    public interface IRun
     {
         Task Run(CancellationToken cancelationToken);
     }

@@ -1,5 +1,7 @@
-﻿using Borg.Infrastructure.Core.DI;
+﻿using Borg.Infrastructure.Core;
+using Borg.Infrastructure.Core.DI;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -87,6 +89,11 @@ namespace Borg
             return type.GetTypeInfo().GetCustomAttributes<T>(inherit: true).Any(predicate);
         }
 
+        public static bool HasAttribute<T>(this Type type) where T : Attribute
+        {
+            return type.GetTypeInfo().GetCustomAttributes<T>(inherit: true).Any();
+        }
+
         public static bool IsAssignableTo(this Type type, Type otherType)
         {
             var typeInfo = type.GetTypeInfo();
@@ -133,53 +140,21 @@ namespace Borg
             }
         }
 
-        private static IEnumerable<Type> GetImplementedInterfacesToMap(TypeInfo typeInfo)
+        public static Type GetGenericArgumentType(this PropertyInfo type, int index = 0)
         {
-            if (!typeInfo.IsGenericType)
-            {
-                return typeInfo.ImplementedInterfaces;
-            }
-
-            if (!typeInfo.IsGenericTypeDefinition)
-            {
-                return typeInfo.ImplementedInterfaces;
-            }
-
-            return FilterMatchingGenericInterfaces(typeInfo);
+            return type.PropertyType.GetGenericArgumentType(index);
         }
 
-        private static IEnumerable<Type> FilterMatchingGenericInterfaces(TypeInfo typeInfo)
+        public static Type GetGenericArgumentType(this Type type, int index = 0)
         {
-            var genericTypeParameters = typeInfo.GenericTypeParameters;
-
-            foreach (var current in typeInfo.ImplementedInterfaces)
+            if (!type.IsOpenGeneric()) return null;
+            index = Preconditions.PositiveOrZero(index, nameof(index));
+            var args = type.GetTypeInfo().GenericTypeArguments;
+            if (index >= args.Length)
             {
-                var currentTypeInfo = current.GetTypeInfo();
-
-                if (currentTypeInfo.IsGenericType && currentTypeInfo.ContainsGenericParameters
-                    && GenericParametersMatch(genericTypeParameters, currentTypeInfo.GenericTypeArguments))
-                {
-                    yield return currentTypeInfo.GetGenericTypeDefinition();
-                }
+                throw new IndexOutOfRangeException(nameof(index));
             }
-        }
-
-        private static bool GenericParametersMatch(IReadOnlyList<Type> parameters, IReadOnlyList<Type> interfaceArguments)
-        {
-            if (parameters.Count != interfaceArguments.Count)
-            {
-                return false;
-            }
-
-            for (var i = 0; i < parameters.Count; i++)
-            {
-                if (parameters[i] != interfaceArguments[i])
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            return type.GetTypeInfo().GenericTypeArguments[index];
         }
 
         public static bool IsOpenGeneric(this Type type)
@@ -262,6 +237,26 @@ namespace Borg
               || type.Equals(typeof(decimal));
         }
 
+        public static bool IsEnumerator(this PropertyInfo type)
+        {
+            return type.PropertyType.IsEnumerator();
+        }
+
+        public static bool IsEnumerator(this Type type)
+        {
+            return type.GetTypeInfo().IsEnumerator();
+        }
+
+        public static bool IsEnumerator(this TypeInfo type)
+        {
+            if (type.IsPrimitive
+              || type.IsEnum
+              || type.Equals(typeof(string))
+              || type.Equals(typeof(decimal))) return false;
+
+            return typeof(IEnumerable).IsAssignableFrom(type);
+        }
+
         #region Private
 
         private static bool IsAssignableToGenericTypeDefinition(this TypeInfo typeInfo, TypeInfo genericTypeInfo)
@@ -303,6 +298,55 @@ namespace Borg
             }
 
             return baseTypeInfo.IsAssignableToGenericTypeDefinition(genericTypeInfo);
+        }
+
+        private static IEnumerable<Type> GetImplementedInterfacesToMap(TypeInfo typeInfo)
+        {
+            if (!typeInfo.IsGenericType)
+            {
+                return typeInfo.ImplementedInterfaces;
+            }
+
+            if (!typeInfo.IsGenericTypeDefinition)
+            {
+                return typeInfo.ImplementedInterfaces;
+            }
+
+            return FilterMatchingGenericInterfaces(typeInfo);
+        }
+
+        private static IEnumerable<Type> FilterMatchingGenericInterfaces(TypeInfo typeInfo)
+        {
+            var genericTypeParameters = typeInfo.GenericTypeParameters;
+
+            foreach (var current in typeInfo.ImplementedInterfaces)
+            {
+                var currentTypeInfo = current.GetTypeInfo();
+
+                if (currentTypeInfo.IsGenericType && currentTypeInfo.ContainsGenericParameters
+                    && GenericParametersMatch(genericTypeParameters, currentTypeInfo.GenericTypeArguments))
+                {
+                    yield return currentTypeInfo.GetGenericTypeDefinition();
+                }
+            }
+        }
+
+        private static bool GenericParametersMatch(IReadOnlyList<Type> parameters, IReadOnlyList<Type> interfaceArguments)
+        {
+            if (parameters.Count != interfaceArguments.Count)
+            {
+                return false;
+            }
+
+            for (var i = 0; i < parameters.Count; i++)
+            {
+                if (parameters[i] != interfaceArguments[i])
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         #endregion Private

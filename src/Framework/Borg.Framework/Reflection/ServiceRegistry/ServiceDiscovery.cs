@@ -51,7 +51,7 @@ namespace Borg.Framework.Reflection.ServiceRegistry
         private IEnumerable<(Type service, PlugableServiceAttribute[] attrs, Type[] interfaces)> FindAllPlugableServices(Assembly[] assemblies)
         {
             return assemblies.SelectMany(x => x.GetTypes())
-                .Where(x => !x.IsAbstract && x.GetCustomAttributes<PlugableServiceAttribute>().Any()).Distinct()
+                .Where(x => !x.IsAbstract && x.HasAttribute<PlugableServiceAttribute>()).Distinct()
                 .Select(x => (
                 service: x,
                 attrs: x.GetCustomAttributes<PlugableServiceAttribute>().ToArray(),

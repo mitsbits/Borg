@@ -28,9 +28,9 @@ namespace Borg.System.Backoffice.Lib.ViewComponents
             {
                 _cache = new Dictionary<string, IDictionary<string, string>>();
                 var types = assemblyProviders.SelectMany(x => x.GetAssemblies()).SelectMany(x => x.GetTypes())
-                        .Where(x => x.GetCustomAttribute<CmsEntityAttribute>() != null).OrderBy(x => x.FullName).Distinct();
+                        .Where(x => x.IsCmsAggregateRoot()).OrderBy(x => x.FullName).Distinct();
                 var maps = assemblyProviders.SelectMany(x => x.GetAssemblies()).SelectMany(x => x.GetTypes()).
-                    Where(x => x.IsSubclassOfRawGeneric(typeof(EntityMap<,>)) && !x.IsAbstract);
+                    Where(x => x.IsSubclassOfRawGeneric(typeof(EntityMapBase<,>)) && !x.IsAbstract);
 
                 var grouprdMaps = maps.GroupBy(x => x.BaseType.GetGenericArguments()[1]);
                 foreach (var group in grouprdMaps)
@@ -55,7 +55,7 @@ namespace Borg.System.Backoffice.Lib.ViewComponents
 
         private static string EntityPluralTitle(Type type)
         {
-            var attr = type.GetCustomAttribute<CmsEntityAttribute>();
+            var attr = type.GetCustomAttribute<CmsAggregateRootAttribute>();
             if (attr != null)
             {
                 if (attr.Plural.IsNullOrWhiteSpace())

@@ -40,7 +40,6 @@ namespace Borg.Infrastructure.Core.DDD.ValueObjects
         }
 
         public IEnumerable<(string key, object value)> Values => _data;
-
     }
 
     public class CompositeKeyBuilder : ICanAddKey, ICanAddValue, ICanBuildCompositeKey, ICanAddKeyOrBuild

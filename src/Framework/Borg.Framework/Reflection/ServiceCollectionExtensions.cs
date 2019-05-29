@@ -4,9 +4,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Linq;
 
-namespace Borg.Framework.Reflection
+namespace icrosoft.Extensions.DependencyInjection
 {
-    public static class ServiceCollectionEdxtensions
+    public static class ServiceCollectionExtensions
     {
         public static IServiceCollection RegisterPlugableServices(this IServiceCollection services, ILoggerFactory loggerFactory)
         {

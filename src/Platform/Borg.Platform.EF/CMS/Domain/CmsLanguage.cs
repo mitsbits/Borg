@@ -5,7 +5,7 @@ using Borg.Infrastructure.Core.DDD.Contracts;
 
 namespace Borg.Platform.EF.CMS.Domain
 {
-    [CmsEntity(Plural = "Languages", Singular = "Language")]
+    [CmsAggregateRoot(Plural = "Languages", Singular = "Language")]
     [KeySequenceDefinition]
     public class CmsLanguage : Entity<int>, ILanguage
     {

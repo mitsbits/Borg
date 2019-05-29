@@ -12,7 +12,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Borg.Platform.Backoffice.Security.EF
 {
     [KeySequenceDefinition(Column = nameof(Id))]
-    [CmsEntity(Plural = "Cms Users", Singular = "Cms User")]
+    [CmsAggregateRoot(Plural = "Cms Users", Singular = "Cms User")]
     public class CmsUser : UserBase
     {
         public ICollection<CmsUserPermission> Permissions { get; set; } = new HashSet<CmsUserPermission>();
@@ -21,7 +21,7 @@ namespace Borg.Platform.Backoffice.Security.EF
     }
 
     [KeySequenceDefinition(Column = nameof(Id))]
-    [CmsEntity(Plural = "Cms Roles", Singular = "Cms Role")]
+    [CmsAggregateRoot(Plural = "Cms Roles", Singular = "Cms Role")]
     public class CmsRole : RoleBase
     {
         public ICollection<CmsRolePermission> Permissions { get; set; } = new HashSet<CmsRolePermission>();
@@ -30,14 +30,14 @@ namespace Borg.Platform.Backoffice.Security.EF
     }
 
     [KeySequenceDefinition(Column = nameof(Id))]
-    [CmsEntity(Plural = "Cms User Permissions", Singular = "Cms User Permission")]
+    [CmsAggregateRoot(Plural = "Cms User Permissions", Singular = "Cms User Permission")]
     public class CmsUserPermission : PermissionBase
     {
         public virtual CmsUser User { get; set; }
     }
 
     [KeySequenceDefinition(Column = nameof(Id))]
-    [CmsEntity(Plural = "Cms Role Permissions", Singular = "Cms Role Permission")]
+    [CmsAggregateRoot(Plural = "Cms Role Permissions", Singular = "Cms Role Permission")]
     public class CmsRolePermission : PermissionBase
     {
         public virtual CmsRole Role { get; set; }
@@ -111,22 +111,6 @@ namespace Borg.Platform.Backoffice.Security.EF
         }
     }
 
-    public class CmsRolePermissionMap : EntityMap<CmsRolePermission, SecurityDbContext>
-    {
-        public override void OnModelCreating(ModelBuilder builder)
-        {
-            base.OnModelCreating(builder);
-        }
-    }
-
-    public class CmsUserPermissionMap : EntityMap<CmsUserPermission, SecurityDbContext>
-    {
-        public override void OnModelCreating(ModelBuilder builder)
-        {
-            base.OnModelCreating(builder);
-        }
-    }
-
     public class CmsRoleMap : EntityMap<CmsRole, SecurityDbContext>
     {
         public override void OnModelCreating(ModelBuilder builder)
@@ -142,14 +126,6 @@ namespace Borg.Platform.Backoffice.Security.EF
         {
             base.OnModelCreating(builder);
             builder.Entity<CmsUser>().HasMany(x => x.Roles).WithOne(x => x.User).HasForeignKey(x => x.UserId);
-        }
-    }
-
-    public class UserRoleMap : EntityMap<UserRole, SecurityDbContext>
-    {
-        public override void OnModelCreating(ModelBuilder builder)
-        {
-            base.OnModelCreating(builder);
         }
     }
 }

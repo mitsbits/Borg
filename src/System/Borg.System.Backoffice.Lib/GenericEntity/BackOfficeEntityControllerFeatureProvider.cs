@@ -1,6 +1,4 @@
-﻿using Borg.Framework.Cms.Annotations;
-using Borg.Framework.Services.AssemblyScanner;
-using Borg.Infrastructure.Core.DDD.Contracts;
+﻿using Borg.Framework.Services.AssemblyScanner;
 using Borg.Platform.EF.Instructions;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Controllers;
@@ -22,11 +20,11 @@ namespace Borg.System.Backoffice.Lib
         public void PopulateFeature(IEnumerable<ApplicationPart> parts, ControllerFeature feature)
         {
             var types = assemblyProviders.SelectMany(x => x.GetAssemblies()).SelectMany(x => x.GetTypes()
-            .Where(t => t.ImplementsInterface(typeof(IEntity)) && !t.IsAbstract && t.GetCustomAttribute<CmsEntityAttribute>() != null).Distinct());
+            .Where(t => t.IsCmsAggregateRoot()).Distinct());
             foreach (var entityType in types)
             {
                 var typeName = entityType.Name + "Controller";
-                var tps = entityType.Assembly.GetTypes().Where(t => t.IsSubclassOfRawGeneric(typeof(EntityMap<,>))).Select(x => x.BaseType).ToList();
+                var tps = entityType.Assembly.GetTypes().Where(t => t.IsSubclassOfRawGeneric(typeof(EntityMapBase<,>))).Select(x => x.BaseType).ToList();
                 var map = tps.FirstOrDefault(t => t.GetTypeInfo().GenericTypeArguments[0] == entityType);
                 var dbtype = map.GetGenericArguments()[1];
                 // Check to see if there is a "real" controller for this class

@@ -4,12 +4,11 @@
     {
         public string ConnectionString { get; set; }
         public DbContextOverrides Overrides { get; set; }
-
     }
 
     public class DbContextOverrides
     {
-        const string DefaultBorgSchema = "borg";
+        private const string DefaultBorgSchema = "borg";
         public string Schema { get; set; } = DefaultBorgSchema;
         public string TablePrefix { get; set; } = string.Empty;
         public int CommandTimeout { get; set; } = 30;

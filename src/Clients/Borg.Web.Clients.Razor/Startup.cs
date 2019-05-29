@@ -59,6 +59,7 @@ namespace Borg.Web.Clients.Razor
             services.AddCmsUsers(loggerFactory, hostingEnvironment, configuration);
             services.AddCmsCore(loggerFactory, configuration);
             services.ConfigureOptions(typeof(System.Backoffice.UiConfigureOptions));
+            services.AddServiceLocator();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

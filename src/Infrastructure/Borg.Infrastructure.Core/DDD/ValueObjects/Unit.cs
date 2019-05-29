@@ -3,15 +3,11 @@ using System.Threading.Tasks;
 
 namespace Borg.Infrastructure.Core.DDD.ValueObjects
 {
-
     public struct Unit : IEquatable<Unit>, IComparable<Unit>, IComparable
     {
-
         public static readonly Unit Value = new Unit();
 
-
         public static readonly Task<Unit> Task = System.Threading.Tasks.Task.FromResult(Value);
-
 
         public int CompareTo(Unit other)
         {
@@ -33,24 +29,20 @@ namespace Borg.Infrastructure.Core.DDD.ValueObjects
             return true;
         }
 
-
         public override bool Equals(object obj)
         {
             return obj is Unit;
         }
-
 
         public static bool operator ==(Unit first, Unit second)
         {
             return true;
         }
 
-
         public static bool operator !=(Unit first, Unit second)
         {
             return false;
         }
-
 
         public override string ToString()
         {

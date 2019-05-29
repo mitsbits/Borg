@@ -1,11 +1,8 @@
-﻿using Borg.Framework.Cms.Annotations;
-using Borg.Framework.Services.AssemblyScanner;
-using Borg.Infrastructure.Core.DDD.Contracts;
+﻿using Borg.Framework.Services.AssemblyScanner;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 namespace Borg.System.Backoffice.Lib
 {
@@ -28,7 +25,7 @@ namespace Borg.System.Backoffice.Lib
             if (values.TryGetValue(routeKey, out routeValue))
             {
                 var types = assemblyProviders.SelectMany(x => x.GetAssemblies()).SelectMany(x => x.GetTypes()
-                              .Where(t => t.ImplementsInterface(typeof(IEntity)) && !t.IsAbstract && t.GetCustomAttribute<CmsEntityAttribute>() != null).Distinct());
+                              .Where(t => t.IsCmsAggregateRoot()).Distinct());
                 return types.Any(x => x.Name == routeValue.ToString());
             }
 

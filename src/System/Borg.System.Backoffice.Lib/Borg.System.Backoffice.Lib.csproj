@@ -7,7 +7,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Framework\Borg.Framework.EF\Borg.Framework.EF.csproj" />
     <ProjectReference Include="..\..\Framework\Borg.Framework.MVC\Borg.Framework.MVC.csproj" />
-    <ProjectReference Include="..\..\Framework\Borg.Framework.Reflection\Borg.Framework.Reflection.csproj" />
     <ProjectReference Include="..\..\Infrastructure\Borg.Infrastructure.Core\Borg.Infrastructure.Core.csproj" />
     <ProjectReference Include="..\..\Platform\Borg.Platform.Backoffice.Security.EF\Borg.Platform.Backoffice.Security.EF.csproj" />
     <ProjectReference Include="..\Borg.System.Backoffice.Security\Borg.System.Backoffice.Security.csproj" />

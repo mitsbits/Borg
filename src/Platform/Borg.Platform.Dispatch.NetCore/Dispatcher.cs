@@ -14,8 +14,7 @@ namespace Borg.Platform.Dispatch.NetCore
 
         public Dispatcher(ServiceFactory serviceFactory)
         {
-            Preconditions.NotNull(serviceFactory, nameof(serviceFactory));
-            this.serviceFactory = serviceFactory;
+            this.serviceFactory = Preconditions.NotNull(serviceFactory, nameof(serviceFactory));
             var loggerFactory = serviceFactory.GetInstance<ILoggerFactory>();
             logger = loggerFactory == null ? NullLogger.Instance : loggerFactory.CreateLogger(GetType());
         }

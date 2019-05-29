@@ -9,6 +9,7 @@ namespace Borg.Framework.EF.Instructions.Attributes
         {
             Order = Order;
         }
+
         public int Order { get; }
     }
 }
