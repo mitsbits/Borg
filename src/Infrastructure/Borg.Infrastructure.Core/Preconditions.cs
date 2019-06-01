@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 namespace Borg.Infrastructure.Core
 {
     [DebuggerStepThrough]
-    internal static class Preconditions
+    internal static partial class Preconditions
     {
         [ContractAnnotation("value:null => halt")]
         public static T NotNull<T>([NoEnumeration] T value, [InvokerParameterName, NotNull] string parameterName, [CallerMemberName] string callerName = "")
@@ -120,6 +120,23 @@ namespace Borg.Infrastructure.Core
             }
 
             return value;
+        }
+    }
+
+
+    internal static partial class Preconditions
+    {
+
+ 
+        public static T SubclassOf<T>([NotNull]Type target, [NoEnumeration, NotNull] T value, [InvokerParameterName, NotNull] string parameterName, [CallerMemberName] string callerName = "")  where T : class
+        {
+            var typetocheck = value.GetType();
+            if (typetocheck.IsSubclassOf(target))
+            {
+                return value;
+            }
+
+            throw new NotSubclassOfException(typetocheck, target, parameterName);
         }
     }
 }

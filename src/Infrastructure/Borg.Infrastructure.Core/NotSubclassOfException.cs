@@ -1,16 +1,19 @@
 ﻿using System;
 
-namespace Borg.Framework.Reflection.Exceptions
+namespace Borg.Infrastructure.Core
 {
     public class NotSubclassOfException : BorgException
     {
-        public NotSubclassOfException(Type typeToCheck, Type baseType) : base(ExceptionMessage(typeToCheck, baseType))
+        public NotSubclassOfException(Type typeToCheck, Type baseType, string parameterName = "" ) : base(ExceptionMessage(typeToCheck, baseType))
         {
+            ParameterName = parameterName;
         }
 
         private static string ExceptionMessage(Type typeToCheck, Type baseType)
         {
             return $"{typeToCheck.FullName} is not sub class of {baseType.FullName}";
         }
+
+        public string ParameterName { get; set; }
     }
 }

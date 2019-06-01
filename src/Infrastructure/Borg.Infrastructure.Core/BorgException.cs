@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Borg.Framework
+namespace Borg.Infrastructure.Core
 {
     public abstract class BorgException : Exception
     {
@@ -17,5 +17,8 @@ namespace Borg.Framework
             : base(message, innerException)
         {
         }
+
+        public Guid ExceptionId { get; } = Guid.NewGuid();
+        public DateTimeOffset Timestamp { get; } = DateTimeOffset.UtcNow;
     }
 }

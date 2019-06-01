@@ -16,5 +16,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Cms\Presentation\" />
+    <Folder Include="Reflection\Exceptions\" />
   </ItemGroup>
 </Project>
