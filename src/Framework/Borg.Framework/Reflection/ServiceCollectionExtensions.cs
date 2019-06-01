@@ -4,9 +4,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Linq;
 
-namespace icrosoft.Extensions.DependencyInjection
+namespace Microsoft.Extensions.DependencyInjection
 {
-    public static class ServiceCollectionExtensions
+    public static partial class ServiceCollectionExtensions
     {
         public static IServiceCollection RegisterPlugableServices(this IServiceCollection services, ILoggerFactory loggerFactory)
         {

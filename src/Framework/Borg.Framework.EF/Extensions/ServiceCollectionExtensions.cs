@@ -6,7 +6,7 @@ using System;
 namespace Microsoft.Extensions.DependencyInjection
 {
     //https://forums.asp.net/t/1866727.aspx?How+do+i+get+a+collection+of+class+names+from+DbContext+
-    public static class ServiceCollectionExtensions
+    public static partial class ServiceCollectionExtensions
     {
         public static IServiceCollection AddRepository<TDbContext, T>(this IServiceCollection services) where TDbContext : DbContext where T : class
         {

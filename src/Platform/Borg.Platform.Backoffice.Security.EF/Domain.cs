@@ -62,6 +62,7 @@ namespace Borg.Platform.Backoffice.Security.EF
         public int ParentId { get; set; }
         public int Depth { get; set; }
         public string Resource { get; set; }
+        public string Hierarchy { get; set; }
         public PermissionOperation PermissionOperation { get; set; }
 
         public CompositeKey Keys

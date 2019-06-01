@@ -6,10 +6,11 @@ namespace Borg.Framework.Cms.BuildingBlocks
 {
     public abstract class MultilingualEntity<TKey, TLanguage> : IMultilingualEntity<TKey, TLanguage> where TKey : IEquatable<TKey> where TLanguage : ILanguage
     {
-        public TKey Id { get; set; }
+
+        public TKey Id { get;protected set; }
         public virtual CompositeKey Keys => CompositeKeyInternal();
-        public virtual string TwoLetterISO { get; set; }
-        public virtual TLanguage Language { get; set; }
+        public virtual string TwoLetterISO { get; protected set; }
+        public virtual TLanguage Language { get; protected set; }
 
         private CompositeKey CompositeKeyInternal()
         {

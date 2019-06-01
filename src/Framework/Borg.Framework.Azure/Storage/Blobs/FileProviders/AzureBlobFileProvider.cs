@@ -15,7 +15,7 @@ namespace Borg.Framework.Azure.Storage.Blobs.FileProviders
 
         public AzureBlobFileProvider(AzureBlobOptions azureBlobOptions)
         {
-            _blobContainerFactory = new DefaultBlobContainerFactory(azureBlobOptions);
+            _blobContainerFactory = new AzureBlobContainerFactory(azureBlobOptions);
         }
 
         public IDirectoryContents GetDirectoryContents(string subpath)

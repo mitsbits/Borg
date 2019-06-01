@@ -7,7 +7,9 @@ namespace Borg.Framework.Cms.BuildingBlocks
     {
         public virtual TKey ParentId { get; protected set; }
         public virtual int Depth { get; protected set; }
+        public virtual string Hierarchy { get; protected set; }
 
         public virtual bool IsRoot() => ParentId == null || ParentId.Equals(default);
+
     }
 }

@@ -2,7 +2,7 @@
 {
     public interface IHaveLanguage<out TLanguage> where TLanguage : ILanguage
     {
-        string TwoLetterISO { get; set; }
+        string TwoLetterISO { get; }
         TLanguage Language { get; }
     }
 }
