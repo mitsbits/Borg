@@ -3,7 +3,7 @@ using Borg.Infrastructure.Core.DDD.Contracts;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
-namespace Borg.System.Backoffice.Lib
+namespace Borg.System.Backoffice.Core.GenericEntity
 {
     public class HeaderColumn : GridColumn, IHaveTitle
     {

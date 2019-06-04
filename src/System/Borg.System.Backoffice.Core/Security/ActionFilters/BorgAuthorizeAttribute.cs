@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
-namespace Borg.System.Backoffice.Security
+namespace Borg.System.Backoffice.Core.Security.ActionFilters
 {
     public class BorgAuthorizeAttribute : AuthorizeAttribute
     {
@@ -13,5 +13,6 @@ namespace Borg.System.Backoffice.Security
                 Policy = BorgSecurityConstants.BackofficePolicyName;
             }
         }
+
     }
 }

@@ -123,12 +123,9 @@ namespace Borg.Infrastructure.Core
         }
     }
 
-
     internal static partial class Preconditions
     {
-
- 
-        public static T SubclassOf<T>([NotNull]Type target, [NoEnumeration, NotNull] T value, [InvokerParameterName, NotNull] string parameterName, [CallerMemberName] string callerName = "")  where T : class
+        public static T SubclassOf<T>([NotNull]Type target, [NoEnumeration, NotNull] T value, [InvokerParameterName, NotNull] string parameterName, [CallerMemberName] string callerName = "") where T : class
         {
             var typetocheck = value.GetType();
             if (typetocheck.IsSubclassOf(target))

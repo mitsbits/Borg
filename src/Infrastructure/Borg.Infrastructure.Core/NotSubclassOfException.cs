@@ -4,7 +4,7 @@ namespace Borg.Infrastructure.Core
 {
     public class NotSubclassOfException : BorgException
     {
-        public NotSubclassOfException(Type typeToCheck, Type baseType, string parameterName = "" ) : base(ExceptionMessage(typeToCheck, baseType))
+        public NotSubclassOfException(Type typeToCheck, Type baseType, string parameterName = "") : base(ExceptionMessage(typeToCheck, baseType))
         {
             ParameterName = parameterName;
         }

@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using System.Linq.Expressions;
+using Borg.Framework.DAL.Ordering;
 
 namespace Borg.Framework.DAL
 {

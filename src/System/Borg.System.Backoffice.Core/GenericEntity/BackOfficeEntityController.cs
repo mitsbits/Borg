@@ -1,5 +1,6 @@
 ﻿using Borg.Framework.Cms.Annotations;
 using Borg.Framework.DAL;
+using Borg.Framework.DAL.Ordering;
 using Borg.Framework.EF.Contracts;
 using Borg.Framework.Modularity;
 using Borg.Infrastructure.Core;
@@ -19,10 +20,9 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Borg.System.Backoffice.Lib
+namespace Borg.System.Backoffice.Core.GenericEntity
 {
     [BackOfficeEntityControllerName]
-    //[Route("{area}/entity/{controller:genericController}/{action=Index}/")]
     public class BackOfficeEntityController<TEntity, TDbContext> : BackOfficeController where TEntity : class, IEntity, new() where TDbContext : DbContext
     {
         private static string HeaderColumnsCacheKey = $"{typeof(TEntity).Name}:{nameof(HeaderColumn)}Definition";

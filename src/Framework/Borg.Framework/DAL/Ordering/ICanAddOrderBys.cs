@@ -1,4 +1,4 @@
-﻿namespace Borg.Framework.DAL
+﻿namespace Borg.Framework.DAL.Ordering
 {
     public interface ICanAddOrderBys<T> where T : class
     {

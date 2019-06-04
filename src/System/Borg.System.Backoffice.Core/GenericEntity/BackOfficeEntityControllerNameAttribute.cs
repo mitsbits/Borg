@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using System;
 
-namespace Borg.System.Backoffice.Lib
+namespace Borg.System.Backoffice.Core.GenericEntity
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
     public class BackOfficeEntityControllerNameAttribute : Attribute, IControllerModelConvention

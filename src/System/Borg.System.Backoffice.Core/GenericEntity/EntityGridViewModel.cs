@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Borg.System.Backoffice.Lib
+namespace Borg.System.Backoffice.Core.GenericEntity
 {
     public abstract class EntityGridViewModel : EntityViewModel
     {

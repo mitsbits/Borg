@@ -63,6 +63,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Borg.Web.Clients.Razor", "s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Borg.Platform.EF", "src\Platform\Borg.Platform.EF\Borg.Platform.EF.csproj", "{B2171DC5-914F-4E90-904B-92F491C265EE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Borg.System.Backoffice.Core", "src\System\Borg.System.Backoffice.Core\Borg.System.Backoffice.Core.csproj", "{C3B3D79E-43B9-4D78-B4C1-71352B73C119}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -153,6 +155,10 @@ Global
 		{B2171DC5-914F-4E90-904B-92F491C265EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2171DC5-914F-4E90-904B-92F491C265EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2171DC5-914F-4E90-904B-92F491C265EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3B3D79E-43B9-4D78-B4C1-71352B73C119}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3B3D79E-43B9-4D78-B4C1-71352B73C119}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3B3D79E-43B9-4D78-B4C1-71352B73C119}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3B3D79E-43B9-4D78-B4C1-71352B73C119}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -186,6 +192,7 @@ Global
 		{205B4ED6-BE02-4914-BF32-D8E7D2C95F1F} = {AC4B273F-94EA-490A-B574-4D560134FF73}
 		{F7911461-0FA2-4152-AF7A-AC25FB43E052} = {8CAD543D-104F-4658-9CE7-E4D489A8004B}
 		{B2171DC5-914F-4E90-904B-92F491C265EE} = {AC4B273F-94EA-490A-B574-4D560134FF73}
+		{C3B3D79E-43B9-4D78-B4C1-71352B73C119} = {45AA2393-760B-47F3-B7D5-FAD44FA51F26}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4604E16C-EB8F-4064-9E9C-D3C2258BAF70}

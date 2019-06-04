@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Borg.Framework.DAL
+namespace Borg.Framework.DAL.Ordering
 {
     public class SortBuilder<T> : SortBuilder, ICanAddAndBuildOrderBys<T> where T : class
     {

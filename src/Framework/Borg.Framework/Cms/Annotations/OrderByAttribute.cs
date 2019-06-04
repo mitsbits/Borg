@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Borg.Framework.DAL
+namespace Borg.Framework.Cms.Annotations
 {
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
     public class OrderByAttribute : Attribute

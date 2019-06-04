@@ -1,4 +1,5 @@
 ﻿using Borg.Framework.DAL;
+using Borg.Framework.DAL.Ordering;
 using Borg.Framework.EF.Contracts;
 using Borg.Infrastructure.Core;
 using Borg.Infrastructure.Core.Collections;

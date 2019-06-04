@@ -1,4 +1,5 @@
-﻿using Borg.Infrastructure.Core;
+﻿using Borg.Framework.Cms.Annotations;
+using Borg.Infrastructure.Core;
 using Borg.Infrastructure.Core.DDD;
 using System;
 using System.Collections.Concurrent;
@@ -7,7 +8,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Borg.Framework.DAL
+namespace Borg.Framework.DAL.Ordering
 {
     public class OrderByInfo<T> : OrderByInfo<T, dynamic> where T : class
     {

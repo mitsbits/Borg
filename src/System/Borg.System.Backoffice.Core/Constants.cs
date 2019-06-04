@@ -1,4 +1,8 @@
-﻿namespace Borg.System.Backoffice.Security
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Borg.System.Backoffice.Core
 {
     public static class BorgSecurityConstants
     {

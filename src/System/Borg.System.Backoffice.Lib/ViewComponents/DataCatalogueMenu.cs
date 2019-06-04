@@ -17,9 +17,8 @@ namespace Borg.System.Backoffice.Lib.ViewComponents
 
         public DataCatalogueMenu(IEnumerable<IAssemblyProvider> assemblyProviders)
         {
-            Preconditions.NotNull(assemblyProviders, nameof(assemblyProviders));
-            Preconditions.NotEmpty(assemblyProviders, nameof(assemblyProviders));
-            this.assemblyProviders = assemblyProviders;
+            assemblyProviders = Preconditions.NotNull(assemblyProviders, nameof(assemblyProviders));
+            this.assemblyProviders = Preconditions.NotEmpty(assemblyProviders, nameof(assemblyProviders)); ;
         }
 
         public IViewComponentResult Invoke()

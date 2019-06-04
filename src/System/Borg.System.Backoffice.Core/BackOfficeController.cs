@@ -1,7 +1,8 @@
-﻿using Borg.System.Backoffice.Security;
+﻿
+using Borg.System.Backoffice.Core.Security.ActionFilters;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Borg.System.Backoffice.Lib
+namespace Borg.System.Backoffice.Core
 {
     [Area("Backoffice")]
     [BorgAuthorize]

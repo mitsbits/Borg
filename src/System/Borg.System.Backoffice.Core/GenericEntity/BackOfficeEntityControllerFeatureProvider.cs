@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Borg.System.Backoffice.Lib
+namespace Borg.System.Backoffice.Core.GenericEntity
 {
     public class BackOfficeEntityControllerFeatureProvider : IApplicationFeatureProvider<ControllerFeature>
     {

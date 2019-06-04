@@ -1,4 +1,5 @@
 ﻿using Borg.Framework;
+using Borg.Infrastructure.Core;
 using System;
 
 namespace Borg.Platform.EF.Exceptions
