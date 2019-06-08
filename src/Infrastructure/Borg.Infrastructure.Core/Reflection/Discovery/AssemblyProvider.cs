@@ -1,5 +1,4 @@
-﻿using Borg.Framework.Services.AssemblyScanner;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using System;
 using System.Collections.Concurrent;
@@ -7,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Borg.Framework.Reflection.Services
+namespace Borg.Infrastructure.Core.Reflection.Discovery
 {
     public abstract class AssemblyProvider : IAssemblyProvider
     {

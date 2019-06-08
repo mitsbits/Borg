@@ -2,8 +2,7 @@
 
 namespace Borg.Platform.Backoffice.Security.EF
 {
-    public class ResistanceIsFutile : IResistanceIsFutile
+    public class SecurityAddOn : ResistanceIsFutile
     {
-        public string Identifier => "Security EF Hive";
     }
 }

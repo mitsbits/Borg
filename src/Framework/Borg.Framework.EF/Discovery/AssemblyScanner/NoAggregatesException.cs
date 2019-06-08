@@ -3,7 +3,7 @@ using System;
 using System.Reflection;
 using System.Text;
 
-namespace Borg.Framework.EF.AssemblyScanner
+namespace Borg.Framework.EF.Discovery.AssemblyScanner
 {
     internal class NoAggregatesException : ApplicationException
     {

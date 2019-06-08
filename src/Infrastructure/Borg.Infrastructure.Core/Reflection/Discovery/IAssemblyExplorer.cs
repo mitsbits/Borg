@@ -1,9 +1,9 @@
-﻿using Borg.Infrastructure.Core;
+﻿using Borg.Infrastructure.Core.Reflection.Discovery;
 using System.Collections.Generic;
 
 namespace Borg.Framework.EF.Discovery
 {
-    public interface IEntitiesExplorer
+    public interface IAssemblyExplorer
     {
         IEnumerable<AssemblyScanResult> Results();
     }

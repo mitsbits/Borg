@@ -18,6 +18,8 @@ namespace Borg.Platform.EF.Instructions
 
     public interface IEntityMap<TEntity, TDbContext> : IEntityMap where TEntity : class where TDbContext : DbContext
     {
+        Type EntityType { get; }
+        Type ContextType { get; }
     }
 
     public class EntityMap<TEntity, TDbContext> : EntityMapBase<TEntity, TDbContext> where TEntity : class where TDbContext : DbContext
@@ -26,11 +28,12 @@ namespace Borg.Platform.EF.Instructions
 
     public abstract class EntityMapBase<TEntity, TDbContext> : IEntityMap<TEntity, TDbContext> where TEntity : class where TDbContext : DbContext
     {
-        //private static ConcurrentDictionary<Type, Type> maps = new ConcurrentDictionary<Type, Type>();
+        public Type EntityType => typeof(TEntity);
+
+        public Type ContextType => typeof(TDbContext);
 
         protected EntityMapBase()
         {
-            //maps.AddOrUpdate(GetType().GetGenericArguments()[0], GetType(), (key, oldValue) => GetType());
         }
 
         public virtual void OnModelCreating(ModelBuilder builder)

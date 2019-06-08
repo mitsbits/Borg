@@ -7,6 +7,6 @@
 
     public class ResistanceIsFutile : IResistanceIsFutile
     {
-        public string Identifier => "Resistance Is Futile";
+        public virtual string Identifier => GetType().Name.SplitUpperCaseToWords();
     }
 }

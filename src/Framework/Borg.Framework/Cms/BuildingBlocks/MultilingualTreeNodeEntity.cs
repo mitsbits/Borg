@@ -10,6 +10,5 @@ namespace Borg.Framework.Cms.BuildingBlocks
         public virtual string Hierarchy { get; protected set; }
 
         public virtual bool IsRoot() => ParentId == null || ParentId.Equals(default);
-
     }
 }

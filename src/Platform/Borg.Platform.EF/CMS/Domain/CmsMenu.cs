@@ -5,7 +5,7 @@ using Borg.Infrastructure.Core.DDD.Contracts;
 
 namespace Borg.Platform.EF.CMS.Domain
 {
-    [CmsAggregateRoot(Plural = "Menus", Singular = "Menu")]
+    [PlatformDBAggregateRoot(Plural = "Menus", Singular = "Menu")]
     [KeySequenceDefinition]
     public class CmsMenu : MultilingualEntity<int, CmsLanguage>, IHaveTitle
     {
@@ -20,4 +20,4 @@ namespace Borg.Platform.EF.CMS.Domain
         public int MenuId { get; protected set; }
         public virtual CmsMenu Menu { get; protected set; }
     }
-} 
+}

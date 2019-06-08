@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Borg
 {
-    public static class BorgRxtensions
+    public static class BorgExtensions
     {
         /// <summary>
         /// Checks to see if the assembly is part of the Borg Hive

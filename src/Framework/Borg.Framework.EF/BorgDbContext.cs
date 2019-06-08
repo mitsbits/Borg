@@ -87,7 +87,7 @@ namespace Borg.Framework.EF
 
         private void Map(ModelBuilder builder)
         {
-            var explorer = ServiceLocator.Current.GetInstance<IEntitiesExplorer>();
+            var explorer = ServiceLocator.Current.GetInstance<IAssemblyExplorer>();
             var maptype = typeof(EntityMapBase<,>);
             var maps = GetType().Assembly.GetTypes().Where(t => t.IsSubclassOfRawGeneric(maptype) && !t.IsAbstract && t.BaseType.GenericTypeArguments[1] == GetType());
             var entities = GetType().Assembly.GetTypes().Where(x => x.IsCmsAggregateRoot());

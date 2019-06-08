@@ -13,7 +13,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             services.AddScoped(p => new BorgPlatformDb(loggerFactory, configuration));
             services.AddScoped<IUnitOfWork<BorgPlatformDb>, UnitOfWork<BorgPlatformDb>>();
-            services.AddSingleton<IEntitiesExplorer, EntitiesExplorer>();
+            services.AddSingleton<IAssemblyExplorer, EntitiesExplorer>();
             return services;
         }
     }

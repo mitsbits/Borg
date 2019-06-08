@@ -1,5 +1,5 @@
-﻿using Borg.Framework.Services.AssemblyScanner;
-using Borg.Infrastructure.Core;
+﻿using Borg.Infrastructure.Core;
+using Borg.Infrastructure.Core.Reflection.Discovery;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Reflection;
 
 namespace Borg.Framework.EF.Discovery
 {
-    public class EntitiesExplorer : IEntitiesExplorer
+    public class EntitiesExplorer : IAssemblyExplorer
     {
         private readonly ILogger logger;
         private readonly List<Assembly> assemblies = new List<Assembly>();
@@ -36,7 +36,10 @@ namespace Borg.Framework.EF.Discovery
 
         private AssemblyScanResult InternalScan(Assembly asmbl)
         {
-            return new AssemblyScanner.AssemblyScanner(asmbl, logger).Scan();
+            return AsyncHelpers.RunSync(() =>
+            new AssemblyScanner.EntitiesAssemblyScanner(asmbl,
+            ServiceLocator.Current.GetInstance<ILoggerFactory>())
+            .Scan());
         }
 
         private void Populate(IEnumerable<IAssemblyProvider> providers)

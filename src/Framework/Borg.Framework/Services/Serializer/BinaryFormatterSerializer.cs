@@ -7,14 +7,11 @@ using System.Threading.Tasks;
 
 namespace Borg.Framework.Services.Serializer
 {
-    [PlugableService(ImplementationOf = typeof(ISerializer), Lifetime = Lifetime.Singleton, OneOfMany =true, Order =99)]
+    [PlugableService(ImplementationOf = typeof(ISerializer), Lifetime = Lifetime.Singleton, OneOfMany = true, Order = 99)]
     public class BinaryFormatterSerializer : ISerializer
     {
-
-
         public BinaryFormatterSerializer()
         {
-
         }
 
         public Task<object> DeserializeAsync(byte[] value, Type objectType)
