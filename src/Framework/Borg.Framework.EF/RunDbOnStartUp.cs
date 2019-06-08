@@ -28,7 +28,7 @@ namespace Borg.Framework.EF
         {
             var watch = Stopwatch.StartNew();
             Logger.Debug($"{GetType().Name} is about to run");
-            await RunLocal(DB, cancelationToken).AnyContext();
+            await RunLocal(DB, cancelationToken);
             watch.Stop();
             Logger.Debug($"{GetType().Name} run in {watch.Elapsed}");
         }

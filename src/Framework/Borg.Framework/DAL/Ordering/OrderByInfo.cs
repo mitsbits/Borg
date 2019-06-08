@@ -10,6 +10,7 @@ using System.Reflection;
 
 namespace Borg.Framework.DAL.Ordering
 {
+
     public class OrderByInfo<T> : OrderByInfo<T, dynamic> where T : class
     {
         public OrderByInfo(string directive) : base(directive)
@@ -145,4 +146,6 @@ namespace Borg.Framework.DAL.Ordering
             return prop;
         }
     }
+
+
 }

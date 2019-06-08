@@ -4,6 +4,10 @@ using Borg.Infrastructure.Core;
 using Borg.Platform.EF.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
+using Newtonsoft.Json;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,12 +15,15 @@ namespace Borg.Framework.EF.DAL
 {
     public class UnitOfWork<TDbContext> : IUnitOfWork<TDbContext> where TDbContext : BorgDbContext
     {
-        public UnitOfWork(TDbContext dbContext)
+        protected ILogger Log;
+
+        public UnitOfWork(TDbContext dbContext, ILogger logger)
         {
             Context = Preconditions.NotNull(dbContext, nameof(dbContext));
             Context.IsWrappedByUOW = true;
             Context.TrackedEventHandler += OnTracked;
             Context.StateChangedEventHandler += OnStateChanged;
+            Log = logger ?? NullLogger.Instance;
         }
 
         protected virtual TDbContext Context { get; }
@@ -31,17 +38,46 @@ namespace Borg.Framework.EF.DAL
             return Context.ReadWriteRepo<T, TDbContext>();
         }
 
-        public async Task Save(CancellationToken cancelationToken = default)
+        public Task<TEntity> Instance<TEntity>() where TEntity : class
         {
-            await Save(cancelationToken, false);
+            if (Context.EntityIsMapped<TEntity, TDbContext>()) throw new EntityNotMappedException<TDbContext>(typeof(TEntity));
+            return Task.FromResult(Infrastructure.Core.Services.Factory.New<TEntity>.Instance.Invoke()); //TODO: this is not a nice namespace, move it to Borg
         }
 
-        private async Task Save(CancellationToken cancelationToken = default, bool supreseEvents = false)
+        private void OnTracked(object sender, EntityTrackedEventArgs e)
+        {
+            var collection = new object[] { sender, e };
+            var data = JsonConvert.SerializeObject(collection);
+            Log.LogTrace(data);
+        }
+
+        private void OnStateChanged(object sender, EntityStateChangedEventArgs e)
+        {
+            var collection = new object[] { sender, e };
+            var data = JsonConvert.SerializeObject(collection);
+            Log.LogTrace(data);
+        }
+
+        public async Task Save(CancellationToken cancelationToken = default, bool supreseEvents = false)
         {
             try
             {
-            
+                EventHandler<EntityTrackedEventArgs> TrackedEventHandler = Context.TrackedEventHandler;
+                EventHandler<EntityStateChangedEventArgs> StateChangedEventHandler = Context.StateChangedEventHandler;
+                if (supreseEvents)
+                {
+                    Context.TrackedEventHandler -= OnTracked;
+                    Context.StateChangedEventHandler -= OnStateChanged;
+                }
                 await Context.SaveChangesAsync(cancelationToken);
+                if (supreseEvents)
+                {
+                    Context.TrackedEventHandler -= OnTracked;
+                    Context.StateChangedEventHandler -= OnStateChanged;
+                }
+
+                Context.TrackedEventHandler += TrackedEventHandler;
+                Context.StateChangedEventHandler += StateChangedEventHandler;
             }
             catch (DbUpdateConcurrencyException exception)
             {
@@ -52,25 +88,21 @@ namespace Borg.Framework.EF.DAL
             }
         }
 
-        public Task<TEntity> NewInstance<TEntity>() where TEntity : class
-        {
-            if (Context.EntityIsMapped<TEntity, TDbContext>()) throw new EntityNotMappedException<TDbContext>(typeof(TEntity));
-            return Task.FromResult(Infrastructure.Core.Services.Factory.New<TEntity>.Instance.Invoke()); //TODO: this is not a nice namespace, move it to Borg
-        }
-
         public void Dispose()
         {
-            Context.TrackedEventHandler -= OnTracked;
-            Context.StateChangedEventHandler -= OnStateChanged;
-            Context.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
-        private void OnTracked(object sender, EntityTrackedEventArgs e)
+        protected virtual void Dispose(bool disposing)
         {
-        }
-
-        private void OnStateChanged(object sender, EntityStateChangedEventArgs e)
-        {
+            if (disposing)
+            {
+                AsyncHelpers.RunSync(async () => await Save(CancellationToken.None, false));
+                Context.TrackedEventHandler -= OnTracked;
+                Context.StateChangedEventHandler -= OnStateChanged;
+                Context.Dispose();
+            }
         }
     }
 }

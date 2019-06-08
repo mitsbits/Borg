@@ -1,4 +1,5 @@
 ﻿using Borg.Framework.EF.Contracts;
+using Borg.Framework.EF.Discovery;
 using Borg.Infrastructure.Core.Services.Factory;
 using Borg.Platform.EF.Instructions;
 using JetBrains.Annotations;
@@ -86,6 +87,7 @@ namespace Borg.Framework.EF
 
         private void Map(ModelBuilder builder)
         {
+            var explorer = ServiceLocator.Current.GetInstance<IEntitiesExplorer>();
             var maptype = typeof(EntityMapBase<,>);
             var maps = GetType().Assembly.GetTypes().Where(t => t.IsSubclassOfRawGeneric(maptype) && !t.IsAbstract && t.BaseType.GenericTypeArguments[1] == GetType());
             var entities = GetType().Assembly.GetTypes().Where(x => x.IsCmsAggregateRoot());
@@ -107,9 +109,6 @@ namespace Borg.Framework.EF
 
         private void SetUpConfig(DbContextOptionsBuilder options)
         {
-            ChangeTracker.Tracked += TrackedEventHandler;
-            ChangeTracker.StateChanged += StateChangedEventHandler;
-
             BorgOptions = Configurator<BorgDbContextConfiguration>.Build(Logger, configuration, GetType());
             options.UseSqlServer(BorgOptions.ConnectionString, opt =>
             {

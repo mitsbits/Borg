@@ -1,6 +1,7 @@
-﻿@model Borg.System.Backoffice.Lib.HeaderColumn
+﻿@using Borg.System.Backoffice.Core.GenericEntity
 @using Borg.System.Backoffice.Lib
 @using Borg.Infrastructure.Core
+@model HeaderColumn
 @{
     Func<HeaderColumn, string> _setChecekd = (v) => v.Visible && v.IsSimple ? "checked='checked'" : string.Empty;
     Func<HeaderColumn, string> _setDisabled = (v) => !v.IsSimple ? "disabled" : "";

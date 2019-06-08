@@ -22,7 +22,7 @@ namespace Borg.Framework.EF.DAL
 
         protected TDbContext Context { get; }
 
-        public async Task<IPagedResult<T>> Find(Expression<Func<T, bool>> predicate, int page, int records, IEnumerable<OrderByInfo<T>> orderBy, CancellationToken cancellationToken = default(CancellationToken), params Expression<Func<T, dynamic>>[] paths)
+        public async Task<IPagedResult<T>> Read(Expression<Func<T, bool>> predicate, int page, int records, IEnumerable<OrderByInfo<T>> orderBy, CancellationToken cancellationToken = default(CancellationToken), params Expression<Func<T, dynamic>>[] paths)
         {
             cancellationToken.ThrowIfCancellationRequested();
             return await Context.Fetch(predicate, page, records, orderBy, cancellationToken, false, paths);

@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Borg.Framework.EF.Contracts;
+﻿using Borg.Framework.EF.Contracts;
 using Borg.System.Licencing;
 using Borg.System.Licencing.Contracts;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace Borg.Web.Clients.Razor
 {

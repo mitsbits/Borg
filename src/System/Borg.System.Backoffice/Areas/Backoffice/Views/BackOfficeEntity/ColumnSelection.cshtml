@@ -1,5 +1,5 @@
-﻿@model Borg.System.Backoffice.Lib.EntityGridViewModel
-@using Borg.System.Backoffice.Lib
+﻿@model Borg.System.Backoffice.Core.GenericEntity.EntityGridViewModel
+@using Borg.System.Backoffice.Core.GenericEntity
 @using Borg.Infrastructure.Core
 @{
     Func<HeaderColumn, string> _setChecekd = (v) => v.Visible && v.IsSimple ? "checked='checked'" : string.Empty;

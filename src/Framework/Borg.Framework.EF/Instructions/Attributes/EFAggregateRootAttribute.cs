@@ -1,5 +1,6 @@
 ﻿using Borg.Framework.Cms.Annotations;
 using Borg.Infrastructure.Core;
+using Borg.Infrastructure.Core.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using System;
 

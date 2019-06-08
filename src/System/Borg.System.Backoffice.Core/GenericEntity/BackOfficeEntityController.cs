@@ -1,7 +1,6 @@
-﻿using Borg.Framework.Cms.Annotations;
-using Borg.Framework.DAL;
+﻿using Borg.Framework.DAL;
+using Borg.Framework.DAL.Inventories;
 using Borg.Framework.DAL.Ordering;
-using Borg.Framework.EF.Contracts;
 using Borg.Framework.Modularity;
 using Borg.Infrastructure.Core;
 using Borg.Infrastructure.Core.Collections;
@@ -16,7 +15,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -28,56 +26,16 @@ namespace Borg.System.Backoffice.Core.GenericEntity
         private static string HeaderColumnsCacheKey = $"{typeof(TEntity).Name}:{nameof(HeaderColumn)}Definition";
 
         protected readonly ILogger logger;
-        private readonly IUnitOfWork<TDbContext> uow;
+        private readonly IInventoryFacade<TEntity> inv;
         private readonly IUserSession userSession;
-
-        private string _entityPluralTitle;
-        private string _entitySingularTitle;
 
         protected readonly DmlOperation mode;
 
-        private string EntityPluralTitle()
-        {
-            if (!_entityPluralTitle.IsNullOrWhiteSpace()) return _entityPluralTitle;
-            var attr = typeof(TEntity).GetCustomAttribute<CmsAggregateRootAttribute>();
-            if (attr != null)
-            {
-                if (attr.Plural.IsNullOrWhiteSpace())
-                {
-                    _entityPluralTitle = typeof(TEntity).Name.SplitCamelCaseToWords();
-                }
-                else
-                {
-                    _entityPluralTitle = attr.Plural;
-                }
-            }
-            return _entityPluralTitle;
-        }
-
-        private string EntitySingularTitle()
-        {
-            if (!_entitySingularTitle.IsNullOrWhiteSpace()) return _entityPluralTitle;
-            var attr = typeof(TEntity).GetCustomAttribute<CmsAggregateRootAttribute>();
-            if (attr != null)
-            {
-                if (attr.Singular.IsNullOrWhiteSpace())
-                {
-                    _entitySingularTitle = typeof(TEntity).Name.SplitCamelCaseToWords();
-                }
-                else
-                {
-                    _entitySingularTitle = attr.Singular;
-                }
-            }
-            return _entitySingularTitle;
-        }
-
-        public BackOfficeEntityController(ILoggerFactory loggerFactory, IUnitOfWork<TDbContext> uow, IUserSession userSession)
+        public BackOfficeEntityController(ILoggerFactory loggerFactory, IInventoryFacade<TEntity> inv, IUserSession userSession)
         {
             logger = loggerFactory == null ? NullLogger.Instance : loggerFactory.CreateLogger(GetType());
-            this.uow = Preconditions.NotNull(uow, nameof(uow));
+            this.inv = Preconditions.NotNull(inv, nameof(inv));
             this.userSession = Preconditions.NotNull(userSession, nameof(userSession));
-            mode = DmlOperation.Update;
         }
 
         //private DmlOperation DetermineMode()
@@ -95,13 +53,12 @@ namespace Borg.System.Backoffice.Core.GenericEntity
 
             var orderByDefinitions = GetOrderBy(ColumnDefinition);
 
-            IPagedResult<TEntity> results = await uow.QueryRepo<TEntity>().Find(x => true,
-                Pager().Current, Pager().RowCount, orderByDefinitions);
+            IPagedResult<TEntity> results = await inv.Find(x => true, Pager().Current, Pager().RowCount, OrderByInfo<TEntity>.DefaultSorter(), default);
 
             var model = new EntityGridViewModel<TEntity>()
             {
                 Data = results,
-                Title = EntityPluralTitle(),
+                Title = typeof(TEntity).EntitySingular(),
                 HeaderColumns = userSession.Setting<IEnumerable<HeaderColumn>>(HeaderColumnsCacheKey).ToList()
             };
             return View("~/Areas/Backoffice/Views/BackOfficeEntity/Index.cshtml", model);
@@ -136,7 +93,7 @@ namespace Borg.System.Backoffice.Core.GenericEntity
                 }
                 var options = ScriptOptions.Default.AddReferences(typeof(TEntity).Assembly);
                 Expression<Func<TEntity, bool>> predicate = await CSharpScript.EvaluateAsync<Expression<Func<TEntity, bool>>>(exprBuilder.ToString(), options);
-                var hit = this.uow.QueryRepo<TEntity>().Get(predicate);
+                var hit = this.inv.Find(predicate, 1, 1, OrderByInfo<TEntity>.DefaultSorter());
                 return View("~/Areas/Backoffice/Views/BackOfficeEntity/Detail.cshtml", hit);
             };
             return BadRequest();
@@ -145,7 +102,7 @@ namespace Borg.System.Backoffice.Core.GenericEntity
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            var model = await uow.NewInstance<TEntity>();
+            var model = await inv.Instance();
             return View(model);
         }
 

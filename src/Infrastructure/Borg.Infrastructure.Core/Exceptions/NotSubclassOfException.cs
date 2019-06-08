@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Borg.Infrastructure.Core
+namespace Borg.Infrastructure.Core.Exceptions
 {
     public class NotSubclassOfException : BorgException
     {

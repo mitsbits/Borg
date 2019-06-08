@@ -34,7 +34,7 @@ namespace Borg.Framework.DAL
             params Expression<Func<T, dynamic>>[] paths) where T : class
         {
             cancellationToken.ThrowIfCancellationRequested();
-            return await repo.Find(predicate, -1, -1, null, cancellationToken, paths);
+            return await repo.Read(predicate, -1, -1, null, cancellationToken, paths);
         }
 
         public static async Task<T> Get<T>(this IReadRepository<T> repo, Expression<Func<T, bool>> predicate,
@@ -42,7 +42,7 @@ namespace Borg.Framework.DAL
             params Expression<Func<T, dynamic>>[] paths) where T : class
         {
             cancellationToken.ThrowIfCancellationRequested();
-            var data = await repo.Find(predicate, 1, 1, null, cancellationToken, paths);
+            var data = await repo.Read(predicate, 1, 1, null, cancellationToken, paths);
             return data.TotalRecords > 0 ? data.Records[0] : null;
         }
 

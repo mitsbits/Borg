@@ -7,6 +7,7 @@ using Borg.Platform.Backoffice.Security.EF.Data;
 using Borg.System.Backoffice.Security;
 using Borg.System.Backoffice.Security.Contracts;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using System;
 using System.Threading.Tasks;
 
@@ -17,9 +18,9 @@ namespace Borg.Platform.Backoffice.Security.EF
         private readonly ILogger _logger;
         private readonly ICmsUserPasswordValidator _passwordValidator;
 
-        public CmsUserManager(ILoggerFactory loggerFactory, SecurityDbContext db, ICmsUserPasswordValidator passwordValidator) : base(db)
+        public CmsUserManager(ILogger logger, SecurityDbContext db, ICmsUserPasswordValidator passwordValidator) : base(db, logger)
         {
-            _logger = loggerFactory.CreateLogger<CmsUserManager>();
+            _logger = logger ?? NullLogger.Instance;
             _passwordValidator = passwordValidator;
         }
 

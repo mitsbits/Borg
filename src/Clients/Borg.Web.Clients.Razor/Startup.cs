@@ -1,12 +1,11 @@
 ﻿using Borg.Framework.Modularity;
 using Borg.Framework.MVC.Middleware.SecurityHeaders;
 using Borg.Framework.MVC.Sevices;
-using Borg.Framework.Reflection;
 using Borg.Framework.Reflection.Services;
 using Borg.Framework.Services.AssemblyScanner;
 using Borg.Framework.Services.Serializer;
 using Borg.Infrastructure.Core.Services.Serializer;
-using Borg.System.Backoffice.Lib;
+using Borg.System.Backoffice.Core.GenericEntity;
 using Borg.System.Licencing;
 using Borg.System.Licencing.Contracts;
 using Microsoft.AspNetCore.Builder;
@@ -54,7 +53,7 @@ namespace Borg.Web.Clients.Razor
             {
                 routeOptions.ConstraintMap.Add("genericController", typeof(BackOfficeEntityControllerConstraint));
             });
-            services.AddPolicies();
+            //services.AddPolicies();
             services.AddDispatcherNetCore();
             services.AddCmsUsers(loggerFactory, hostingEnvironment, configuration);
             services.AddCmsCore(loggerFactory, configuration);

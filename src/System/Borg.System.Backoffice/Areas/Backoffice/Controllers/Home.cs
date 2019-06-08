@@ -1,4 +1,5 @@
-﻿using Borg.System.Backoffice.Lib;
+﻿using Borg.System.Backoffice.Core;
+using Borg.System.Backoffice.Lib;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using System.Threading.Tasks;

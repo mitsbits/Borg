@@ -5,24 +5,23 @@ using System;
 
 namespace Borg.Framework.Reflection.ObjectGraph
 {
-    internal class ComplexTypeRecursor : IDisposable
+    public class ComplexTypeRecursor : IDisposable
     {
         private readonly ComplexTypeRecursorResult source;
         private readonly ILogger logger;
         private int recursionLevel;
         private Type currentReferer;
 
-        internal ComplexTypeRecursor(Type root, ILogger logger = null)
+        public ComplexTypeRecursor(Type root, ILogger logger = null)
         {
             source = new ComplexTypeRecursorResult();
             this.logger = logger ?? NullLogger.Instance;
             recursionLevel = 0;
         }
 
-        internal ComplexTypeRecursorResult Results()
+        public ComplexTypeRecursorResult Results()
         {
-            var bucket = Preconditions.NotNull(source, nameof(source));
-            return bucket;
+            return Preconditions.NotNull(source, nameof(source));
         }
 
         private void DiscoverComplexTypes(Type root)
