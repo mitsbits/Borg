@@ -13,9 +13,7 @@ namespace Borg.Framework.EF.Discovery.AssemblyScanner
 
         private static string BuildMessage(Assembly assembly)
         {
-            var builder = new StringBuilder(assembly.FullName);
-            builder.AppendLine($"No types are decorated with {nameof(CmsAggregateRootAttribute)} or a subclass");
-            return builder.ToString();
+            return $"Assembly {assembly.GetName().Name} has no Cms Aggregate Roots defined";
         }
     }
 }

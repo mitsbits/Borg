@@ -17,6 +17,7 @@ namespace Borg.Framework.Reflection.ObjectGraph
             source = new ComplexTypeRecursorResult();
             this.logger = logger ?? NullLogger.Instance;
             recursionLevel = 0;
+            DiscoverComplexTypes(Preconditions.NotNull(root, nameof(root)));
         }
 
         public ComplexTypeRecursorResult Results()

@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace Borg.Web.Clients.Razor
 {
@@ -34,7 +35,7 @@ namespace Borg.Web.Clients.Razor
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IBorgLicenceService>(new Borg.System.Licencing.MemoryMoqLicenceService());
             services.RegisterPlugableServices(loggerFactory);
@@ -59,7 +60,7 @@ namespace Borg.Web.Clients.Razor
             services.AddCmsUsers(loggerFactory, hostingEnvironment, configuration);
             services.AddCmsCore(loggerFactory, configuration);
             services.ConfigureOptions(typeof(System.Backoffice.UiConfigureOptions));
-            services.AddServiceLocator();
+            return services.AddServiceLocator();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

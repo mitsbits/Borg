@@ -1,27 +1,24 @@
 ﻿using Borg.Infrastructure.Core;
 using Borg.Infrastructure.Core.Reflection.Discovery;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
 namespace Borg.Framework.EF.Discovery
 {
-    public class EntitiesExplorer : IAssemblyExplorer
+    public class EntitiesExplorer : AssemblyExplorer
     {
-        private readonly ILogger logger;
         private readonly List<Assembly> assemblies = new List<Assembly>();
         private readonly List<AssemblyScanResult> results = new List<AssemblyScanResult>();
 
-        public EntitiesExplorer(ILoggerFactory loggerfactory, IEnumerable<IAssemblyProvider> providers)
+        public EntitiesExplorer(ILoggerFactory loggerfactory, IEnumerable<IAssemblyProvider> providers) : base(loggerfactory)
         {
-            this.logger = loggerfactory == null ? NullLogger.Instance : loggerfactory.CreateLogger(GetType());
             Populate(Preconditions.NotEmpty(providers, nameof(providers)));
             InternalScan();
         }
 
-        public IEnumerable<AssemblyScanResult> Results()
+        protected override IEnumerable<AssemblyScanResult> ResultsInternal()
         {
             return results;
         }
@@ -51,7 +48,7 @@ namespace Borg.Framework.EF.Discovery
                 {
                     if (asmbl.Assimilated() && !assemblies.Any(x => x.FullName == asmbl.FullName))
                     {
-                        logger.Info($"Discoverd assembly for the hive - {asmbl.FullName}");
+                        Logger.Info($"Discoverd assembly for the hive - {asmbl.FullName}");
                         assemblies.Add(asmbl);
                     }
                 }

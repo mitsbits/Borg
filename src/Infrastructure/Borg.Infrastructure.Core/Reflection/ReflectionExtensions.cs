@@ -10,7 +10,7 @@ namespace Borg
 {
     public static class ReflectionExtensions
     {
-        public static bool IsNonAbstractClass(this Type type, bool publicOnly)
+        public static bool IsNonAbstractClass(this Type type, bool publicOnly = false)
         {
             var typeInfo = type.GetTypeInfo();
 
@@ -159,7 +159,7 @@ namespace Borg
 
         public static bool IsOpenGeneric(this Type type)
         {
-            return type.GetTypeInfo().IsGenericTypeDefinition;
+            return type.GetTypeInfo().IsGenericType;
         }
 
         public static bool IsSubclassOfRawGeneric(this Type thisType, Type genericTypeToCheck)
@@ -234,7 +234,8 @@ namespace Borg
             return type.IsPrimitive
               || type.IsEnum
               || type.Equals(typeof(string))
-              || type.Equals(typeof(decimal));
+              || type.Equals(typeof(decimal))
+              || type.Equals(typeof(Guid));
         }
 
         public static bool IsEnumerator(this PropertyInfo type)
