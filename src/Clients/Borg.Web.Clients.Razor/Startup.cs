@@ -2,8 +2,9 @@
 using Borg.Framework.MVC.Middleware.SecurityHeaders;
 using Borg.Framework.MVC.Sevices;
 using Borg.Framework.Reflection.Services;
-using Borg.Framework.Services.AssemblyScanner;
+
 using Borg.Framework.Services.Serializer;
+using Borg.Infrastructure.Core.Reflection.Discovery;
 using Borg.Infrastructure.Core.Services.Serializer;
 using Borg.System.Backoffice.Core.GenericEntity;
 using Borg.System.Licencing;

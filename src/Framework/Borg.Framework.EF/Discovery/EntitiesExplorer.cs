@@ -17,7 +17,7 @@ namespace Borg.Framework.EF.Discovery
         public EntitiesExplorer(ILoggerFactory loggerfactory, IEnumerable<IAssemblyProvider> providers)
         {
             this.logger = loggerfactory == null ? NullLogger.Instance : loggerfactory.CreateLogger(GetType());
-            Populate(providers);
+            Populate(Preconditions.NotEmpty(providers, nameof(providers)));
             InternalScan();
         }
 
@@ -44,7 +44,6 @@ namespace Borg.Framework.EF.Discovery
 
         private void Populate(IEnumerable<IAssemblyProvider> providers)
         {
-            providers = Preconditions.NotEmpty(providers, nameof(providers));
             foreach (var prv in providers)
             {
                 var localCollection = prv.GetAssemblies();

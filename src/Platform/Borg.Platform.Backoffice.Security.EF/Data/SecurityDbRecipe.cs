@@ -1,7 +1,8 @@
 ﻿using Borg.Framework.EF;
 using Borg.Framework.EF.Contracts;
-using Borg.Framework.Services.AssemblyScanner;
+
 using Borg.Infrastructure.Core.DI;
+using Borg.Infrastructure.Core.Reflection.Discovery;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Threading;

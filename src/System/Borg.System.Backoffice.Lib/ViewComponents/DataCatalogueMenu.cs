@@ -1,6 +1,7 @@
 ﻿using Borg.Framework.Cms.Annotations;
-using Borg.Framework.Services.AssemblyScanner;
+
 using Borg.Infrastructure.Core;
+using Borg.Infrastructure.Core.Reflection.Discovery;
 using Borg.Platform.EF.Instructions;
 using Microsoft.AspNetCore.Mvc;
 using System;

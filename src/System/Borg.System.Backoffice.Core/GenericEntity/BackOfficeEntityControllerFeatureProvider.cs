@@ -1,4 +1,4 @@
-﻿using Borg.Framework.Services.AssemblyScanner;
+﻿using Borg.Infrastructure.Core.Reflection.Discovery;
 using Borg.Platform.EF.Instructions;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Controllers;

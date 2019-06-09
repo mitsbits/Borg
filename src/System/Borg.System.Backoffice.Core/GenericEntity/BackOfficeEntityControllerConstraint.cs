@@ -1,4 +1,4 @@
-﻿using Borg.Framework.Services.AssemblyScanner;
+﻿using Borg.Infrastructure.Core.Reflection.Discovery;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using System.Collections.Generic;
