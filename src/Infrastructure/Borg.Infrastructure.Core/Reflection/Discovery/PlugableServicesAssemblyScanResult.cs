@@ -1,0 +1,29 @@
+﻿using Borg.Infrastructure.Core.DI;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+
+namespace Borg.Infrastructure.Core.Reflection.Discovery
+{
+    public class PlugableServicesAssemblyScanResult : AssemblyScanResult
+    {
+        public PlugableServicesAssemblyScanResult(Assembly assembly, IEnumerable<Instruction> instructions) : base(assembly, true, new string[0])
+        {
+            Instructions = Preconditions.NotNull(instructions, nameof(instructions));
+        }
+
+        public PlugableServicesAssemblyScanResult(Assembly assembly, string[] errors) : base(assembly, false, errors)
+        {
+            Instructions = null;
+        }
+
+        public IEnumerable<Instruction> Instructions { get; }
+
+        public struct Instruction
+        {
+            public Type Service { get; set; }
+            public PlugableServiceAttribute[] Attributes { get; set; }
+            public Type[] ImplementedInterfaces { get; set; }
+        }
+    }
+}

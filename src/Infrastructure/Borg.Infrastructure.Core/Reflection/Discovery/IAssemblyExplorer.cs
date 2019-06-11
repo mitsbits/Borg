@@ -6,5 +6,9 @@ namespace Borg.Framework.EF.Discovery
     public interface IAssemblyExplorer
     {
         IEnumerable<AssemblyScanResult> Results();
+
+        bool ScanCompleted { get; }
+
+        void Scan();
     }
 }

@@ -15,7 +15,7 @@ namespace Borg.Framework.EF.Discovery
         public EntitiesExplorer(ILoggerFactory loggerfactory, IEnumerable<IAssemblyProvider> providers) : base(loggerfactory)
         {
             Populate(Preconditions.NotEmpty(providers, nameof(providers)));
-            InternalScan();
+            ScanInternal();
         }
 
         protected override IEnumerable<AssemblyScanResult> ResultsInternal()
@@ -23,15 +23,16 @@ namespace Borg.Framework.EF.Discovery
             return results;
         }
 
-        private void InternalScan()
+        protected override void ScanInternal()
         {
             foreach (var asml in assemblies)
             {
-                results.Add(InternalScan(asml));
+                results.Add(ScanInternal(asml));
             }
+            scanCompleted = true;
         }
 
-        private AssemblyScanResult InternalScan(Assembly asmbl)
+        private AssemblyScanResult ScanInternal(Assembly asmbl)
         {
             return AsyncHelpers.RunSync(() =>
             new AssemblyScanner.EntitiesAssemblyScanner(asmbl,
@@ -41,17 +42,12 @@ namespace Borg.Framework.EF.Discovery
 
         private void Populate(IEnumerable<IAssemblyProvider> providers)
         {
-            foreach (var prv in providers)
+            foreach (var asmbl in providers.SelectMany(p => p.GetAssemblies())
+                .Where(asmbl => asmbl.Assimilated()
+                    && !assemblies.Any(x => x.FullName == asmbl.FullName)))
             {
-                var localCollection = prv.GetAssemblies();
-                foreach (var asmbl in localCollection)
-                {
-                    if (asmbl.Assimilated() && !assemblies.Any(x => x.FullName == asmbl.FullName))
-                    {
-                        Logger.Info($"Discoverd assembly for the hive - {asmbl.FullName}");
-                        assemblies.Add(asmbl);
-                    }
-                }
+                Logger.Info($"Discoverd assembly for the hive - {asmbl.FullName}");
+                assemblies.Add(asmbl);
             }
         }
     }

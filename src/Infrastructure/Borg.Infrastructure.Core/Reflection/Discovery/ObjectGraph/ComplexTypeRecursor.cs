@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Borg.Infrastructure.Core.Reflection.Discovery.ObjectGraph
@@ -12,7 +11,6 @@ namespace Borg.Infrastructure.Core.Reflection.Discovery.ObjectGraph
         private readonly ILogger logger;
         private int recursionLevel;
         private Type currentReferer;
-
 
         public ComplexTypeRecursor(Type root, ILogger logger = null)
         {
@@ -27,8 +25,6 @@ namespace Borg.Infrastructure.Core.Reflection.Discovery.ObjectGraph
         {
             return Preconditions.NotNull(source, nameof(source));
         }
-
-
 
         private void DiscoverComplexTypes(Type root)
         {

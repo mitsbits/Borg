@@ -8,6 +8,7 @@ namespace Borg.Framework.EF.Discovery
     public abstract class AssemblyExplorer : IAssemblyExplorer
     {
         protected ILogger Logger { get; }
+        protected bool scanCompleted = false;
 
         protected AssemblyExplorer(ILoggerFactory loggerFactory)
         {
@@ -19,6 +20,12 @@ namespace Borg.Framework.EF.Discovery
             return ResultsInternal();
         }
 
+        public bool ScanCompleted => scanCompleted;
+
         protected abstract IEnumerable<AssemblyScanResult> ResultsInternal();
+
+        public void Scan() => ScanInternal();
+
+        protected abstract void ScanInternal();
     }
 }

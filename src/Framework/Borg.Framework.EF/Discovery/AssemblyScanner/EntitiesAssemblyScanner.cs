@@ -63,7 +63,7 @@ namespace Borg.Framework.EF.Discovery.AssemblyScanner
             {
                 if (!entityMaps.Any(x => x.GetGenericArgumentType(0) == type))
                 {
-                    var attr = type.GetCustomAttributes().FirstOrDefault(x => x.GetType().IsAssignableFrom(typeof(EFAggregateRootAttribute)));
+                    var attr = type.GetCustomAttributes().FirstOrDefault(x => typeof(EFAggregateRootAttribute).IsAssignableFrom(x.GetType()));
                     if (attr != null)
                     {
                         var dbType = ((EFAggregateRootAttribute)attr).DbType;

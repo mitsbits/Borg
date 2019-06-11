@@ -46,6 +46,7 @@ namespace Borg.Web.Clients.Razor
             services.AddHttpContextAccessor();
             services.AddSingleton<IBorgLicenceService, MemoryMoqLicenceService>();
             services.AddSingleton<IConfiguration>(configuration);
+            services.AddAssemblyExplorerOrchestrator();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .ConfigureApplicationPartManager(p =>

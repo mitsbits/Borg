@@ -54,11 +54,11 @@ namespace Test.Borg.Infrastructure.Core
             source.ContainsWhitespaceAgnostic("g").ShouldBeFalse();
         }
 
-        [Fact]
-        public void DistinctWhitespaceAgnostic()
-        {
-            var source = new[] { " a", " a ", "b ", "   b ", "c ", "     c ", " d", "e " };
-            source.DistinctWhitespaceAgnostic().ShouldBe(new[] { "a", "b", "c", "d", "e" });
-        }
+        //[Fact]
+        //public void DistinctWhitespaceAgnostic()
+        //{
+        //    var source = new[] { " a", " a ", "b ", "   b ", "c ", "     c ", " d", "e " };
+        //    source.DistinctWhitespaceAgnostic().ShouldBe(new[] { "a", "b", "c", "d", "e" });
+        //}
     }
 }

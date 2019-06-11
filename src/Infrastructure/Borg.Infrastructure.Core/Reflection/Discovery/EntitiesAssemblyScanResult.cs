@@ -20,8 +20,8 @@ namespace Borg.Infrastructure.Core.Reflection.Discovery
             EntityMaps = null;
         }
 
-        private IEnumerable<Type> AggregateRoots { get; }
-        private IEnumerable<KeyValuePair<Type, Type[]>> ComplexTypes { get; }
-        private IEnumerable<Type> EntityMaps { get; }
+        public IEnumerable<Type> AggregateRoots { get; }
+        public IEnumerable<KeyValuePair<Type, Type[]>> ComplexTypes { get; }
+        public IEnumerable<Type> EntityMaps { get; }
     }
 }

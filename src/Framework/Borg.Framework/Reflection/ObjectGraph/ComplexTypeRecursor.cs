@@ -28,7 +28,7 @@ namespace Borg.Framework.Reflection.ObjectGraph
         private void DiscoverComplexTypes(Type root)
         {
             logger.Debug($"{nameof(ComplexTypeRecursor)} discovering {root.FullName} | Recursion {recursionLevel}");
-            source.Add(root, currentReferer, recursionLevel);
+            if (!source.TryAdd(root, currentReferer, recursionLevel)) return;
             recursionLevel++;
             currentReferer = root;
             foreach (var prop in root.GetProperties())

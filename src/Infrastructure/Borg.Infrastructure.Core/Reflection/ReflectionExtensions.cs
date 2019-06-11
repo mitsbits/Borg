@@ -154,7 +154,7 @@ namespace Borg
             {
                 throw new IndexOutOfRangeException(nameof(index));
             }
-            return type.GetTypeInfo().GenericTypeArguments[index];
+            return args[index];
         }
 
         public static bool IsOpenGeneric(this Type type)
