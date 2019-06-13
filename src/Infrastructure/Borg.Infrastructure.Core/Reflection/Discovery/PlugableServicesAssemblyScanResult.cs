@@ -21,6 +21,13 @@ namespace Borg.Infrastructure.Core.Reflection.Discovery
 
         public struct Instruction
         {
+            public Instruction(Type service, PlugableServiceAttribute[] attributes, Type[] implementedInterfaces)
+            {
+                Service = Preconditions.NotNull(service, nameof(service));
+                Attributes = Preconditions.NotNull(attributes, nameof(attributes));
+                ImplementedInterfaces = Preconditions.NotNull(implementedInterfaces, nameof(implementedInterfaces));
+            }
+
             public Type Service { get; set; }
             public PlugableServiceAttribute[] Attributes { get; set; }
             public Type[] ImplementedInterfaces { get; set; }

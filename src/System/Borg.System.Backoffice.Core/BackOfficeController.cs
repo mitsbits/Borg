@@ -1,5 +1,4 @@
-﻿
-using Borg.System.Backoffice.Core.Security.ActionFilters;
+﻿using Borg.System.Backoffice.Core.Security.ActionFilters;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Borg.System.Backoffice.Core

@@ -1,4 +1,6 @@
-﻿using Borg.Infrastructure.Core.Reflection.Discovery;
+﻿using Borg.Infrastructure.Core;
+using Borg.Infrastructure.Core.DI;
+using Borg.Infrastructure.Core.Reflection.Discovery;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +27,18 @@ namespace Borg.Framework.Reflection.Discovery.AssemblyScanner
                 Result = new PlugableServicesAssemblyScanResult(Assembly, new string[] { new NoPlugableServicesException(Assembly).ToString() });
                 return;
             }
+            Result = new PlugableServicesAssemblyScanResult(Assembly, FindAllPlugableServices());
+        }
+
+        private IEnumerable<PlugableServicesAssemblyScanResult.Instruction> FindAllPlugableServices(params Assembly[] assemblies)
+        {
+            Preconditions.NotEmpty(assemblies, nameof(assemblies));
+            return assemblies.SelectMany(x => x.GetTypes())
+                .Where(x => !x.IsAbstract && x.HasAttribute<PlugableServiceAttribute>()).Distinct()
+                .Select(x => new PlugableServicesAssemblyScanResult.Instruction(
+                    x,
+                    x.GetCustomAttributes<PlugableServiceAttribute>().ToArray(),
+                    x.GetCustomAttributes<PlugableServiceAttribute>().Select(a => a.ImplementationOf).ToArray()));
         }
 
         protected override Task<PlugableServicesAssemblyScanResult> ScanInternal()

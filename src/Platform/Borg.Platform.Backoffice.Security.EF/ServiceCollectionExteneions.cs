@@ -16,7 +16,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             services.AddScoped<ICmsUserManager<CmsUser>, CmsUserManager>();
             services.AddSingleton<ICmsUserPasswordValidator, BorgCmsUserPasswordValidator>();
-            services.AddScoped(p => new SecurityDbContext(loggerFactory, configuration));
+            services.AddScoped<SecurityDbContext>();
 
             services.AddScoped<IUnitOfWork<SecurityDbContext>, UnitOfWork<SecurityDbContext>>();
             return services;

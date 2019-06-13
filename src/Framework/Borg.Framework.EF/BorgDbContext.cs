@@ -1,5 +1,6 @@
 ﻿using Borg.Framework.EF.Contracts;
-using Borg.Framework.EF.Discovery;
+using Borg.Infrastructure.Core;
+using Borg.Infrastructure.Core.Reflection.Discovery;
 using Borg.Infrastructure.Core.Services.Factory;
 using Borg.Platform.EF.Instructions;
 using JetBrains.Annotations;
@@ -15,7 +16,7 @@ namespace Borg.Framework.EF
 {
     public abstract class BorgDbContext<TConfiguration> : BorgDbContext where TConfiguration : IConfiguration
     {
-        protected BorgDbContext(ILoggerFactory loggerFactory, TConfiguration configuration) : base(loggerFactory, configuration)
+        protected BorgDbContext(ILoggerFactory loggerFactory, TConfiguration configuration, IAssemblyExplorerResult explorerResult) : base(loggerFactory, configuration, explorerResult)
         {
         }
 
@@ -32,13 +33,15 @@ namespace Borg.Framework.EF
         public EventHandler<EntityStateChangedEventArgs> StateChangedEventHandler;
 
         protected readonly ILogger Logger;
+        protected readonly IAssemblyExplorerResult ExplorerResult;
 
         private readonly SetUpMode Mode = SetUpMode.None;
 
-        protected BorgDbContext(ILoggerFactory loggerFactory, IConfiguration configuration)
+        protected BorgDbContext(ILoggerFactory loggerFactory, IConfiguration configuration, IAssemblyExplorerResult explorerResult)
         {
             Logger = loggerFactory == null ? NullLogger.Instance : loggerFactory.CreateLogger(GetType());
-            this.configuration = configuration;
+            this.configuration = Preconditions.NotNull(configuration, nameof(configuration));
+            this.ExplorerResult = Preconditions.NotNull(explorerResult, nameof(explorerResult));
             Mode = SetUpMode.Configuration;
         }
 

@@ -1,5 +1,6 @@
 ﻿using Borg.Framework;
-using Borg.Framework.EF.Discovery;
+using Borg.Framework.Reflection.Discovery;
+using Borg.Infrastructure.Core.Reflection.Discovery;
 using System;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -16,7 +17,13 @@ namespace Microsoft.Extensions.DependencyInjection
 
         public static IServiceCollection AddAssemblyExplorerOrchestrator(this IServiceCollection services)
         {
-            services.AddSingleton<IAssemblyExplorerOrchestrator, AssemblyExplorerOrchestrator>();
+            services.AddSingleton<IAssemblyExplorerResult, AssemblyExplorerResult>();
+            return services;
+        }
+
+        public static IServiceCollection AddPlugableServicesExplorer(this IServiceCollection services)
+        {
+            services.AddSingleton<PlugableServicesExplorer, PlugableServicesExplorer>();
             return services;
         }
     }

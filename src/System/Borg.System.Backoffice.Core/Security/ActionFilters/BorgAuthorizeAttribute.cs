@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Borg.Framework;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Borg.System.Backoffice.Core.Security.ActionFilters
 {
@@ -13,6 +14,5 @@ namespace Borg.System.Backoffice.Core.Security.ActionFilters
                 Policy = BorgSecurityConstants.BackofficePolicyName;
             }
         }
-
     }
 }

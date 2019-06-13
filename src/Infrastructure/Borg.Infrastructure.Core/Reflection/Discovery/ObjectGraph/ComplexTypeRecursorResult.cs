@@ -8,7 +8,6 @@ namespace Borg.Infrastructure.Core.Reflection.Discovery.ObjectGraph
     {
         internal void Add(Type type, Type referrer = null, int recursion = 0)
         {
-            
             Add(new ComplexTypeRecursorResultItem(type, referrer, recursion));
         }
 

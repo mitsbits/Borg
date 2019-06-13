@@ -38,15 +38,19 @@ namespace Borg.Web.Clients.Razor
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IBorgLicenceService>(new Borg.System.Licencing.MemoryMoqLicenceService());
-            services.RegisterPlugableServices(loggerFactory);
-            services.AddSingleton<IAssemblyProvider>(new DepedencyAssemblyProvider(loggerFactory));
-            services.AddSingleton<IAssemblyProvider>(new ReferenceAssemblyProvider(loggerFactory, null, GetType().Assembly));
+
+            var depAsmblPrv = new DepedencyAssemblyProvider(loggerFactory);
+            var refAsmblPrv = new ReferenceAssemblyProvider(loggerFactory, null, GetType().Assembly);
+
+            services.AddSingleton<IAssemblyProvider>(depAsmblPrv);
+            services.AddSingleton<IAssemblyProvider>(refAsmblPrv);
             services.AddScoped<IUserSession, UserSession>();
             services.AddSingleton<ISerializer, JsonNetSerializer>();
             services.AddHttpContextAccessor();
             services.AddSingleton<IBorgLicenceService, MemoryMoqLicenceService>();
             services.AddSingleton<IConfiguration>(configuration);
             services.AddAssemblyExplorerOrchestrator();
+            services.AddPlugableServicesExplorer();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .ConfigureApplicationPartManager(p =>
@@ -56,11 +60,12 @@ namespace Borg.Web.Clients.Razor
             {
                 routeOptions.ConstraintMap.Add("genericController", typeof(BackOfficeEntityControllerConstraint));
             });
-            //services.AddPolicies();
+            services.AddPolicies();
             services.AddDispatcherNetCore();
             services.AddCmsUsers(loggerFactory, hostingEnvironment, configuration);
             services.AddCmsCore(loggerFactory, configuration);
             services.ConfigureOptions(typeof(System.Backoffice.UiConfigureOptions));
+            services.RegisterPlugableServices(loggerFactory, depAsmblPrv, refAsmblPrv);
             return services.AddServiceLocator();
         }
 

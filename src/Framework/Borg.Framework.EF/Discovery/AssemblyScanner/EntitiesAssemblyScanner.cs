@@ -15,6 +15,7 @@ namespace Borg.Framework.EF.Discovery.AssemblyScanner
     {
         private List<Type> aggregateRoots;
         private Dictionary<Type, Type[]> complexTypes;
+        private Type[] DefaultDbs;
 
         public EntitiesAssemblyScanner(Assembly assembly, ILoggerFactory loggerfactory) : base(loggerfactory, assembly)
         {
@@ -70,8 +71,8 @@ namespace Borg.Framework.EF.Discovery.AssemblyScanner
                     }
                 }
             }
-
-            Result = new EntitiesAssemblyScanResult(Assembly, aggregateRoots, complexTypes, entityMaps.ToList());
+            var defalutDbs = Assembly.GetTypes().Where(x => x.GetCustomAttribute<DefaultDbDefinitionAttribute>() != null);
+            Result = new EntitiesAssemblyScanResult(Assembly, aggregateRoots, complexTypes, defalutDbs, entityMaps.ToList());
         }
 
         public void Dispose()

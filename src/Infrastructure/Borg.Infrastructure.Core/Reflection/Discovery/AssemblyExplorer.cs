@@ -1,9 +1,8 @@
-﻿using Borg.Infrastructure.Core.Reflection.Discovery;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using System.Collections.Generic;
 
-namespace Borg.Framework.EF.Discovery
+namespace Borg.Infrastructure.Core.Reflection.Discovery
 {
     public abstract class AssemblyExplorer : IAssemblyExplorer
     {

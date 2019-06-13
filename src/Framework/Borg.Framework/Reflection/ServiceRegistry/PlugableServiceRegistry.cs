@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace Borg.Framework.Reflection.ServiceRegistry
 {
+    [Obsolete]
     [PlugableService(ImplementationOf = typeof(IPlugableServiceRegistry), Lifetime = Lifetime.Singleton, OneOfMany = true, Order = 1)]
     public class PlugableServiceRegistry : IPlugableServiceRegistry
     {

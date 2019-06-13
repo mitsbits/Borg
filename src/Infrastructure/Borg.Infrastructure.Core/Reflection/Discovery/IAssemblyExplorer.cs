@@ -1,7 +1,6 @@
-﻿using Borg.Infrastructure.Core.Reflection.Discovery;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace Borg.Framework.EF.Discovery
+namespace Borg.Infrastructure.Core.Reflection.Discovery
 {
     public interface IAssemblyExplorer
     {
@@ -11,4 +10,8 @@ namespace Borg.Framework.EF.Discovery
 
         void Scan();
     }
+}
+
+namespace Borg
+{
 }
