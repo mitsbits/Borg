@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Borg.Infrastructure.Core.Reflection.Discovery
 {
@@ -23,8 +24,8 @@ namespace Borg.Infrastructure.Core.Reflection.Discovery
 
         protected abstract IEnumerable<AssemblyScanResult> ResultsInternal();
 
-        public void Scan() => ScanInternal();
+        public Task Scan() => ScanInternal();
 
-        protected abstract void ScanInternal();
+        protected abstract Task ScanInternal();
     }
 }

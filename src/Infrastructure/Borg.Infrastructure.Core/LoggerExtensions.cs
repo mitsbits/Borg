@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
+using System.Diagnostics;
 
 namespace Borg
 {
+    [DebuggerStepThrough]
     public static class LoggerExtensions
     {
         public static void Warn(this ILogger logger, string message, params object[] args)

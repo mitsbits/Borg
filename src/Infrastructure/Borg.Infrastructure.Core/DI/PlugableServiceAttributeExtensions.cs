@@ -10,7 +10,7 @@ namespace Borg
 
         public static bool IsPlugableService(this Type type)
         {
-            if (type == null) return false;
+            if (type == null || type.IsInterface || type.IsAbstract) return false;
             if (cache.TryGetValue(type, out var result)) return result;
             result = type.HasAttribute<PlugableServiceAttribute>();
             cache.TryAdd(type, result);

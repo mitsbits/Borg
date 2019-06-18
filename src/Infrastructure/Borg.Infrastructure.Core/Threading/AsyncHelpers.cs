@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Borg
 {
+    [DebuggerStepThrough]
     public static class AsyncHelpers
     {
         [DebuggerStepThrough]
@@ -63,6 +64,7 @@ namespace Borg
             return ret;
         }
 
+        [DebuggerStepThrough]
         private class ExclusiveSynchronizationContext : SynchronizationContext
         {
             private readonly Queue<Tuple<SendOrPostCallback, object>> items =

@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Borg.Framework.Reflection.Discovery
 {
@@ -17,7 +18,7 @@ namespace Borg.Framework.Reflection.Discovery
         {
             this.loggerFactory = loggerfactory;
             Populate(Preconditions.NotEmpty(providers, nameof(providers)));
-            ScanInternal();
+            AsyncHelpers.RunSync(async () => await ScanInternal());
         }
 
         protected override IEnumerable<AssemblyScanResult> ResultsInternal()
@@ -25,21 +26,18 @@ namespace Borg.Framework.Reflection.Discovery
             return results;
         }
 
-        protected override void ScanInternal()
+        protected override async Task ScanInternal()
         {
             foreach (var asml in assemblies)
             {
-                results.Add(ScanInternal(asml));
+                results.Add(await ScanInternal(asml));
             }
             scanCompleted = true;
         }
 
-        private AssemblyScanResult ScanInternal(Assembly asmbl)
+        private async Task<AssemblyScanResult> ScanInternal(Assembly asmbl)
         {
-            return AsyncHelpers.RunSync(() =>
-            new AssemblyScanner.PlugableServicesAssemblyScanner(asmbl,
-            loggerFactory)
-            .Scan());
+            return await new AssemblyScanner.PlugableServicesAssemblyScanner(asmbl, loggerFactory).Scan();
         }
 
         private void Populate(IEnumerable<IAssemblyProvider> providers)

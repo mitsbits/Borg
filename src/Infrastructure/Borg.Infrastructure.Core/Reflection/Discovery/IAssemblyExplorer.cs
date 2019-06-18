@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Borg.Infrastructure.Core.Reflection.Discovery
 {
@@ -8,10 +9,6 @@ namespace Borg.Infrastructure.Core.Reflection.Discovery
 
         bool ScanCompleted { get; }
 
-        void Scan();
+        Task Scan();
     }
-}
-
-namespace Borg
-{
 }

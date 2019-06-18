@@ -27,12 +27,11 @@ namespace Borg.Framework.Reflection.Discovery.AssemblyScanner
                 Result = new PlugableServicesAssemblyScanResult(Assembly, new string[] { new NoPlugableServicesException(Assembly).ToString() });
                 return;
             }
-            Result = new PlugableServicesAssemblyScanResult(Assembly, FindAllPlugableServices());
+            Result = new PlugableServicesAssemblyScanResult(Assembly, FindAllPlugableServices(Assembly));
         }
 
         private IEnumerable<PlugableServicesAssemblyScanResult.Instruction> FindAllPlugableServices(params Assembly[] assemblies)
         {
-            Preconditions.NotEmpty(assemblies, nameof(assemblies));
             return assemblies.SelectMany(x => x.GetTypes())
                 .Where(x => !x.IsAbstract && x.HasAttribute<PlugableServiceAttribute>()).Distinct()
                 .Select(x => new PlugableServicesAssemblyScanResult.Instruction(
