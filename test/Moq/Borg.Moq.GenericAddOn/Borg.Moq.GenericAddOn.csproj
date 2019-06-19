@@ -3,7 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Infrastructure\Borg.Infrastructure.Core\Borg.Infrastructure.Core.csproj" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Infrastructure\Borg.Infrastructure.Core\Borg.Infrastructure.Core.csproj" />
   </ItemGroup>

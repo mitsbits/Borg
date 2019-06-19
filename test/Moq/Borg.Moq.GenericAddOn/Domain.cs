@@ -1,6 +1,6 @@
 ﻿using Borg.Infrastructure.Core.DI;
 
-namespace Moq.PlugableServicesExplorerTest
+namespace Borg.Moq.GenericAddOn
 {
     public interface IFoo { }
 

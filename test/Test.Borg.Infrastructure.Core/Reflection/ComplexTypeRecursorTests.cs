@@ -13,7 +13,7 @@ namespace Test.Borg.Infrastructure.Core.Reflection
         private ComplexTypeRecursor recursor;
         private readonly List<Type> ExistingTypes;
 
-        public OpenGenericTests(ITestOutputHelper output) : base(output)
+        public ComplexTypeRecursorTests(ITestOutputHelper output) : base(output)
         {
             ExistingTypes = new List<Type>
             {
@@ -32,7 +32,7 @@ namespace Test.Borg.Infrastructure.Core.Reflection
         {
             Should.NotThrow(() =>
             {
-                using (recursor = new ComplexTypeRecursor(typeof(Root), _moqLoggerFactory.CreateLogger(nameof(OpenGenericTests))))
+                using (recursor = new ComplexTypeRecursor(typeof(Root), _moqLoggerFactory.CreateLogger(nameof(ComplexTypeRecursorTests))))
                 {
                     var results = recursor.Results();
                     var hit = results.FirstOrDefault(x => x.Type == typeof(ValueOject));
@@ -46,7 +46,7 @@ namespace Test.Borg.Infrastructure.Core.Reflection
         {
             Should.NotThrow(() =>
             {
-                using (recursor = new ComplexTypeRecursor(typeof(Root), _moqLoggerFactory.CreateLogger(nameof(OpenGenericTests))))
+                using (recursor = new ComplexTypeRecursor(typeof(Root), _moqLoggerFactory.CreateLogger(nameof(ComplexTypeRecursorTests))))
                 {
                     var results = recursor.Results();
                     var hit = results.FirstOrDefault(x => x.Type == typeof(OpenGeneric<ObjectGraph, SecondObjectGraph>));
@@ -60,7 +60,7 @@ namespace Test.Borg.Infrastructure.Core.Reflection
         {
             Should.NotThrow(() =>
             {
-                using (recursor = new ComplexTypeRecursor(typeof(Root), _moqLoggerFactory.CreateLogger(nameof(OpenGenericTests))))
+                using (recursor = new ComplexTypeRecursor(typeof(Root), _moqLoggerFactory.CreateLogger(nameof(ComplexTypeRecursorTests))))
                 {
                     var results = recursor.Results();
                     foreach (var type in ExistingTypes)
@@ -76,7 +76,7 @@ namespace Test.Borg.Infrastructure.Core.Reflection
         {
             Should.NotThrow(() =>
             {
-                using (recursor = new ComplexTypeRecursor(typeof(Root), _moqLoggerFactory.CreateLogger(nameof(OpenGenericTests))))
+                using (recursor = new ComplexTypeRecursor(typeof(Root), _moqLoggerFactory.CreateLogger(nameof(ComplexTypeRecursorTests))))
                 {
                     var results = recursor.Results();
                     var whatsleft = results.Where(x => !ExistingTypes.Contains(x.Type)).ToList();
@@ -90,7 +90,7 @@ namespace Test.Borg.Infrastructure.Core.Reflection
         {
             Should.NotThrow(() =>
             {
-                using (recursor = new ComplexTypeRecursor(typeof(Root), _moqLoggerFactory.CreateLogger(nameof(OpenGenericTests))))
+                using (recursor = new ComplexTypeRecursor(typeof(Root), _moqLoggerFactory.CreateLogger(nameof(ComplexTypeRecursorTests))))
                 {
                     var results = recursor.Results();
                     results.Entities().Length.ShouldBe(ExistingTypes.Count);

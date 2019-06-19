@@ -19,7 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Framework\Borg.Framework\Borg.Framework.csproj" />
-    <ProjectReference Include="..\Moq\Moq.PlugableServicesExplorerTest\Moq.PlugableServicesExplorerTest.csproj" />
+    <ProjectReference Include="..\Moq\Borg.Moq.GenericAddOn\Borg.Moq.GenericAddOn.csproj" />
     <ProjectReference Include="..\Test.Borg\Test.Borg.csproj" />
   </ItemGroup>
 

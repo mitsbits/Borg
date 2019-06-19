@@ -17,7 +17,7 @@ namespace Test.Borg.Framework
         public FileAssemblyProviderTest(ITestOutputHelper output) : base(output)
         {
             var directory = new DirectoryInfo(Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).AbsolutePath));
-            _moqAssemblyPath = $"{directory.FullName}\\Moq.PlugableServicesExplorerTest.dll";
+            _moqAssemblyPath = $"{directory.FullName}\\Borg.Moq.GenericAddOn.dll";
             _notFoundMoqAssemblyPath = $"{directory.FullName}\\IDontExist.dll";
         }
 
