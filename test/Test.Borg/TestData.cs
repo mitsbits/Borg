@@ -1,15 +1,15 @@
 ﻿using System;
 
-namespace Test.Borg.Framework.MVC
+namespace Test.Borg
 {
-    internal class TestData
+    public class TestData
     {
         private const string _objGuid = "89B302BC-25EE-4333-AF6A-75FBB75340EC";
         private const string _objText = "Hi there!";
         private const double _objNumeric = 42.5;
 
         private readonly ObjectToSerialize _obj;
-        internal readonly byte[] _objData;
+        public readonly byte[] _objData;
         private readonly string _objDataString;
 
         public TestData()

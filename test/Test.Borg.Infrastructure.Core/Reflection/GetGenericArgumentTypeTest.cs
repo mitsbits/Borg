@@ -3,11 +3,16 @@ using Shouldly;
 using System;
 using System.Collections.Generic;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Test.Borg.Infrastructure.Core.Reflection
 {
-    public class GetGenericArgumentTypeTest
+    public class GetGenericArgumentTypeTest : TestBase
     {
+        public GetGenericArgumentTypeTest(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void check_that_method_returns_null_for_non_generic()
         {
