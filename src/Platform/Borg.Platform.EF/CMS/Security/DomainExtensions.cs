@@ -1,5 +1,5 @@
 ﻿using Borg.Infrastructure.Core;
-using Borg.Platform.Backoffice.Security.EF;
+using Borg.Platform.EF.CMS.Security;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;

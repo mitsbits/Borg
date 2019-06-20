@@ -3,25 +3,26 @@ using Borg.Framework.Cms.Contracts;
 using Borg.Framework.DAL;
 using Borg.Framework.EF.Contracts;
 using Borg.Framework.EF.DAL;
-using Borg.Platform.Backoffice.Security.EF.Data;
-using Borg.System.Backoffice.Security;
+using Borg.Infrastructure.Core.Services.Security;
 using Borg.System.Backoffice.Security.Contracts;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using System;
 using System.Threading.Tasks;
 
-namespace Borg.Platform.Backoffice.Security.EF
+namespace Borg.Platform.EF.CMS.Security
 {
-    public class CmsUserManager : UnitOfWork<SecurityDbContext>, IUnitOfWork<SecurityDbContext>, ICmsUserManager<CmsUser>
+    public class CmsUserManager : UnitOfWork<BorgDb>, IUnitOfWork<BorgDb>, ICmsUserManager<CmsUser>
     {
-        private readonly ILogger _logger;
-        private readonly ICmsUserPasswordValidator _passwordValidator;
+        private readonly ILogger logger;
+        private readonly ICmsUserPasswordValidator passwordValidator;
+        private readonly ICrypto crypto;
 
-        public CmsUserManager(ILogger logger, SecurityDbContext db, ICmsUserPasswordValidator passwordValidator) : base(db, logger)
+        public CmsUserManager(ILoggerFactory loggerfactory, BorgDb db, ICmsUserPasswordValidator passwordValidator, ICrypto crypto) : base(loggerfactory, db)
         {
-            _logger = logger ?? NullLogger.Instance;
-            _passwordValidator = passwordValidator;
+            this.logger = loggerfactory == null ? NullLogger.Instance : loggerfactory.CreateLogger(GetType());
+            this.passwordValidator = passwordValidator;
+            this.crypto = crypto;
         }
 
         public async Task<ICmsOperationResult<CmsUser>> Login(string user, string password)
@@ -29,21 +30,21 @@ namespace Borg.Platform.Backoffice.Security.EF
             var cmsuser = await QueryRepo<CmsUser>().Get(x => x.Email.ToLowerInvariant() == user.ToLowerInvariant());
             if (cmsuser == null)
             {
-                _logger.Debug($"no user for {nameof(user)}:{user}");
+                logger.Debug($"no user for {nameof(user)}:{user}");
                 return new CmsOperationResult<CmsUser>(TransactionOutcome.Failure, null, new CmsError(user, new ApplicationException($"no user for {nameof(user)}:{user}")));
             }
             if (!cmsuser.IsActive)
             {
-                _logger.Debug($"not active user for {nameof(user)}:{user}");
+                logger.Debug($"not active user for {nameof(user)}:{user}");
                 return new CmsOperationResult<CmsUser>(TransactionOutcome.Failure, null, new CmsError(user, new ApplicationException($"not active user for {nameof(user)}:{user}")));
             }
-            var passwordmatch = Crypto.VerifyHashedPassword(cmsuser.PasswordHash, password);
+            var passwordmatch = crypto.VerifyHashedPassword(cmsuser.PasswordHash, password);
             if (!passwordmatch)
             {
-                _logger.Debug($"invalid password for {nameof(user)}:{user}");
+                logger.Debug($"invalid password for {nameof(user)}:{user}");
                 return new CmsOperationResult<CmsUser>(TransactionOutcome.Failure, null, new CmsError(user, new ApplicationException($"invalid password for {nameof(user)}:{user}")));
             }
-            _logger.Debug($"succesful login for {nameof(user)}:{user}");
+            logger.Debug($"succesful login for {nameof(user)}:{user}");
             return new CmsOperationResult<CmsUser>(TransactionOutcome.Success, cmsuser);
         }
 
@@ -52,27 +53,27 @@ namespace Borg.Platform.Backoffice.Security.EF
             var cmsuser = await ReadWriteRepo<CmsUser>().Get(x => x.Email.ToLowerInvariant() == user.ToLowerInvariant());
             if (cmsuser == null)
             {
-                _logger.Debug($"no user for {nameof(user)}:{user}");
+                logger.Debug($"no user for {nameof(user)}:{user}");
                 return new CmsOperationResult(TransactionOutcome.Failure, new CmsError(user));
             }
-            var validatorresult = await _passwordValidator.IsStrongEnough(password);
+            var validatorresult = await passwordValidator.IsStrongEnough(password);
             {
                 if (!validatorresult.isStrong)
                 {
-                    _logger.Debug($"not strong enough password for {nameof(user)}:{user}");
+                    logger.Debug($"not strong enough password for {nameof(user)}:{user}");
                     return new CmsOperationResult(TransactionOutcome.Failure, new CmsError(user));
                 }
             }
             try
             {
-                cmsuser.PasswordHash = Crypto.HashPassword(password);
+                cmsuser.PasswordHash = crypto.HashPassword(password);
                 cmsuser = await ReadWriteRepo<CmsUser>().Update(cmsuser);
                 await Save();
                 return new CmsOperationResult(TransactionOutcome.Success);
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, $"failed setting password for {nameof(user)}:{user}");
+                logger.Error(ex, $"failed setting password for {nameof(user)}:{user}");
                 return new CmsOperationResult(TransactionOutcome.Failure, new CmsError(user, ex));
             }
         }

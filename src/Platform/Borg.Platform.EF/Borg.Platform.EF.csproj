@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Framework\Borg.Framework.EF\Borg.Framework.EF.csproj" />
+    <ProjectReference Include="..\..\System\Borg.System.Backoffice.Security\Borg.System.Backoffice.Security.csproj" />
   </ItemGroup>
 
 

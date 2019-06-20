@@ -1,5 +1,5 @@
 ﻿using Borg.Framework;
-using Borg.Platform.Backoffice.Security.EF;
+using Borg.Platform.EF.CMS.Security;
 using Borg.System.Backoffice.Core;
 using Borg.System.Backoffice.Security;
 using Borg.System.Backoffice.Security.Contracts;

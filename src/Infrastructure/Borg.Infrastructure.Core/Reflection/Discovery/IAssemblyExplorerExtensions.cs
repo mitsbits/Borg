@@ -13,13 +13,13 @@ namespace Borg
             return explorer.Results();
         }
 
-        public static IEnumerable<TResult> Results<TResult>(this IAssemblyExplorer explorer) where TResult : AssemblyScanResult
+        public static IEnumerable<TResult> SuccessResults<TResult>(this IAssemblyExplorer explorer) where TResult : AssemblyScanResult
         {
             explorer = Preconditions.NotNull(explorer, nameof(explorer));
             var results = explorer.ScanAndResult();
             foreach (var result in results)
             {
-                if (result.GetType().Equals(typeof(TResult))) yield return result as TResult;
+                if (result.GetType().Equals(typeof(TResult)) && result.Success) yield return result as TResult;
             }
         }
     }

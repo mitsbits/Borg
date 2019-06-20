@@ -8,13 +8,13 @@ using Microsoft.Extensions.Logging;
 namespace Borg.Platform.EF
 {
     [DefaultDbDefinition]
-    public class BorgPlatformDb : BorgDbContext<IConfiguration>
+    public class BorgDb : BorgDbContext<IConfiguration>
     {
-        public BorgPlatformDb(ILoggerFactory loggerFactory, IConfiguration configuration, IAssemblyExplorerResult explorerResult) : base(loggerFactory, configuration, explorerResult)
+        public BorgDb(ILoggerFactory loggerFactory, IConfiguration configuration, IAssemblyExplorerResult explorerResult) : base(loggerFactory, configuration, explorerResult)
         {
         }
 
-        internal BorgPlatformDb(DbContextOptions options) : base(options)
+        internal BorgDb(DbContextOptions options) : base(options)
         {
         }
     }

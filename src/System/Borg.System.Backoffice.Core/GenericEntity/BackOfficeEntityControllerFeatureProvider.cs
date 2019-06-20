@@ -1,4 +1,5 @@
 ﻿using Borg.Infrastructure.Core.Reflection.Discovery;
+using Borg.Platform.EF;
 using Borg.Platform.EF.Instructions;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Controllers;
@@ -28,7 +29,7 @@ namespace Borg.System.Backoffice.Core.GenericEntity
                 var map = tps.FirstOrDefault(t => t.GetTypeInfo().GenericTypeArguments[0] == entityType);
                 if (map != null)
                 {
-                    var dbtype = map.GetGenericArguments()[1];
+                    var dbtype = typeof(BorgDb);
 
                     // Check to see if there is a "real" controller for this class
                     if (!feature.Controllers.Any(t => t.Name == typeName))

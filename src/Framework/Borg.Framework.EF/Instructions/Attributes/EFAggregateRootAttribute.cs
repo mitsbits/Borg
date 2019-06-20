@@ -10,18 +10,18 @@ namespace Borg.Framework.EF.Instructions.Attributes
     {
         private Type dbType;
 
-        public virtual Type DbType
+        public EFAggregateRootAttribute(Type dbType)
         {
-            get { return dbType; }
-            set
+            var db = Preconditions.NotNull(dbType, nameof(dbType));
+            if (!db.IsSubclassOf(typeof(DbContext)))
             {
-                var db = Preconditions.NotNull(value, nameof(value));
-                if (db.IsSubclassOf(typeof(DbContext)))
-                {
-                    DbType = db;
-                }
-                throw new NotSubclassOfException(value, typeof(DbContext));
+                throw new NotSubclassOfException(dbType, typeof(DbContext));
+
             }
+            else { dbType = db; }
         }
+
+    
+        public virtual Type DbType => dbType;
     }
 }

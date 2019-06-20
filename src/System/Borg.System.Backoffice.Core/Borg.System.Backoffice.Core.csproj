@@ -12,7 +12,7 @@
     <ProjectReference Include="..\..\Framework\Borg.Framework.MVC\Borg.Framework.MVC.csproj" />
     <ProjectReference Include="..\..\Framework\Borg.Framework\Borg.Framework.csproj" />
     <ProjectReference Include="..\..\Infrastructure\Borg.Infrastructure.Core\Borg.Infrastructure.Core.csproj" />
-    <ProjectReference Include="..\..\Platform\Borg.Platform.Backoffice.Security.EF\Borg.Platform.Backoffice.Security.EF.csproj" />
+    <ProjectReference Include="..\..\Platform\Borg.Platform.EF\Borg.Platform.EF.csproj" />
     <ProjectReference Include="..\Borg.System.Backoffice.Security\Borg.System.Backoffice.Security.csproj" />
   </ItemGroup>
 </Project>

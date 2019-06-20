@@ -17,13 +17,13 @@ namespace Borg.Framework.EF.DAL
     {
         protected ILogger Log;
 
-        public UnitOfWork(TDbContext dbContext, ILogger logger)
+        public UnitOfWork(ILoggerFactory loggerfactory,TDbContext dbContext )
         {
             Context = Preconditions.NotNull(dbContext, nameof(dbContext));
             Context.IsWrappedByUOW = true;
             Context.TrackedEventHandler += OnTracked;
             Context.StateChangedEventHandler += OnStateChanged;
-            Log = logger ?? NullLogger.Instance;
+            Log = loggerfactory == null ? NullLogger.Instance : loggerfactory.CreateLogger(GetType());
         }
 
         protected virtual TDbContext Context { get; }

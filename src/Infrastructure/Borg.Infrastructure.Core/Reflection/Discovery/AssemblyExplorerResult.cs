@@ -10,7 +10,7 @@ namespace Borg.Infrastructure.Core.Reflection.Discovery
 
         private readonly List<AssemblyScanResult> results = new List<AssemblyScanResult>();
 
-        protected AssemblyExplorerResult(ILoggerFactory loggerFactory, IEnumerable<IAssemblyExplorer> explorers)
+        public AssemblyExplorerResult(ILoggerFactory loggerFactory, IEnumerable<IAssemblyExplorer> explorers)
         {
             Logger = loggerFactory == null ? NullLogger.Instance : loggerFactory.CreateLogger(GetType());
             Populate(Preconditions.NotEmpty(explorers, nameof(explorers)));

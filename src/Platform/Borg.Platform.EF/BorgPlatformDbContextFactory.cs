@@ -3,15 +3,15 @@ using Microsoft.EntityFrameworkCore.Design;
 
 namespace Borg.Platform.EF
 {
-    public class BorgPlatformDbContextFactory : IDesignTimeDbContextFactory<BorgPlatformDb>
+    public class BorgPlatformDbContextFactory : IDesignTimeDbContextFactory<BorgDb>
     {
-        BorgPlatformDb IDesignTimeDbContextFactory<BorgPlatformDb>.CreateDbContext(string[] args)
+        BorgDb IDesignTimeDbContextFactory<BorgDb>.CreateDbContext(string[] args)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<BorgPlatformDb>();
+            var optionsBuilder = new DbContextOptionsBuilder<BorgDb>();
             var options = optionsBuilder
                 .UseSqlServer("Data Source=.;Initial Catalog=borg;Integrated Security=True;");
 
-            return new BorgPlatformDb(optionsBuilder.Options);
+            return new BorgDb(optionsBuilder.Options);
         }
     }
 }

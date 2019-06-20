@@ -52,13 +52,13 @@ namespace Borg.Platform.Dispatch.NetCore
                 var handlerType = handler.GetType();
                 if (handlerType.IsSubclassOf(typeof(NotificationHandler)))
                 {
-                    logger.Trace($"Invoicing notification handler: {handlerType} for notification {notificationType}");
+                    logger.Trace($"Invoking notification handler: {handlerType} for notification {notificationType}");
                     ((NotificationHandler)handler).Handle(notification);
                 }
 
                 if (handlerType.IsSubclassOf(typeof(AsyncNotificationHandler)))
                 {
-                    logger.Trace($"Invoicing notification handler: {handlerType} for notification {notificationType}");
+                    logger.Trace($"Invoking notification handler: {handlerType} for notification {notificationType}");
                     ((AsyncNotificationHandler)handler).Handle(notification, cancellationToken);
                 }
             }
@@ -77,13 +77,13 @@ namespace Borg.Platform.Dispatch.NetCore
                 var handlerType = handler.GetType();
                 if (handlerType.IsSubclassOfRawGeneric(typeof(RequestHandler)))
                 {
-                    logger.Trace($"Invoicing request handler: {handlerType} for notification {requestType}");
+                    logger.Trace($"Invoking request handler: {handlerType} for notification {requestType}");
                     handler.AsDynamic().Handle(request);
                 }
 
                 if (handlerType.IsSubclassOfRawGeneric(typeof(AsyncRequestHandler)))
                 {
-                    logger.Trace($"Invoicing request handler: {handlerType} for notification {requestType}");
+                    logger.Trace($"Invoking request handler: {handlerType} for notification {requestType}");
                     await handler.AsDynamic().Handle(request, cancellationToken);
                 }
             }
@@ -99,13 +99,13 @@ namespace Borg.Platform.Dispatch.NetCore
                 var handlerType = handler.GetType();
                 if (handlerType.IsSubclassOfRawGeneric(typeof(RequestHandler)))
                 {
-                    logger.Trace($"Invoicing request handler: {handlerType} for notification {requestType}");
+                    logger.Trace($"Invoking request handler: {handlerType} for notification {requestType}");
                     return (TResponse)(handler.AsDynamic()).Handle(request);
                 }
 
                 if (handlerType.IsSubclassOfRawGeneric(typeof(AsyncRequestHandler)))
                 {
-                    logger.Trace($"Invoicing request handler: {handlerType} for notification {requestType}");
+                    logger.Trace($"Invoking request handler: {handlerType} for notification {requestType}");
                     var result = await (handler.AsDynamic()).Handle(request, cancellationToken);
                     return (TResponse)result;
                 }

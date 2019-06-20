@@ -1,18 +1,15 @@
-﻿using Borg.Framework.Cms.Annotations;
-using Borg.Framework.EF.Instructions.Attributes;
+﻿using Borg.Framework.EF.Instructions.Attributes;
 using Borg.Infrastructure.Core.DDD.Contracts;
 using Borg.Infrastructure.Core.DDD.Enums;
 using Borg.Infrastructure.Core.DDD.ValueObjects;
-using Borg.Platform.Backoffice.Security.EF.Data;
-using Borg.Platform.EF.Instructions;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Borg.Platform.Backoffice.Security.EF
+namespace Borg.Platform.EF.CMS.Security
 {
     [KeySequenceDefinition(Column = nameof(Id))]
-    [CmsAggregateRoot(Plural = "Cms Users", Singular = "Cms User")]
+    [PlatformDBAggregateRoot(Plural = "Cms Users", Singular = "Cms User")]
     public class CmsUser : UserBase
     {
         public ICollection<CmsUserPermission> Permissions { get; set; } = new HashSet<CmsUserPermission>();
@@ -21,7 +18,7 @@ namespace Borg.Platform.Backoffice.Security.EF
     }
 
     [KeySequenceDefinition(Column = nameof(Id))]
-    [CmsAggregateRoot(Plural = "Cms Roles", Singular = "Cms Role")]
+    [PlatformDBAggregateRoot(Plural = "Cms Roles", Singular = "Cms Role")]
     public class CmsRole : RoleBase
     {
         public ICollection<CmsRolePermission> Permissions { get; set; } = new HashSet<CmsRolePermission>();
@@ -30,14 +27,14 @@ namespace Borg.Platform.Backoffice.Security.EF
     }
 
     [KeySequenceDefinition(Column = nameof(Id))]
-    [CmsAggregateRoot(Plural = "Cms User Permissions", Singular = "Cms User Permission")]
+    [PlatformDBAggregateRoot(Plural = "Cms User Permissions", Singular = "Cms User Permission")]
     public class CmsUserPermission : PermissionBase
     {
         public virtual CmsUser User { get; set; }
     }
 
     [KeySequenceDefinition(Column = nameof(Id))]
-    [CmsAggregateRoot(Plural = "Cms Role Permissions", Singular = "Cms Role Permission")]
+    [PlatformDBAggregateRoot(Plural = "Cms Role Permissions", Singular = "Cms Role Permission")]
     public class CmsRolePermission : PermissionBase
     {
         public virtual CmsRole Role { get; set; }
@@ -112,7 +109,7 @@ namespace Borg.Platform.Backoffice.Security.EF
         }
     }
 
-    public class CmsRoleMap : EntityMap<CmsRole, SecurityDbContext>
+    public class CmsRoleMap : PlatformDbEntityMap<CmsRole>
     {
         public override void OnModelCreating(ModelBuilder builder)
         {
@@ -121,7 +118,7 @@ namespace Borg.Platform.Backoffice.Security.EF
         }
     }
 
-    public class CmsUserMap : EntityMap<CmsUser, SecurityDbContext>
+    public class CmsUserMap : PlatformDbEntityMap<CmsUser>
     {
         public override void OnModelCreating(ModelBuilder builder)
         {

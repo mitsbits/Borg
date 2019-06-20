@@ -9,3 +9,4 @@
 [assembly: InternalsVisibleTo("Borg.Framework.MVC")]
 [assembly: InternalsVisibleTo("Borg.Framework")]
 [assembly: InternalsVisibleTo("Borg.System.Backoffice.Core")]
+[assembly: InternalsVisibleTo("Borg.Platform.EF")]
