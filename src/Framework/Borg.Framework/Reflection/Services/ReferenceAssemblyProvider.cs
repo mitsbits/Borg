@@ -12,7 +12,7 @@ namespace Borg.Framework.Reflection.Services
     {
         private readonly IEnumerable<AssemblyName> _assemblies;
 
-        public ReferenceAssemblyProvider(ILoggerFactory loggerFactory, Func<Assembly, bool> predicate, params Assembly[] assemblies) : base(loggerFactory, predicate)
+        public ReferenceAssemblyProvider(ILoggerFactory loggerFactory, Func<Assembly, bool> predicate = null, params Assembly[] assemblies) : base(loggerFactory, predicate)
         {
             if (assemblies == null || !assemblies.Any())
                 _assemblies = (new[] { Assembly.GetExecutingAssembly().GetName() }.Union(Assembly.GetExecutingAssembly().GetReferencedAssemblies()));

@@ -46,7 +46,7 @@ namespace Borg.System.Backoffice.Lib.Controllers
                 //}
 
                 var cmsUser = result.Payload;
-                cmsUser = new CmsUser() { Email = "mitsbits@gmail.com", IsActive = true, Id = 1, Name = "mitsbits", Surname = "bitsanis" };
+                cmsUser = new CmsUser(1) { Email = "mitsbits@gmail.com", IsActive = true, Name = "mitsbits", Surname = "bitsanis" };
 
                 var props = new AuthenticationProperties
                 {

@@ -1,9 +1,6 @@
 ﻿using Borg.Framework.Reflection.Services;
 using Borg.Infrastructure.Core.Reflection.Discovery;
 using Shouldly;
-using System;
-using System.IO;
-using System.Reflection;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -16,9 +13,8 @@ namespace Test.Borg.Framework
 
         public FileAssemblyProviderTest(ITestOutputHelper output) : base(output)
         {
-            var directory = new DirectoryInfo(Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).AbsolutePath));
-            _moqAssemblyPath = $"{directory.FullName}\\Borg.Moq.GenericAddOn.dll";
-            _notFoundMoqAssemblyPath = $"{directory.FullName}\\IDontExist.dll";
+            _moqAssemblyPath = $"{AbsoluteBin}\\Borg.Moq.GenericAddOn.dll";
+            _notFoundMoqAssemblyPath = $"{AbsoluteBin}\\IDontExist.dll";
         }
 
         [Fact]

@@ -28,6 +28,6 @@ namespace Borg.Infrastructure.Core.Reflection.Discovery
             }
         }
 
-        public IEnumerable<AssemblyScanResult> Results => throw new System.NotImplementedException();
+        public IEnumerable<AssemblyScanResult> Results => results;
     }
 }

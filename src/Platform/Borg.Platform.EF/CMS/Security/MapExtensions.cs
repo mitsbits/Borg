@@ -6,7 +6,7 @@ using System.Security.Claims;
 
 namespace Borg
 {
-    public static class DomainExtensions
+    public static partial class MapExtensions
     {
         public static IEnumerable<Claim> ToClaims(this CmsUser cmsUser)
         {

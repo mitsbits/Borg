@@ -13,7 +13,9 @@ namespace Borg.Platform.EF
         public BorgDb(ILoggerFactory loggerFactory, IConfiguration configuration, IAssemblyExplorerResult explorerResult) : base(loggerFactory, configuration, explorerResult)
         {
         }
-
+        internal BorgDb(DbContextOptions options, IAssemblyExplorerResult explorerResult) : base(options, explorerResult)
+        {
+        }
         internal BorgDb(DbContextOptions options) : base(options)
         {
         }

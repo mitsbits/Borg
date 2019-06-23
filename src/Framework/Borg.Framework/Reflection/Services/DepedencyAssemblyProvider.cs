@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyModel;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using System.Runtime.Loader;
 
@@ -22,6 +23,10 @@ namespace Borg.Framework.Reflection.Services
                 try
                 {
                     source.Add(AssemblyLoadContext.Default.LoadFromAssemblyName(new AssemblyName(compilationLibrary.Name)));
+                }
+                catch (FileNotFoundException fnfex)
+                {
+                    Logger.Warn(fnfex.ToString());
                 }
                 catch (Exception ex)
                 {
