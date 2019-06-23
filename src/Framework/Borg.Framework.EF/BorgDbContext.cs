@@ -1,5 +1,4 @@
 ﻿using Borg.Framework.EF.Contracts;
-using Borg.Framework.Reflection.Services;
 using Borg.Infrastructure.Core;
 using Borg.Infrastructure.Core.Reflection.Discovery;
 using Borg.Infrastructure.Core.Services.Factory;
@@ -13,7 +12,6 @@ using Microsoft.Extensions.Logging.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 namespace Borg.Framework.EF
 {
@@ -95,8 +93,8 @@ namespace Borg.Framework.EF
         {
             var explorer = ServiceLocator.Current.GetInstance<AssemblyExplorer>();
             var results = explorer.SuccessResults<EntitiesAssemblyScanResult>();
-           
-                DoYourThnag(results);
+
+            DoYourThnag(results);
             var maptype = typeof(EntityMapBase<,>);
             var maps = GetType().Assembly.GetTypes().Where(t => t.IsSubclassOfRawGeneric(maptype) && !t.IsAbstract && t.BaseType.GenericTypeArguments[1] == GetType());
             var entities = GetType().Assembly.GetTypes().Where(x => x.IsCmsAggregateRoot());
@@ -111,7 +109,7 @@ namespace Borg.Framework.EF
 
         private void DoYourThnag(IEnumerable<EntitiesAssemblyScanResult> results)
         {
-            foreach(var result in results)
+            foreach (var result in results)
             {
                 result.EntityMaps.Select(x => x.GetGenericArguments());
             }

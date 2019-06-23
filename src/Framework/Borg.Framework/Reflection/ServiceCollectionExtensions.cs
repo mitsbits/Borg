@@ -1,4 +1,5 @@
 ﻿using Borg.Framework.Reflection.Discovery;
+using Borg.Framework.Reflection.Discovery.AssemblyScanner;
 using Borg.Framework.Reflection.ServiceRegistry;
 using Borg.Framework.Reflection.Services;
 using Borg.Infrastructure.Core.DI;

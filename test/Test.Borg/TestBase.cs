@@ -1,5 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Xunit;
+using System;
+using System.IO;
+using System.Reflection;
 using Xunit.Abstractions;
 
 namespace Test.Borg
@@ -8,10 +11,19 @@ namespace Test.Borg
     {
         protected readonly ILoggerFactory _moqLoggerFactory;
 
+        private readonly Lazy<string> _absoluteBin = new Lazy<string>(() =>
+        {
+            var directory = Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath);
+            var dir = new DirectoryInfo(directory);
+            return dir.FullName;
+        });
+
         public TestBase(ITestOutputHelper output)
         {
             _moqLoggerFactory = new LoggerFactory();
             _moqLoggerFactory.AddProvider(new XunitLoggerProvider(output));
         }
+
+        protected string AbsoluteBin => _absoluteBin.Value;
     }
 }

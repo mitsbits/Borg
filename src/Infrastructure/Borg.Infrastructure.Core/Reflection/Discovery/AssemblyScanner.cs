@@ -19,7 +19,9 @@ namespace Borg.Infrastructure.Core.Reflection.Discovery
         public async Task<AssemblyScanResult> Scan()
         {
             Logger.Debug($"{GetType().Name} is about to scan assmbly {Assembly.GetName().Name}");
-            return await ScanInternal();
+            var result = await ScanInternal();
+            Logger.Debug($"{GetType().Name} scaned assmbly {Assembly.GetName().Name} and came up with results {result}");
+            return result;
         }
 
         protected abstract Task<TResult> ScanInternal();

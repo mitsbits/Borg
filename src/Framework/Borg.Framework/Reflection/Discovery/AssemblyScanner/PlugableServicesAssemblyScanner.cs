@@ -1,5 +1,4 @@
-﻿using Borg.Infrastructure.Core;
-using Borg.Infrastructure.Core.DI;
+﻿using Borg.Infrastructure.Core.DI;
 using Borg.Infrastructure.Core.Reflection.Discovery;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
