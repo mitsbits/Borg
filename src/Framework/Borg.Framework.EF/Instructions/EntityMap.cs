@@ -1,4 +1,6 @@
 ﻿using Borg.Framework.EF.Instructions.Attributes;
+using Borg.Infrastructure.Core;
+using Borg.Infrastructure.Core.Exceptions;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.EntityFrameworkCore;
@@ -14,29 +16,26 @@ namespace Borg.Platform.EF.Instructions
     public interface IEntityMap
     {
         void OnModelCreating(ModelBuilder builder);
+
+        Type EntityType { get; }
+        Type ContextType { get; }
     }
 
     public interface IEntityMap<TEntity, TDbContext> : IEntityMap where TEntity : class where TDbContext : DbContext
     {
-        Type EntityType { get; }
-        Type ContextType { get; }
     }
 
     public class EntityMap<TEntity, TDbContext> : EntityMapBase<TEntity, TDbContext> where TEntity : class where TDbContext : DbContext
     {
     }
 
-    public abstract class EntityMapBase<TEntity, TDbContext> : IEntityMap<TEntity, TDbContext> where TEntity : class where TDbContext : DbContext
+    public abstract class EntityMapBase<TEntity, TDbContext> : EntityMapBase, IEntityMap<TEntity, TDbContext> where TEntity : class where TDbContext : DbContext
     {
-        public Type EntityType => typeof(TEntity);
-
-        public Type ContextType => typeof(TDbContext);
-
-        protected EntityMapBase()
+        protected EntityMapBase() : base(typeof(TEntity), typeof(TDbContext))
         {
         }
 
-        public virtual void OnModelCreating(ModelBuilder builder)
+        public override void OnModelCreating(ModelBuilder builder)
         {
             KeySequenceDefinition(builder);
             SequenceDefinition(builder);
@@ -179,5 +178,25 @@ namespace Borg.Platform.EF.Instructions
                 builder.Entity<TEntity>().Property(keyExpression).HasDefaultValueSql($"NEXT VALUE FOR {sequenceName}");
             }
         }
+    }
+
+    public abstract class EntityMapBase : IEntityMap
+    {
+        protected EntityMapBase(Type entityType, Type contextType)
+        {
+            EntityType = Preconditions.NotNull(entityType, nameof(entityType));
+            contextType = Preconditions.NotNull(contextType, nameof(contextType));
+            if (!contextType.IsSubclassOf(typeof(DbContext)))
+            {
+                throw new NotSubclassOfException(contextType, typeof(DbContext));
+            }
+            ContextType = contextType;
+        }
+
+        public Type EntityType { get; }
+
+        public Type ContextType { get; }
+
+        public abstract void OnModelCreating(ModelBuilder builder);
     }
 }

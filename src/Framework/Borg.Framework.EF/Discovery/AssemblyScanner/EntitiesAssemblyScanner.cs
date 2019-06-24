@@ -1,6 +1,7 @@
 ﻿using Borg.Framework.EF.Instructions.Attributes;
-using Borg.Framework.Reflection.ObjectGraph;
+
 using Borg.Infrastructure.Core.Reflection.Discovery;
+using Borg.Infrastructure.Core.Reflection.Discovery.ObjectGraph;
 using Borg.Platform.EF.Instructions;
 using Microsoft.Extensions.Logging;
 using System;
@@ -45,7 +46,7 @@ namespace Borg.Framework.EF.Discovery.AssemblyScanner
 
             foreach (var aggregate in aggregateRoots)
             {
-                using (var recursor = new ComplexTypeRecursor(aggregate, Logger))
+                using (var recursor = new ComplexTypeRecursor(aggregate, null, Logger))
                 {
                     try
                     {

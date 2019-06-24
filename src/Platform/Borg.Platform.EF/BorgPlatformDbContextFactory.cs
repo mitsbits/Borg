@@ -4,6 +4,7 @@ using Borg.Infrastructure.Core.Reflection.Discovery;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 
@@ -13,6 +14,7 @@ namespace Borg.Platform.EF
     {
         BorgDb IDesignTimeDbContextFactory<BorgDb>.CreateDbContext(string[] args)
         {
+            Debugger.Launch();
             var optionsBuilder = new DbContextOptionsBuilder<BorgDb>();
             var options = optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=borg;Integrated Security=True;");
 

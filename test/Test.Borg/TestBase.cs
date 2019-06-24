@@ -13,7 +13,7 @@ namespace Test.Borg
 
         private readonly Lazy<string> _absoluteBin = new Lazy<string>(() =>
         {
-           var directory = new DirectoryInfo(Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath));
+            var directory = new DirectoryInfo(Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath));
             return directory.FullName;
         });
 

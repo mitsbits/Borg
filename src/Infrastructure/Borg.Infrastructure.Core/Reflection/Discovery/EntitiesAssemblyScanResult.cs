@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace Borg.Infrastructure.Core.Reflection.Discovery
@@ -26,5 +27,10 @@ namespace Borg.Infrastructure.Core.Reflection.Discovery
         public IEnumerable<KeyValuePair<Type, Type[]>> ComplexTypes { get; }
         public IEnumerable<Type> EntityMaps { get; }
         public IEnumerable<Type> DefaultDbs { get; }
+
+        public IEnumerable<Type> AllEntityTypes()
+        {
+            return AggregateRoots?.Union(ComplexTypes?.Select(x => x.Key)).Union(ComplexTypes?.SelectMany(x => x.Value)).Distinct();
+        }
     }
 }

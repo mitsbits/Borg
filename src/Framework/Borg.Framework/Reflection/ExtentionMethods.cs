@@ -1,5 +1,5 @@
 ﻿using Borg.Framework.Cms.Annotations;
-using Borg.Framework.Reflection.ObjectGraph;
+using Borg.Infrastructure.Core.Reflection.Discovery.ObjectGraph;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Reflection;
@@ -17,7 +17,7 @@ namespace Borg
 
         public static ComplexTypeRecursorResult RecurseForComplexTypes(this Type type, ILogger logger = null)
         {
-            using (var recursor = new ComplexTypeRecursor(type, logger))
+            using (var recursor = new ComplexTypeRecursor(type, null, logger))
             {
                 return recursor.Results();
             }

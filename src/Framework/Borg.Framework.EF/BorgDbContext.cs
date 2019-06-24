@@ -10,9 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 
 namespace Borg.Framework.EF
 {
@@ -54,9 +52,11 @@ namespace Borg.Framework.EF
         protected BorgDbContext([NotNull] DbContextOptions options) : base(options)
         {
         }
+
         protected BorgDbContext([NotNull] DbContextOptions options, Func<BorgDbContextOptions> borgOptionsFactory = null) : base(options)
         {
         }
+
         protected BorgDbContext([NotNull] DbContextOptions options, IAssemblyExplorerResult explorerResult) : base(options)
         {
             this.ExplorerResult = Preconditions.NotNull(explorerResult, nameof(explorerResult));
@@ -101,24 +101,51 @@ namespace Borg.Framework.EF
         {
             Debugger.Launch();
 
-            DoYourThnag(ExplorerResult);
-            var maptype = typeof(EntityMapBase<,>);
-            var maps = GetType().Assembly.GetTypes().Where(t => t.IsSubclassOfRawGeneric(maptype) && !t.IsAbstract && t.BaseType.GenericTypeArguments[1] == GetType());
-            var entities = GetType().Assembly.GetTypes().Where(x => x.IsCmsAggregateRoot());
-            var havemap = maps.Select(x => x.BaseType.GenericTypeArguments[1]).Distinct().ToArray();
+            DoYourThnag(builder);
+            //var maptype = typeof(EntityMapBase<,>);
+            //var maps = GetType().Assembly.GetTypes().Where(t => t.IsSubclassOfRawGeneric(maptype) && !t.IsAbstract && t.BaseType.GenericTypeArguments[1] == GetType());
+            //var entities = GetType().Assembly.GetTypes().Where(x => x.IsCmsAggregateRoot());
+            //var havemap = maps.Select(x => x.BaseType.GenericTypeArguments[1]).Distinct().ToArray();
             //var orphans = entities.Where(x => maps.Any(m => m.))
 
-            foreach (var map in maps)
-            {
-                ((IEntityMap)New.Creator(map)).OnModelCreating(builder);
-            }
+            //foreach (var map in maps)
+            //{
+            //    ((IEntityMap)New.Creator(map)).OnModelCreating(builder);
+            //}
         }
 
-        private void DoYourThnag(IAssemblyExplorerResult results)
+        private void DoYourThnag(ModelBuilder builder)
         {
-            foreach (var result in results.Results)
+            var localresults = ExplorerResult.Results<EntitiesAssemblyScanResult>();
+            foreach (var result in localresults)
             {
-                // result.EntityMaps.Select(x => x.GetGenericArguments());
+                if (!result.Success) continue;
+                var entityTypes = result.AllEntityTypes();
+                foreach (var entitytype in entityTypes)
+                {
+                    var isMapped = false;
+                    builder.Entity(entitytype);
+                    var mapType = typeof(EntityMapBase<,>).MakeGenericType(entitytype, GetType());
+                    foreach (var mapdef in result.EntityMaps)
+                    {
+                        if (mapdef.IsAssignableTo(mapType))
+                        {
+                            if (isMapped) continue;
+                            ((IEntityMap)New.Creator(mapdef)).OnModelCreating(builder);
+                            isMapped = true;
+                        }
+                    }
+                    if (!isMapped)
+                    {
+                        var newMapType = typeof(EntityMap<,>).MakeGenericType(entitytype, GetType());
+                        ((IEntityMap)New.Creator(newMapType)).OnModelCreating(builder);
+                    }
+                }
+
+                foreach (var maptype in result.EntityMaps)
+                {
+                    ((IEntityMap)New.Creator(maptype)).OnModelCreating(builder);
+                }
             }
         }
 
