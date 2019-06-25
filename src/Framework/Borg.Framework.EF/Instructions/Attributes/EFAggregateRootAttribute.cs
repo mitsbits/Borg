@@ -16,12 +16,10 @@ namespace Borg.Framework.EF.Instructions.Attributes
             if (!db.IsSubclassOf(typeof(DbContext)))
             {
                 throw new NotSubclassOfException(dbType, typeof(DbContext));
-
             }
             else { dbType = db; }
         }
 
-    
         public virtual Type DbType => dbType;
     }
 }

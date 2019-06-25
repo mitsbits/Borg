@@ -1,4 +1,5 @@
-﻿using Borg.Infrastructure.Core.Reflection.Discovery;
+﻿using Borg.Framework.EF.Instructions;
+using Borg.Infrastructure.Core.Reflection.Discovery;
 using Borg.Platform.EF;
 using Borg.Platform.EF.Instructions;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;

@@ -1,11 +1,11 @@
 ﻿using Borg.Framework.Cms.BuildingBlocks;
-using Borg.Framework.EF.Instructions.Attributes;
+using Borg.Framework.EF.Instructions.Attributes.Schema;
 using Borg.Infrastructure.Core.DDD.Contracts;
 using System.Collections.Generic;
 
 namespace Borg.Platform.EF.CMS.Security
 {
-    [KeySequenceDefinition(Column = nameof(Id))]
+    [PrimaryKeySequenceDefinition(Column = nameof(Id))]
     [PlatformDBAggregateRoot(Plural = "Cms Users", Singular = "Cms User")]
     public class CmsUser : UserBase
     {

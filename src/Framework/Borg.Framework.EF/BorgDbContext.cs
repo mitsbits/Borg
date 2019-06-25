@@ -1,8 +1,10 @@
 ﻿using Borg.Framework.EF.Contracts;
+using Borg.Framework.EF.Instructions;
 using Borg.Infrastructure.Core;
 using Borg.Infrastructure.Core.Reflection.Discovery;
 using Borg.Infrastructure.Core.Services.Factory;
 using Borg.Platform.EF.Instructions;
+using Borg.Platform.EF.Instructions.Contracts;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -10,7 +12,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using System;
-using System.Diagnostics;
 
 namespace Borg.Framework.EF
 {
@@ -99,10 +100,7 @@ namespace Borg.Framework.EF
 
         private void Map(ModelBuilder builder)
         {
-    
-
             DoYourThnag(builder);
-
         }
 
         private void DoYourThnag(ModelBuilder builder)
@@ -115,7 +113,6 @@ namespace Borg.Framework.EF
                 foreach (var entitytype in entityTypes)
                 {
                     var isMapped = false;
-                    //builder.Entity(entitytype);
                     var mapType = typeof(EntityMapBase<,>).MakeGenericType(entitytype, GetType());
                     foreach (var mapdef in result.EntityMaps)
                     {
@@ -131,11 +128,6 @@ namespace Borg.Framework.EF
                         var newMapType = typeof(EntityMap<,>).MakeGenericType(entitytype, GetType());
                         ((IEntityMap)New.Creator(newMapType)).OnModelCreating(builder);
                     }
-                }
-
-                foreach (var maptype in result.EntityMaps)
-                {
-                    ((IEntityMap)New.Creator(maptype)).OnModelCreating(builder);
                 }
             }
         }

@@ -9,7 +9,7 @@ namespace Borg
 {
     public static partial class ILanguageOptionsProviderExtensions
     {
-        public static IEnumerable<ILanguage> LanguagesEmptyAtTheBegining(this ILanguageOptionsProvider provider)
+        public static IEnumerable<IGlobalizationSilo> LanguagesEmptyAtTheBegining(this ILanguageOptionsProvider provider)
         {
             provider = Preconditions.NotNull(provider, nameof(provider));
             return new Language[] { Language.Enpty() }.Union(provider.Languages());

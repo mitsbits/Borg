@@ -1,8 +1,8 @@
-﻿using Borg.Framework.EF.Instructions.Attributes;
+﻿using Borg.Framework.EF.Instructions;
+using Borg.Framework.EF.Instructions.Attributes;
 
 using Borg.Infrastructure.Core.Reflection.Discovery;
 using Borg.Infrastructure.Core.Reflection.Discovery.ObjectGraph;
-using Borg.Platform.EF.Instructions;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;

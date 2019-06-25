@@ -22,12 +22,12 @@ namespace Borg.Framework.Services.Multilingual
             source = new ConcurrentDictionary<string, string>(cultureInfos.Select(x => new KeyValuePair<string, string>(x.TwoLetterISOLanguageName, x.Name)));
         }
 
-        public IEnumerable<ILanguage> Languages()
+        public IEnumerable<IGlobalizationSilo> Languages()
         {
             return source.Select(x => new Language(x.Key, x.Value));
         }
 
-        internal class Language : ValueObject<Language>, ILanguage
+        internal class Language : ValueObject<Language>, IGlobalizationSilo
         {
             private readonly string key;
             private readonly string title;
