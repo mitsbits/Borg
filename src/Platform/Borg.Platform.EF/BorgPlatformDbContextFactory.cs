@@ -14,7 +14,7 @@ namespace Borg.Platform.EF
     {
         BorgDb IDesignTimeDbContextFactory<BorgDb>.CreateDbContext(string[] args)
         {
-            Debugger.Launch();
+
             var optionsBuilder = new DbContextOptionsBuilder<BorgDb>();
             var options = optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=borg;Integrated Security=True;");
 

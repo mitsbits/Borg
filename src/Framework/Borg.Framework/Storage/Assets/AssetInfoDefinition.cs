@@ -1,8 +1,6 @@
 ﻿using Borg.Framework.Storage.Assets.Contracts;
 using Borg.Infrastructure.Core.DDD.ValueObjects;
-using Borg.Infrastructure.Core.Reflection.Discovery.Annotations;
 using System;
-using System.Collections.Generic;
 
 namespace Borg.Framework.Storage.Assets
 {
@@ -29,7 +27,7 @@ namespace Borg.Framework.Storage.Assets
             get => _currentFile;
             set => _currentFile = value;
         }
-        [MapperIgnore]
+
         public CompositeKey Keys
         {
             get

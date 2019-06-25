@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Borg.Infrastructure.Core.Reflection.Discovery.Annotations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using static Borg.Infrastructure.Core.DDD.ValueObjects.CompositeKeyBuilder;
@@ -6,6 +7,7 @@ using static Borg.Infrastructure.Core.DDD.ValueObjects.CompositeKeyBuilder;
 namespace Borg.Infrastructure.Core.DDD.ValueObjects
 {
     [Serializable]
+    [MapperIgnore]
     public class CompositeKey : ValueObject<CompositeKey>
     {
         protected readonly List<(string key, object value)> _data;

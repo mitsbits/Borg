@@ -99,19 +99,10 @@ namespace Borg.Framework.EF
 
         private void Map(ModelBuilder builder)
         {
-            Debugger.Launch();
+    
 
             DoYourThnag(builder);
-            //var maptype = typeof(EntityMapBase<,>);
-            //var maps = GetType().Assembly.GetTypes().Where(t => t.IsSubclassOfRawGeneric(maptype) && !t.IsAbstract && t.BaseType.GenericTypeArguments[1] == GetType());
-            //var entities = GetType().Assembly.GetTypes().Where(x => x.IsCmsAggregateRoot());
-            //var havemap = maps.Select(x => x.BaseType.GenericTypeArguments[1]).Distinct().ToArray();
-            //var orphans = entities.Where(x => maps.Any(m => m.))
 
-            //foreach (var map in maps)
-            //{
-            //    ((IEntityMap)New.Creator(map)).OnModelCreating(builder);
-            //}
         }
 
         private void DoYourThnag(ModelBuilder builder)
@@ -124,7 +115,7 @@ namespace Borg.Framework.EF
                 foreach (var entitytype in entityTypes)
                 {
                     var isMapped = false;
-                    builder.Entity(entitytype);
+                    //builder.Entity(entitytype);
                     var mapType = typeof(EntityMapBase<,>).MakeGenericType(entitytype, GetType());
                     foreach (var mapdef in result.EntityMaps)
                     {

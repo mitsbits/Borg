@@ -1,6 +1,5 @@
 ﻿using Borg.Infrastructure.Core.DDD.Contracts;
 using Borg.Infrastructure.Core.DDD.ValueObjects;
-using Borg.Infrastructure.Core.Reflection.Discovery.Annotations;
 using System;
 
 namespace Borg.Framework.Cms.BuildingBlocks
@@ -9,7 +8,6 @@ namespace Borg.Framework.Cms.BuildingBlocks
     {
         public TKey Id { get; protected set; }
 
-        [MapperIgnore]
         public virtual CompositeKey Keys => CompositeKeyInternal();
 
         private CompositeKey CompositeKeyInternal()
