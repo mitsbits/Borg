@@ -73,7 +73,7 @@ namespace Borg.Framework.DAL
                 else
                 {
                     if (orderedQueryable != null)
-                        orderedQueryable = info.Ascending
+                        orderedQueryable= info.Ascending
                             ? orderedQueryable.ThenBy(name)
                             : orderedQueryable.ThenByDescending(name);
                 }

@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Borg.Infrastructure.Core;
+using System;
 
 namespace Borg.Framework.Cms
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
     public class PropertyTabAttribute : Attribute
     {
-        private const string defaultTabHeader = "General";
-        public string Header { get; set; } = defaultTabHeader;
+        public const string DefaultTabHeader = "General";
+        public string Header { get; set; } = DefaultTabHeader;
 
         public PropertyTabAttribute()
         {
@@ -14,7 +15,7 @@ namespace Borg.Framework.Cms
         }
         public PropertyTabAttribute(string header)
         {
-            Header = header;
+            Header = Preconditions.NotEmpty( header, nameof(header));
         }
     }
 }
