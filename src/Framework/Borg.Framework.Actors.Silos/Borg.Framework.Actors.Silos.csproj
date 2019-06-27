@@ -7,18 +7,18 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.4" />
-    <PackageReference Include="Microsoft.Orleans.Clustering.AdoNet" Version="2.3.0" />
-    <PackageReference Include="Microsoft.Orleans.Persistence.AdoNet" Version="2.3.0" />
-    <PackageReference Include="Microsoft.Orleans.Reminders.AdoNet" Version="2.3.0" />
+    <PackageReference Include="Microsoft.Orleans.Clustering.AdoNet" Version="2.3.5" />
+    <PackageReference Include="Microsoft.Orleans.Persistence.AdoNet" Version="2.3.5" />
+    <PackageReference Include="Microsoft.Orleans.Reminders.AdoNet" Version="2.3.5" />
     <PackageReference Include="Orleans.Providers.EntityFramework" Version="0.13.1" />
     <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
-    <PackageReference Include="Microsoft.Azure.DocumentDB.Core" Version="2.3.0" />
+    <PackageReference Include="Microsoft.Azure.DocumentDB.Core" Version="2.4.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Orleans.OrleansSQLUtils" Version="2.3.0" />
-    <PackageReference Include="Microsoft.Orleans.Server" Version="2.3.0" />
-    <PackageReference Include="Microsoft.Orleans.Persistence.AzureStorage" Version="2.3.0" />
-    <PackageReference Include="Microsoft.Orleans.Reminders.AzureStorage" Version="2.3.0" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.6.0" />
+    <PackageReference Include="Microsoft.Orleans.OrleansSQLUtils" Version="2.3.5" />
+    <PackageReference Include="Microsoft.Orleans.Server" Version="2.3.5" />
+    <PackageReference Include="Microsoft.Orleans.Persistence.AzureStorage" Version="2.3.5" />
+    <PackageReference Include="Microsoft.Orleans.Reminders.AzureStorage" Version="2.3.5" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.6.1" />
   </ItemGroup>
 
   <ItemGroup>
