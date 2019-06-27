@@ -8,6 +8,7 @@
     <Folder Include="Collections\Comparers\" />
     <Folder Include="Collections\Hierarchy\" />
     <Folder Include="Era\" />
+    <Folder Include="Flows\" />
     <Folder Include="Numbers\" />
     <Folder Include="Services\Factory\" />
   </ItemGroup>

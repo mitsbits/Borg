@@ -13,7 +13,7 @@ namespace Borg.Web.Clients.Razor
         {
             var host = CreateWebHostBuilder(args).Build();
 
-            IBorgLicenceService borgLicenceService = new MemoryMoqLicenceService();
+            //IBorgLicenceService borgLicenceService = new MemoryMoqLicenceService();
             Seed(host);
             host.Run();
         }

@@ -2,6 +2,7 @@
 
 namespace Borg.Infrastructure.Core.Exceptions
 {
+
     public abstract class BorgException : Exception
     {
         protected BorgException()

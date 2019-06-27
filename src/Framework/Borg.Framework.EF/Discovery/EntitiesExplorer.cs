@@ -10,7 +10,7 @@ namespace Borg.Framework.EF.Discovery
 {
     public class EntitiesExplorer : AssemblyExplorer
     {
-        private readonly List<Assembly> assemblies = new List<Assembly>();
+   
         private readonly List<AssemblyScanResult> results = new List<AssemblyScanResult>();
 
         public EntitiesExplorer(ILoggerFactory loggerfactory, IEnumerable<IAssemblyProvider> providers) : base(loggerfactory)

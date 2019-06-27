@@ -30,7 +30,7 @@ namespace Borg.System.Backoffice.Lib.ViewComponents
                 var types = assemblyProviders.SelectMany(x => x.GetAssemblies()).SelectMany(x => x.GetTypes())
                         .Where(x => x.IsCmsAggregateRoot()).OrderBy(x => x.FullName).Distinct();
                 var maps = assemblyProviders.SelectMany(x => x.GetAssemblies()).SelectMany(x => x.GetTypes()).
-                    Where(x => x.IsSubclassOfRawGeneric(typeof(EntityMapBase<,>)) && !x.IsAbstract);
+                    Where(x => x.IsSubclassOfRawGeneric(typeof(GenericEntityMap<,>)) && !x.IsAbstract);
 
                 var grouprdMaps = maps.GroupBy(x => x.BaseType.GetGenericArguments()[1]);
                 foreach (var group in grouprdMaps)

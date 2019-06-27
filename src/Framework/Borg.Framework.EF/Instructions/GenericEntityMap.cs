@@ -14,12 +14,12 @@ using System.Text;
 
 namespace Borg.Framework.EF.Instructions
 {
-    public abstract class EntityMapBase<TEntity, TDbContext> : EntityMapBase, IEntityMap<TEntity, TDbContext> where TEntity : class where TDbContext : DbContext
+    public abstract partial class GenericEntityMap<TEntity, TDbContext> : EntityMapBase, IEntityMap<TEntity, TDbContext> where TEntity : class where TDbContext : DbContext
     {
-        protected EntityMapBase() : base(typeof(TEntity), typeof(TDbContext))
+        protected GenericEntityMap() : base(typeof(TEntity), typeof(TDbContext))
         {
         }
-
+        #region OnModelCreating
         public override void OnModelCreating(ModelBuilder builder)
         {
             SequenceDefinition(builder);
@@ -58,6 +58,8 @@ namespace Borg.Framework.EF.Instructions
                     }
                 }
             }
+
+            
         }
 
         private void IndexDefinition(ModelBuilder builder)
@@ -105,7 +107,7 @@ namespace Borg.Framework.EF.Instructions
                         if (prop.GetCustomAttribute<PrimaryKeyDefinitionAttribute>() != null)
                         {
                             indexName = IndexName(indexName, IndexDefinitionAttribute.IndexDefinitionMode.PrimaryKey, group.Select(x => x.prop));
-                            builder.Entity<TEntity>().HasIndex(keyExpression).IsUnique().HasName(indexName).ForSqlServerIsClustered();
+                            builder.Entity<TEntity>().HasKey(keyExpression).HasName(indexName).ForSqlServerIsClustered();
                         }
                         else
                         {
@@ -131,7 +133,7 @@ namespace Borg.Framework.EF.Instructions
                         if (@group.All(x => x.prop.GetCustomAttribute<PrimaryKeyDefinitionAttribute>() != null))
                         {
                             indexName = IndexName(indexName, IndexDefinitionAttribute.IndexDefinitionMode.PrimaryKey, group.Select(x => x.prop));
-                            builder.Entity<TEntity>().HasIndex(keyExpression).IsUnique().HasName(indexName).ForSqlServerIsClustered();
+                            builder.Entity<TEntity>().HasKey(keyExpression).HasName(indexName).ForSqlServerIsClustered();
                         }
                         else
                         {
@@ -186,7 +188,8 @@ namespace Borg.Framework.EF.Instructions
         //            }
         //        }
         //    }
-        //}
+        //} 
+        #endregion
     }
 
     public abstract class EntityMapBase : IEntityMap

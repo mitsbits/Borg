@@ -1,10 +1,10 @@
-﻿using System.Threading;
+﻿using Borg.Framework.Modularity.Pipelines;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Borg.Framework.Modularity
 {
-    public interface IRunOnHostStartUp : IRun
+    public interface IRunOnHostStartUp : IExecutor
     {
-        Task Run(CancellationToken cancelationToken);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Borg.Platform.EF.Data.Migrations
 {
@@ -7,54 +8,52 @@ namespace Borg.Platform.EF.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateSequence<int>(
-                name: "CmsLanguage_Id");
+                name: "CmsMenu_Id_seq");
 
             migrationBuilder.CreateSequence<int>(
-                name: "CmsMenu_Id");
+                name: "CmsMenuItem_Id_seq");
 
             migrationBuilder.CreateSequence<int>(
-                name: "CmsMenuItem_Id");
+                name: "CmsPage_Id_seq");
 
             migrationBuilder.CreateSequence<int>(
-                name: "CmsPage_Id");
+                name: "CmsRole_Id_seq");
 
             migrationBuilder.CreateSequence<int>(
-                name: "CmsRole_Id");
+                name: "CmsRolePermission_Id_seq");
 
             migrationBuilder.CreateSequence<int>(
-                name: "CmsRolePermission_Id");
+                name: "CmsUser_Id_seq");
 
             migrationBuilder.CreateSequence<int>(
-                name: "CmsUser_Id");
-
-            migrationBuilder.CreateSequence<int>(
-                name: "CmsUserPermission_Id");
+                name: "CmsUserPermission_Id_seq");
 
             migrationBuilder.CreateTable(
                 name: "CmsLanguage",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false, defaultValueSql: "NEXT VALUE FOR CmsLanguage_Id"),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Title = table.Column<string>(nullable: true),
-                    TwoLetterISO = table.Column<string>(nullable: true)
+                    TwoLetterISO = table.Column<string>(nullable: true),
+                    CultureName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CmsLanguage", x => x.Id)
-                        .Annotation("SqlServer:Clustered", true);
+                    table.PrimaryKey("PK_CmsLanguage", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "CmsRole",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false, defaultValueSql: "NEXT VALUE FOR CmsRole_Id"),
+                    Id = table.Column<int>(nullable: false, defaultValueSql: "NEXT VALUE FOR CmsRole_Id_seq"),
                     Title = table.Column<string>(nullable: true),
                     IsSystem = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CmsRole", x => x.Id)
+                    table.PrimaryKey("PK_Id", x => x.Id)
                         .Annotation("SqlServer:Clustered", true);
                 });
 
@@ -62,7 +61,7 @@ namespace Borg.Platform.EF.Data.Migrations
                 name: "CmsUser",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false, defaultValueSql: "NEXT VALUE FOR CmsUser_Id"),
+                    Id = table.Column<int>(nullable: false, defaultValueSql: "NEXT VALUE FOR CmsUser_Id_seq"),
                     Email = table.Column<string>(nullable: true),
                     PasswordHash = table.Column<string>(nullable: true),
                     Surname = table.Column<string>(nullable: true),
@@ -71,7 +70,7 @@ namespace Borg.Platform.EF.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CmsUser", x => x.Id)
+                    table.PrimaryKey("PK_Id", x => x.Id)
                         .Annotation("SqlServer:Clustered", true);
                 });
 
@@ -79,14 +78,14 @@ namespace Borg.Platform.EF.Data.Migrations
                 name: "CmsMenu",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false, defaultValueSql: "NEXT VALUE FOR CmsMenu_Id"),
+                    Id = table.Column<int>(nullable: false, defaultValueSql: "NEXT VALUE FOR CmsMenu_Id_seq"),
                     TwoLetterISO = table.Column<string>(nullable: true),
                     LanguageId = table.Column<int>(nullable: true),
                     Title = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CmsMenu", x => x.Id)
+                    table.PrimaryKey("PK_Id", x => x.Id)
                         .Annotation("SqlServer:Clustered", true);
                     table.ForeignKey(
                         name: "FK_CmsMenu_CmsLanguage_LanguageId",
@@ -100,7 +99,7 @@ namespace Borg.Platform.EF.Data.Migrations
                 name: "CmsPage",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false, defaultValueSql: "NEXT VALUE FOR CmsPage_Id"),
+                    Id = table.Column<int>(nullable: false, defaultValueSql: "NEXT VALUE FOR CmsPage_Id_seq"),
                     TwoLetterISO = table.Column<string>(nullable: true),
                     LanguageId = table.Column<int>(nullable: true),
                     ParentId = table.Column<int>(nullable: false),
@@ -110,8 +109,7 @@ namespace Borg.Platform.EF.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CmsPage", x => x.Id)
-                        .Annotation("SqlServer:Clustered", true);
+                    table.PrimaryKey("PK_CmsPage", x => x.Id);
                     table.ForeignKey(
                         name: "FK_CmsPage_CmsLanguage_LanguageId",
                         column: x => x.LanguageId,
@@ -124,7 +122,7 @@ namespace Borg.Platform.EF.Data.Migrations
                 name: "CmsRolePermission",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false, defaultValueSql: "NEXT VALUE FOR CmsRolePermission_Id"),
+                    Id = table.Column<int>(nullable: false, defaultValueSql: "NEXT VALUE FOR CmsRolePermission_Id_seq"),
                     ParentId = table.Column<int>(nullable: false),
                     Depth = table.Column<int>(nullable: false),
                     Hierarchy = table.Column<string>(nullable: true),
@@ -134,7 +132,7 @@ namespace Borg.Platform.EF.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CmsRolePermission", x => x.Id)
+                    table.PrimaryKey("PK_Id", x => x.Id)
                         .Annotation("SqlServer:Clustered", true);
                     table.ForeignKey(
                         name: "FK_CmsRolePermission_CmsRole_RoleId",
@@ -153,7 +151,7 @@ namespace Borg.Platform.EF.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CmsUserCmsRole", x => new { x.RoleId, x.UserId })
+                    table.PrimaryKey("PK_UserId_RoleId", x => new { x.UserId, x.RoleId })
                         .Annotation("SqlServer:Clustered", true);
                     table.ForeignKey(
                         name: "FK_CmsUserCmsRole_CmsRole_RoleId",
@@ -173,7 +171,7 @@ namespace Borg.Platform.EF.Data.Migrations
                 name: "CmsUserPermission",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false, defaultValueSql: "NEXT VALUE FOR CmsUserPermission_Id"),
+                    Id = table.Column<int>(nullable: false, defaultValueSql: "NEXT VALUE FOR CmsUserPermission_Id_seq"),
                     ParentId = table.Column<int>(nullable: false),
                     Depth = table.Column<int>(nullable: false),
                     Hierarchy = table.Column<string>(nullable: true),
@@ -183,7 +181,7 @@ namespace Borg.Platform.EF.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CmsUserPermission", x => x.Id)
+                    table.PrimaryKey("PK_Id", x => x.Id)
                         .Annotation("SqlServer:Clustered", true);
                     table.ForeignKey(
                         name: "FK_CmsUserPermission_CmsUser_UserId",
@@ -197,7 +195,7 @@ namespace Borg.Platform.EF.Data.Migrations
                 name: "CmsMenuItem",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false, defaultValueSql: "NEXT VALUE FOR CmsMenuItem_Id"),
+                    Id = table.Column<int>(nullable: false, defaultValueSql: "NEXT VALUE FOR CmsMenuItem_Id_seq"),
                     TwoLetterISO = table.Column<string>(nullable: true),
                     LanguageId = table.Column<int>(nullable: true),
                     ParentId = table.Column<int>(nullable: false),
@@ -208,7 +206,7 @@ namespace Borg.Platform.EF.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CmsMenuItem", x => x.Id)
+                    table.PrimaryKey("PK_Id", x => x.Id)
                         .Annotation("SqlServer:Clustered", true);
                     table.ForeignKey(
                         name: "FK_CmsMenuItem_CmsLanguage_LanguageId",
@@ -225,11 +223,9 @@ namespace Borg.Platform.EF.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IndexName",
+                name: "IX_TwoLetterISO",
                 table: "CmsLanguage",
-                column: "TwoLetterISO",
-                unique: true,
-                filter: "[TwoLetterISO] IS NOT NULL");
+                column: "TwoLetterISO");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CmsMenu_LanguageId",
@@ -247,6 +243,11 @@ namespace Borg.Platform.EF.Data.Migrations
                 column: "MenuId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Id",
+                table: "CmsPage",
+                column: "Id");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CmsPage_LanguageId",
                 table: "CmsPage",
                 column: "LanguageId");
@@ -257,9 +258,9 @@ namespace Borg.Platform.EF.Data.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CmsUserCmsRole_UserId",
+                name: "IX_CmsUserCmsRole_RoleId",
                 table: "CmsUserCmsRole",
-                column: "UserId");
+                column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CmsUserPermission_UserId",
@@ -297,28 +298,25 @@ namespace Borg.Platform.EF.Data.Migrations
                 name: "CmsLanguage");
 
             migrationBuilder.DropSequence(
-                name: "CmsLanguage_Id");
+                name: "CmsMenu_Id_seq");
 
             migrationBuilder.DropSequence(
-                name: "CmsMenu_Id");
+                name: "CmsMenuItem_Id_seq");
 
             migrationBuilder.DropSequence(
-                name: "CmsMenuItem_Id");
+                name: "CmsPage_Id_seq");
 
             migrationBuilder.DropSequence(
-                name: "CmsPage_Id");
+                name: "CmsRole_Id_seq");
 
             migrationBuilder.DropSequence(
-                name: "CmsRole_Id");
+                name: "CmsRolePermission_Id_seq");
 
             migrationBuilder.DropSequence(
-                name: "CmsRolePermission_Id");
+                name: "CmsUser_Id_seq");
 
             migrationBuilder.DropSequence(
-                name: "CmsUser_Id");
-
-            migrationBuilder.DropSequence(
-                name: "CmsUserPermission_Id");
+                name: "CmsUserPermission_Id_seq");
         }
     }
 }

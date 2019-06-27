@@ -18,10 +18,20 @@ namespace Test.Borg.Framework
         public void explorer_returns_results_for_assembly()
         {
             var path = $"{AbsoluteBin}\\Borg.Moq.GenericAddOn.dll";
-            var provider = new FileAssemblyProvider(null, path);
+            var provider = new FileAssemblyProvider(_moqLoggerFactory, path);
             var explorer = new PlugableServicesExplorer(_moqLoggerFactory, new[] { provider });
             var results = explorer.ScanAndResult();
             results.Any().ShouldBeTrue();
         }
+
+        //[Fact]
+        //public void explorer_returns_results_for_assembly()
+        //{
+        //    var path = $"{AbsoluteBin}\\Borg.Moq.GenericAddOn.dll";
+        //    var provider = new FileAssemblyProvider(_moqLoggerFactory, path);
+        //    var explorer = new PlugableServicesExplorer(_moqLoggerFactory, new[] { provider });
+        //    var results = explorer.ScanAndResult();
+        //    results.Any().ShouldBeTrue();
+        //}
     }
 }

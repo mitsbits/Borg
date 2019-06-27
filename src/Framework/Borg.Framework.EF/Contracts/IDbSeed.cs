@@ -2,7 +2,7 @@
 
 namespace Borg.Framework.EF.Contracts
 {
-    public interface IDbSeed : IRunOnHostStartUp, IChainLink
+    public interface IDbSeed : IRunOnHostStartUp, IPipelineStep
     {
     }
 }

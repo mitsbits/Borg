@@ -1,6 +1,6 @@
 ﻿namespace Borg.Framework.Modularity
 {
-    public interface IRunStartUp : IRun
+    public interface IRunStartUp : IExecutor
     {
     }
 }

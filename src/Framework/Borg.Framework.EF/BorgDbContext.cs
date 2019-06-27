@@ -65,8 +65,6 @@ namespace Borg.Framework.EF
 
         protected BorgDbContext([NotNull] DbContextOptions options, BorgDbContextOptions borgOptions = null) : this(options, () => borgOptions)
         {
-            ChangeTracker.Tracked += TrackedEventHandler;
-            ChangeTracker.StateChanged += StateChangedEventHandler;
         }
 
         public virtual string Schema => (Mode == SetUpMode.Configuration) ? CheckOptionsForSchemaName() : GetType().Name.Replace("DbContext", string.Empty).Slugify();
@@ -110,10 +108,11 @@ namespace Borg.Framework.EF
             {
                 if (!result.Success) continue;
                 var entityTypes = result.AllEntityTypes();
+
                 foreach (var entitytype in entityTypes)
                 {
                     var isMapped = false;
-                    var mapType = typeof(EntityMapBase<,>).MakeGenericType(entitytype, GetType());
+                    var mapType = typeof(GenericEntityMap<,>).MakeGenericType(entitytype, GetType());
                     foreach (var mapdef in result.EntityMaps)
                     {
                         if (mapdef.IsAssignableTo(mapType))

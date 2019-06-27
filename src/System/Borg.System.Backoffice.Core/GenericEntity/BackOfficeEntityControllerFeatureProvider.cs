@@ -1,7 +1,6 @@
 ﻿using Borg.Framework.EF.Instructions;
 using Borg.Infrastructure.Core.Reflection.Discovery;
 using Borg.Platform.EF;
-using Borg.Platform.EF.Instructions;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using System.Collections.Generic;
@@ -26,7 +25,7 @@ namespace Borg.System.Backoffice.Core.GenericEntity
             foreach (var entityType in types)
             {
                 var typeName = entityType.Name + "Controller";
-                var tps = entityType.Assembly.GetTypes().Where(t => t.IsSubclassOfRawGeneric(typeof(EntityMapBase<,>))).Select(x => x.BaseType).ToList();
+                var tps = entityType.Assembly.GetTypes().Where(t => t.IsSubclassOfRawGeneric(typeof(GenericEntityMap<,>))).Select(x => x.BaseType).ToList();
                 var map = tps.FirstOrDefault(t => t.GetTypeInfo().GenericTypeArguments[0] == entityType);
                 if (map != null)
                 {

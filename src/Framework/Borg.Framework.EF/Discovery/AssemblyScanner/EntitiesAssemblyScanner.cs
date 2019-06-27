@@ -60,7 +60,7 @@ namespace Borg.Framework.EF.Discovery.AssemblyScanner
                 }
             }
 
-            var entityMaps = Assembly.GetTypes().Where(t => t.IsSubclassOfRawGeneric(typeof(EntityMapBase<,>)) && !t.IsAbstract);
+            var entityMaps = Assembly.GetTypes().Where(t => t.IsSubclassOfRawGeneric(typeof(GenericEntityMap<,>)) && !t.IsAbstract);
             foreach (var type in aggregates.Union(complexTypes.SelectMany(x => x.Value)).Distinct())
             {
                 if (!entityMaps.Any(x => x.GetGenericArgumentType(0) == type))
