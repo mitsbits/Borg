@@ -1,11 +1,16 @@
 ﻿using Borg;
 using Shouldly;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Test.Borg.Infrastructure.Core
 {
-    public class StringExtensionsTests
+    public class StringExtensionsTests : TestBase
     {
+        public StringExtensionsTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void RemoveWhitespace()
         {

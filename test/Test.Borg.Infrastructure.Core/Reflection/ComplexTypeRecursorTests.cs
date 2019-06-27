@@ -32,7 +32,7 @@ namespace Test.Borg.Infrastructure.Core.Reflection
         {
             Should.NotThrow(() =>
             {
-                using (recursor = new ComplexTypeRecursor(typeof(Root),null , _moqLoggerFactory.CreateLogger(nameof(ComplexTypeRecursorTests))))
+                using (recursor = new ComplexTypeRecursor(typeof(Root), null, _moqLoggerFactory.CreateLogger(nameof(ComplexTypeRecursorTests))))
                 {
                     var results = recursor.Results();
                     var hit = results.FirstOrDefault(x => x.Type == typeof(ValueOject));
@@ -46,7 +46,7 @@ namespace Test.Borg.Infrastructure.Core.Reflection
         {
             Should.NotThrow(() =>
             {
-                using (recursor = new ComplexTypeRecursor(typeof(Root),null, _moqLoggerFactory.CreateLogger(nameof(ComplexTypeRecursorTests))))
+                using (recursor = new ComplexTypeRecursor(typeof(Root), null, _moqLoggerFactory.CreateLogger(nameof(ComplexTypeRecursorTests))))
                 {
                     var results = recursor.Results();
                     var hit = results.FirstOrDefault(x => x.Type == typeof(OpenGeneric<ObjectGraph, SecondObjectGraph>));
@@ -60,7 +60,7 @@ namespace Test.Borg.Infrastructure.Core.Reflection
         {
             Should.NotThrow(() =>
             {
-                using (recursor = new ComplexTypeRecursor(typeof(Root),null, _moqLoggerFactory.CreateLogger(nameof(ComplexTypeRecursorTests))))
+                using (recursor = new ComplexTypeRecursor(typeof(Root), null, _moqLoggerFactory.CreateLogger(nameof(ComplexTypeRecursorTests))))
                 {
                     var results = recursor.Results();
                     foreach (var type in ExistingTypes)

@@ -2,15 +2,16 @@
 using Shouldly;
 using System.Collections.Generic;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Test.Borg.Infrastructure.Core
 {
-    public class DictionaryExtensionsTests
+    public class DictionaryExtensionsTests : TestBase
     {
         private readonly Dictionary<string, string> _a;
         private readonly Dictionary<string, string> _b;
 
-        public DictionaryExtensionsTests()
+        public DictionaryExtensionsTests(ITestOutputHelper output) : base(output)
         {
             _a = new Dictionary<string, string>() { { "A", "One" }, { "B", "Two" }, { "C", "Three" }, { "D", "Four" } };
             _b = new Dictionary<string, string>() { { "A", "Another One" }, { "E", "Five" }, { "F", "Six" }, { "G", "Seven" } };
