@@ -3,6 +3,6 @@
     public interface IGlobalizationSilo
     {
         string TwoLetterISO { get; set; }
-        //string CultureName { get; set; }
+        string CultureName { get; set; }
     }
 }

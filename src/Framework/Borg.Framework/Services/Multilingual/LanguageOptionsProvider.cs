@@ -59,6 +59,8 @@ namespace Borg.Framework.Services.Multilingual
 
             public string TwoLetterISO { get => key; set { throw new ApplicationException($"{nameof(TwoLetterISO)} is set at the constructor"); } }
             public string Title { get => title; set { throw new ApplicationException($"{nameof(Title)} is set at the constructor"); } }
+
+            public string CultureName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         }
     }
 }

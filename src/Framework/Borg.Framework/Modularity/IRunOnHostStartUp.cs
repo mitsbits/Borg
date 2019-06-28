@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Borg.Framework.Modularity
 {
-    public interface IRunOnHostStartUp : IExecutor
+    public interface IRunOnHostStartUp 
     {
     }
 }

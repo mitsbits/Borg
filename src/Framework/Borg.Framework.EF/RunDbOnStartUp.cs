@@ -1,5 +1,6 @@
 ﻿using Borg.Framework.EF.Contracts;
 using Borg.Framework.Modularity;
+using Borg.Framework.Modularity.Pipelines;
 using Borg.Infrastructure.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Borg.Framework.EF
 {
-    public abstract class RunDbOnStartUp<TDbContext> : IRunOnHostStartUp, IChainLink where TDbContext : DbContext
+    public abstract class RunDbOnStartUp<TDbContext> : IRunOnHostStartUp/* IPipelineStep*/ where TDbContext : DbContext
     {
         protected ILogger Logger { get; }
         protected TDbContext DB { get; }

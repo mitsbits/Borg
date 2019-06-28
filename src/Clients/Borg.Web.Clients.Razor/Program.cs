@@ -24,21 +24,21 @@ namespace Borg.Web.Clients.Razor
 
         private static void Seed(IWebHost host)
         {
-            IServiceScopeFactory services = host.Services.GetService<IServiceScopeFactory>();
-            using (var scope = services.CreateScope())
-            {
-                var seeds = scope.ServiceProvider.GetServices<IDbSeed>();
-                foreach (var seed in seeds)
-                {
-                    AsyncHelpers.RunSync(() => seed.Run(default));
-                }
+            //IServiceScopeFactory services = host.Services.GetService<IServiceScopeFactory>();
+            //using (var scope = services.CreateScope())
+            //{
+            //    var seeds = scope.ServiceProvider.GetServices<IDbSeed>();
+            //    foreach (var seed in seeds)
+            //    {
+            //        AsyncHelpers.RunSync(() => seed.Run(default));
+            //    }
 
-                var recipes = scope.ServiceProvider.GetServices<IDbRecipe>();
-                foreach (var recipe in recipes)
-                {
-                    AsyncHelpers.RunSync(() => recipe.Run(default));
-                }
-            }
+            //    var recipes = scope.ServiceProvider.GetServices<IDbRecipe>();
+            //    foreach (var recipe in recipes)
+            //    {
+            //        AsyncHelpers.RunSync(() => recipe.Run(default));
+            //    }
+            //}
         }
     }
 }

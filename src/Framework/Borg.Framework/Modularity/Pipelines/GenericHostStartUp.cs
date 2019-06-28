@@ -10,9 +10,13 @@ namespace Borg.Framework.Modularity.Pipelines
     {
         private readonly ICollection<GenericPipelineStep<GenericHostStartUp>> source = new HashSet<GenericPipelineStep<GenericHostStartUp>>();
 
-        public Task Execute(CancellationToken cancelationToken)
+        public async Task Execute(CancellationToken cancelationToken)
         {
-            throw new NotImplementedException();
+            cancelationToken.ThrowIfCancellationRequested();
+            foreach (var step in this.LightToHeavy())
+            {
+                await step.Execute(cancelationToken);
+            }
         }
 
         public IEnumerator<IPipelineStep<IPipeline>> GetEnumerator()
@@ -28,6 +32,8 @@ namespace Borg.Framework.Modularity.Pipelines
 
     public abstract class GenericPipelineStep<TPipeline> : IPipelineStep<TPipeline> where TPipeline : IPipeline
     {
+        public virtual double Weight { get; set; } = 0;
+
         public abstract Task Execute(CancellationToken cancelationToken);
     }
 }
