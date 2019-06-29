@@ -1,5 +1,6 @@
 ﻿using Borg.Framework.EF.Contracts;
 using Borg.Framework.EF.Instructions;
+using Borg.Framework.Services.Configuration;
 using Borg.Infrastructure.Core;
 using Borg.Infrastructure.Core.Reflection.Discovery;
 using Borg.Infrastructure.Core.Services.Factory;
@@ -126,6 +127,7 @@ namespace Borg.Framework.EF
                     {
                         var newMapType = typeof(EntityMap<,>).MakeGenericType(entitytype, GetType());
                         ((IEntityMap)New.Creator(newMapType)).OnModelCreating(builder);
+                        result.AddMap(newMapType);
                     }
                 }
             }
@@ -138,9 +140,18 @@ namespace Borg.Framework.EF
               : BorgOptions?.Overrides?.Schema;
         }
 
+        private string GetContextName(Type type)
+        {
+            Preconditions.NotNull(type, nameof(type));
+            var name = type.Name.Replace("Context", string.Empty).Slugify();
+            Logger.Debug($"Resolving configuration {name} for {type.Name}");
+            if (!name.EndsWith("db")) name += "db";
+            return name;
+        }
+
         private void SetUpConfig(DbContextOptionsBuilder options)
         {
-            BorgOptions = Configurator<BorgDbContextConfiguration>.Build(Logger, configuration, GetType());
+            BorgOptions = Configurator<BorgDbContextConfiguration>.Build(Logger, configuration, GetContextName(GetType()));
             options.UseSqlServer(BorgOptions.ConnectionString, opt =>
             {
                 opt.EnableRetryOnFailure(3, TimeSpan.FromSeconds(30), new int[0]);

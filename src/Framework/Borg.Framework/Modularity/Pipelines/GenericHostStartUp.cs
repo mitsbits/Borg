@@ -8,7 +8,7 @@ namespace Borg.Framework.Modularity.Pipelines
 {
     public abstract class GenericHostStartUp : IHostStartUpJob
     {
-        private readonly ICollection<GenericPipelineStep<GenericHostStartUp>> source = new HashSet<GenericPipelineStep<GenericHostStartUp>>();
+        protected readonly ICollection<IPipelineStep<IPipeline>> source = new HashSet<IPipelineStep<IPipeline>>();
 
         public async Task Execute(CancellationToken cancelationToken)
         {

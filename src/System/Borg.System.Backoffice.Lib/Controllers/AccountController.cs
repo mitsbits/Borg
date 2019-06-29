@@ -1,4 +1,5 @@
 ﻿using Borg.Framework;
+using Borg.Framework.Modularity;
 using Borg.Platform.EF.CMS.Security;
 using Borg.System.Backoffice.Core;
 using Borg.System.Backoffice.Security;
@@ -6,6 +7,7 @@ using Borg.System.Backoffice.Security.Contracts;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
@@ -17,7 +19,7 @@ namespace Borg.System.Backoffice.Lib.Controllers
     {
         private readonly ICmsUserManager<CmsUser> cmsUserManager;
 
-        public AccountController(ICmsUserManager<CmsUser> cmsUserManager)
+        public AccountController(ILoggerFactory loggerFactory, IUserSession userSession, ICmsUserManager<CmsUser> cmsUserManager) : base(loggerFactory, userSession)
         {
             this.cmsUserManager = cmsUserManager;
         }

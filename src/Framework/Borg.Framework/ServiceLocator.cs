@@ -9,10 +9,10 @@ namespace Borg.Framework
 {
     public class ServiceLocator : IDisposable
     {
-        private ServiceProvider _currentServiceProvider;
-        private static ServiceProvider _serviceProvider;
+        private IServiceProvider _currentServiceProvider;
+        private static IServiceProvider _serviceProvider;
 
-        public ServiceLocator(ServiceProvider currentServiceProvider)
+        public ServiceLocator(IServiceProvider currentServiceProvider)
         {
             _currentServiceProvider = Preconditions.NotNull(currentServiceProvider, nameof(currentServiceProvider));
         }
@@ -121,7 +121,13 @@ namespace Borg.Framework
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
-                _currentServiceProvider?.Dispose();
+            {
+                var dispasable = _currentServiceProvider as IDisposable;
+                if (dispasable != null)
+                {
+                    dispasable.Dispose();
+                }
+            }
         }
 
         public void Dispose()

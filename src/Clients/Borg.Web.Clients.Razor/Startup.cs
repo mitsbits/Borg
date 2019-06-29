@@ -1,4 +1,5 @@
-﻿using Borg.Framework.Modularity;
+﻿using Borg.Framework.EF.Discovery;
+using Borg.Framework.Modularity;
 using Borg.Framework.MVC.Middleware.SecurityHeaders;
 using Borg.Framework.MVC.Sevices;
 using Borg.Framework.Reflection.Services;
@@ -25,6 +26,7 @@ namespace Borg.Web.Clients.Razor
         private readonly ILoggerFactory loggerFactory;
         private readonly IHostingEnvironment hostingEnvironment;
         private readonly IConfiguration configuration;
+        private AssemblyExplorerResult entitiesExplorerResult;
 
         public Startup(ILoggerFactory loggerFactory, IHostingEnvironment hostingEnvironment, IConfiguration configuration)
         {
@@ -41,6 +43,14 @@ namespace Borg.Web.Clients.Razor
 
             var depAsmblPrv = new DepedencyAssemblyProvider(loggerFactory);
             var refAsmblPrv = new ReferenceAssemblyProvider(loggerFactory, null, GetType().Assembly);
+            var explorer = new EntitiesExplorer(loggerFactory,
+                    new IAssemblyProvider[]
+                    {
+                                refAsmblPrv,
+                                depAsmblPrv
+                    });
+
+            entitiesExplorerResult = new AssemblyExplorerResult(loggerFactory, new[] { explorer });
 
             services.AddSingleton<IAssemblyProvider>(depAsmblPrv);
             services.AddSingleton<IAssemblyProvider>(refAsmblPrv);
@@ -54,7 +64,7 @@ namespace Borg.Web.Clients.Razor
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .ConfigureApplicationPartManager(p =>
-                p.FeatureProviders.Add(new BackOfficeEntityControllerFeatureProvider(new[] { new DepedencyAssemblyProvider(loggerFactory) })))
+                p.FeatureProviders.Add(new BackOfficeEntityControllerFeatureProvider(entitiesExplorerResult)))
                 .AddControllersAsServices();
             services.Configure<RouteOptions>(routeOptions =>
             {
@@ -65,6 +75,7 @@ namespace Borg.Web.Clients.Razor
             services.AddCmsUsers(loggerFactory, hostingEnvironment, configuration);
             services.AddCmsCore(loggerFactory, configuration);
             services.ConfigureOptions(typeof(System.Backoffice.UiConfigureOptions));
+            services.AddGenericInventories(entitiesExplorerResult);
             services.RegisterPlugableServices(loggerFactory, depAsmblPrv, refAsmblPrv);
             return services.AddServiceLocator();
         }

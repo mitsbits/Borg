@@ -1,8 +1,6 @@
 ﻿using Borg.Framework.Cms.Annotations;
-using Borg.Framework.EF.Instructions;
 using Borg.Infrastructure.Core;
 using Borg.Infrastructure.Core.Reflection.Discovery;
-using Borg.Platform.EF.Instructions;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,13 +11,12 @@ namespace Borg.System.Backoffice.Lib.ViewComponents
 {
     public class DataCatalogueMenu : ViewComponent
     {
-        private readonly IEnumerable<IAssemblyProvider> assemblyProviders;
+        private readonly IAssemblyExplorerResult assemblyExplorerResult;
         private static IDictionary<string, IDictionary<string, string>> _cache;
 
-        public DataCatalogueMenu(IEnumerable<IAssemblyProvider> assemblyProviders)
+        public DataCatalogueMenu(IAssemblyExplorerResult assemblyExplorerResult)
         {
-            assemblyProviders = Preconditions.NotNull(assemblyProviders, nameof(assemblyProviders));
-            this.assemblyProviders = Preconditions.NotEmpty(assemblyProviders, nameof(assemblyProviders)); ;
+            this.assemblyExplorerResult = Preconditions.NotNull(assemblyExplorerResult, nameof(assemblyExplorerResult)); ;
         }
 
         public IViewComponentResult Invoke()
@@ -27,26 +24,29 @@ namespace Borg.System.Backoffice.Lib.ViewComponents
             if (_cache == null)
             {
                 _cache = new Dictionary<string, IDictionary<string, string>>();
-                var types = assemblyProviders.SelectMany(x => x.GetAssemblies()).SelectMany(x => x.GetTypes())
-                        .Where(x => x.IsCmsAggregateRoot()).OrderBy(x => x.FullName).Distinct();
-                var maps = assemblyProviders.SelectMany(x => x.GetAssemblies()).SelectMany(x => x.GetTypes()).
-                    Where(x => x.IsSubclassOfRawGeneric(typeof(GenericEntityMap<,>)) && !x.IsAbstract);
+                var results = assemblyExplorerResult.Results<EntitiesAssemblyScanResult>();
 
-                var grouprdMaps = maps.GroupBy(x => x.BaseType.GetGenericArguments()[1]);
-                foreach (var group in grouprdMaps)
+                var alltypes = new List<Type>();
+
+                foreach (var result in results.Where(x => x.Success))
                 {
-                    var innerDict = new Dictionary<string, string>();
-                    foreach (var type in types)
+                    var locals = result.AllEntityTypes().Distinct().ToArray();
+                    var dict = new Dictionary<string, string>();
+                    foreach (var local in locals)
                     {
-                        if (group.Any(x => x.BaseType.GetGenericArguments()[0] == type))
+                        var key = Url.Link("areaGenericEntityRoute", new { Controller = local.Name });
+                        var label = EntityPluralTitle(local);
+                        if (!dict.ContainsKey(key))
                         {
-                            innerDict.Add(Url.RouteUrl(new { Controller = type.Name }), EntityPluralTitle(type));
+                            dict.Add(key, label);
+                        }
+                        else
+                        {
+                            dict[key] = label;
                         }
                     }
-                    if (innerDict.Count() > 0)
-                    {
-                        _cache.Add(group.Key.Name.SplitCamelCaseToWords(), innerDict);
-                    }
+
+                    _cache.Add(result.DefaultDbs?.First().Name, dict);
                 }
             }
 

@@ -10,7 +10,6 @@ using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,17 +24,13 @@ namespace Borg.System.Backoffice.Core.GenericEntity
     {
         private static string HeaderColumnsCacheKey = $"{typeof(TEntity).Name}:{nameof(HeaderColumn)}Definition";
 
-        protected readonly ILogger logger;
         private readonly IInventoryFacade<TEntity> inv;
-        private readonly IUserSession userSession;
 
         protected readonly DmlOperation mode;
 
-        public BackOfficeEntityController(ILoggerFactory loggerFactory, IInventoryFacade<TEntity> inv, IUserSession userSession)
+        public BackOfficeEntityController(ILoggerFactory loggerFactory, IInventoryFacade<TEntity> inv, IUserSession userSession) : base(loggerFactory, userSession)
         {
-            logger = loggerFactory == null ? NullLogger.Instance : loggerFactory.CreateLogger(GetType());
             this.inv = Preconditions.NotNull(inv, nameof(inv));
-            this.userSession = Preconditions.NotNull(userSession, nameof(userSession));
         }
 
         //private DmlOperation DetermineMode()
@@ -154,7 +149,7 @@ namespace Borg.System.Backoffice.Core.GenericEntity
 
         private IEnumerable<HeaderColumn> GetHeaderColumnDefinition()
         {
-            var savedHeaderColumns = userSession.Setting<IEnumerable<HeaderColumn>>(HeaderColumnsCacheKey);
+            var savedHeaderColumns = userSession.Setting<HeaderColumn[]>(HeaderColumnsCacheKey);
             if (savedHeaderColumns == null)
             {
                 var orderdColumns = typeof(TEntity).GetProperties().Select((x, i) => new HeaderColumn(x))
@@ -163,10 +158,10 @@ namespace Borg.System.Backoffice.Core.GenericEntity
                           var o = x;
                           o.Order = i;
                           return o;
-                      });
-                userSession.Setting<IEnumerable<HeaderColumn>>(HeaderColumnsCacheKey, orderdColumns.OrderBy(x => x.Order).ToList());
+                      }).ToArray();
+                userSession.Setting<HeaderColumn[]>(HeaderColumnsCacheKey, orderdColumns.OrderBy(x => x.Order).ToArray());
             }
-            return userSession.Setting<IEnumerable<HeaderColumn>>(HeaderColumnsCacheKey);
+            return userSession.Setting<HeaderColumn[]>(HeaderColumnsCacheKey);
         }
 
         #endregion Private

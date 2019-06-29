@@ -1,6 +1,4 @@
-﻿using Borg.Framework.EF.Contracts;
-using Borg.System.Licencing;
-using Borg.System.Licencing.Contracts;
+﻿using Borg.Framework.Modularity.Pipelines;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,21 +22,15 @@ namespace Borg.Web.Clients.Razor
 
         private static void Seed(IWebHost host)
         {
-            //IServiceScopeFactory services = host.Services.GetService<IServiceScopeFactory>();
-            //using (var scope = services.CreateScope())
-            //{
-            //    var seeds = scope.ServiceProvider.GetServices<IDbSeed>();
-            //    foreach (var seed in seeds)
-            //    {
-            //        AsyncHelpers.RunSync(() => seed.Run(default));
-            //    }
-
-            //    var recipes = scope.ServiceProvider.GetServices<IDbRecipe>();
-            //    foreach (var recipe in recipes)
-            //    {
-            //        AsyncHelpers.RunSync(() => recipe.Run(default));
-            //    }
-            //}
+            IServiceScopeFactory services = host.Services.GetService<IServiceScopeFactory>();
+            using (var scope = services.CreateScope())
+            {
+                var startups = scope.ServiceProvider.GetServices<IHostStartUpJob>();
+                foreach (var startup in startups)
+                {
+                    AsyncHelpers.RunSync(async () => await startup.Execute(default));
+                }
+            }
         }
     }
 }

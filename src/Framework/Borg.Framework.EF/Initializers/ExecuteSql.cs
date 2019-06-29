@@ -1,4 +1,6 @@
-﻿using Borg.Infrastructure.Core;
+﻿using Borg.Framework.Modularity.Pipelines;
+using Borg.Infrastructure.Core;
+using Borg.Infrastructure.Core.DI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -7,7 +9,8 @@ using System.Threading.Tasks;
 
 namespace Borg.Framework.EF.Initializers
 {
-    public class ExecuteSql<TDbContext> : BorgDbPipelineStep<TDbContext> where TDbContext : BorgDbContext
+   
+    public class ExecuteSql<TDbContext, TPipeline> : BorgDbPipelineStep<TDbContext>, IPipelineStep<TPipeline> where TDbContext : BorgDbContext where TPipeline : HostStartUpJob<TDbContext>
     {
         protected string SqlText;
         private readonly string command;
@@ -15,12 +18,13 @@ namespace Borg.Framework.EF.Initializers
 
         protected ExecuteSql(TDbContext db, ILoggerFactory loggerFactory, string command, params object[] parameters) : base(db, loggerFactory)
         {
+            var t = typeof(IPipelineStep<HostStartUpJob<TDbContext>>);
             SqlText = Preconditions.NotEmpty(command, nameof(command));
             this.command = Preconditions.NotEmpty(command, nameof(command));
             db.Database.ExecuteSqlCommandAsync(SqlText, default, parameters);
         }
 
-        public override double Weight { get; set; } = 0;
+        public override double Weight { get; set; } = 10;
 
         protected override async Task ExecuteInternal(CancellationToken cancelationToken)
         {

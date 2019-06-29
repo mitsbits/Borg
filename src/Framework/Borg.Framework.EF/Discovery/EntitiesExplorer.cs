@@ -10,11 +10,12 @@ namespace Borg.Framework.EF.Discovery
 {
     public class EntitiesExplorer : AssemblyExplorer
     {
-   
         private readonly List<AssemblyScanResult> results = new List<AssemblyScanResult>();
+        private readonly ILoggerFactory loggerFactory;
 
         public EntitiesExplorer(ILoggerFactory loggerfactory, IEnumerable<IAssemblyProvider> providers) : base(loggerfactory)
         {
+            this.loggerFactory = loggerfactory;
             Populate(Preconditions.NotEmpty(providers, nameof(providers)));
             AsyncHelpers.RunSync(async () => await ScanInternal());
         }
@@ -35,7 +36,7 @@ namespace Borg.Framework.EF.Discovery
 
         private async Task<AssemblyScanResult> ScanInternal(Assembly asmbl)
         {
-            return await new AssemblyScanner.EntitiesAssemblyScanner(asmbl, ServiceLocator.Current.GetInstance<ILoggerFactory>()).Scan();
+            return await new AssemblyScanner.EntitiesAssemblyScanner(asmbl, loggerFactory).Scan();
         }
 
         private void Populate(IEnumerable<IAssemblyProvider> providers)

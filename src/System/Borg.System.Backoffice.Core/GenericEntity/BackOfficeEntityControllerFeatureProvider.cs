@@ -1,4 +1,4 @@
-﻿using Borg.Framework.EF.Instructions;
+﻿using Borg.Infrastructure.Core;
 using Borg.Infrastructure.Core.Reflection.Discovery;
 using Borg.Platform.EF;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
@@ -11,33 +11,29 @@ namespace Borg.System.Backoffice.Core.GenericEntity
 {
     public class BackOfficeEntityControllerFeatureProvider : IApplicationFeatureProvider<ControllerFeature>
     {
-        private readonly IEnumerable<IAssemblyProvider> assemblyProviders;
+        private IEnumerable<EntitiesAssemblyScanResult> source;
 
-        public BackOfficeEntityControllerFeatureProvider(IEnumerable<IAssemblyProvider> assemblyProviders)
+        public BackOfficeEntityControllerFeatureProvider(IAssemblyExplorerResult assemblyExplorerResult)
         {
-            this.assemblyProviders = assemblyProviders;
+            this.source = Preconditions.NotEmpty(assemblyExplorerResult.Results<EntitiesAssemblyScanResult>(x => x.Success), nameof(assemblyExplorerResult));
         }
 
         public void PopulateFeature(IEnumerable<ApplicationPart> parts, ControllerFeature feature)
         {
-            var types = assemblyProviders.SelectMany(x => x.GetAssemblies()).SelectMany(x => x.GetTypes()
-            .Where(t => t.IsCmsAggregateRoot()).Distinct());
+            var types = source.SelectMany(x => x.AllEntityTypes()).Distinct();
+
             foreach (var entityType in types)
             {
                 var typeName = entityType.Name + "Controller";
-                var tps = entityType.Assembly.GetTypes().Where(t => t.IsSubclassOfRawGeneric(typeof(GenericEntityMap<,>))).Select(x => x.BaseType).ToList();
-                var map = tps.FirstOrDefault(t => t.GetTypeInfo().GenericTypeArguments[0] == entityType);
-                if (map != null)
-                {
-                    var dbtype = typeof(BorgDb);
 
-                    // Check to see if there is a "real" controller for this class
-                    if (!feature.Controllers.Any(t => t.Name == typeName))
-                    {
-                        // Create a generic controller for this type
-                        var controllerType = typeof(BackOfficeEntityController<,>).MakeGenericType(entityType, dbtype).GetTypeInfo();
-                        feature.Controllers.Add(controllerType);
-                    }
+                var dbtype = typeof(BorgDb);
+
+                // Check to see if there is a "real" controller for this class
+                if (!feature.Controllers.Any(t => t.Name == typeName))
+                {
+                    // Create a generic controller for this type
+                    var controllerType = typeof(BackOfficeEntityController<,>).MakeGenericType(entityType, dbtype).GetTypeInfo();
+                    feature.Controllers.Add(controllerType);
                 }
             }
         }

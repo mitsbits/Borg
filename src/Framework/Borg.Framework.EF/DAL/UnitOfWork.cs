@@ -17,7 +17,7 @@ namespace Borg.Framework.EF.DAL
     {
         protected ILogger Log;
 
-        public UnitOfWork(ILoggerFactory loggerfactory,TDbContext dbContext )
+        public UnitOfWork(ILoggerFactory loggerfactory, TDbContext dbContext)
         {
             Context = Preconditions.NotNull(dbContext, nameof(dbContext));
             Context.IsWrappedByUOW = true;

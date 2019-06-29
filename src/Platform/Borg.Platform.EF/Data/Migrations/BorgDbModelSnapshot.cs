@@ -59,7 +59,7 @@ namespace Borg.Platform.EF.Data.Migrations
                     b.Property<string>("TwoLetterISO");
 
                     b.HasKey("Id")
-                        .HasName("PK_Id")
+                        .HasName("PK_CmsMenu_Id")
                         .HasAnnotation("SqlServer:Clustered", true);
 
                     b.HasIndex("LanguageId");
@@ -88,7 +88,7 @@ namespace Borg.Platform.EF.Data.Migrations
                     b.Property<string>("TwoLetterISO");
 
                     b.HasKey("Id")
-                        .HasName("PK_Id")
+                        .HasName("PK_CmsMenuItem_Id")
                         .HasAnnotation("SqlServer:Clustered", true);
 
                     b.HasIndex("LanguageId");
@@ -119,7 +119,7 @@ namespace Borg.Platform.EF.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("Id")
-                        .HasName("IX_Id");
+                        .HasName("IX_CmsPage_Id");
 
                     b.HasIndex("LanguageId");
 
@@ -137,7 +137,7 @@ namespace Borg.Platform.EF.Data.Migrations
                     b.Property<string>("Title");
 
                     b.HasKey("Id")
-                        .HasName("PK_Id")
+                        .HasName("PK_CmsRole_Id")
                         .HasAnnotation("SqlServer:Clustered", true);
 
                     b.ToTable("CmsRole");
@@ -162,7 +162,7 @@ namespace Borg.Platform.EF.Data.Migrations
                     b.Property<int?>("RoleId");
 
                     b.HasKey("Id")
-                        .HasName("PK_Id")
+                        .HasName("PK_CmsRolePermission_Id")
                         .HasAnnotation("SqlServer:Clustered", true);
 
                     b.HasIndex("RoleId");
@@ -187,7 +187,7 @@ namespace Borg.Platform.EF.Data.Migrations
                     b.Property<string>("Surname");
 
                     b.HasKey("Id")
-                        .HasName("PK_Id")
+                        .HasName("PK_CmsUser_Id")
                         .HasAnnotation("SqlServer:Clustered", true);
 
                     b.ToTable("CmsUser");
@@ -212,7 +212,7 @@ namespace Borg.Platform.EF.Data.Migrations
                     b.Property<int?>("UserId");
 
                     b.HasKey("Id")
-                        .HasName("PK_Id")
+                        .HasName("PK_CmsUserPermission_Id")
                         .HasAnnotation("SqlServer:Clustered", true);
 
                     b.HasIndex("UserId");
@@ -227,7 +227,7 @@ namespace Borg.Platform.EF.Data.Migrations
                     b.Property<int>("RoleId");
 
                     b.HasKey("UserId", "RoleId")
-                        .HasName("PK_UserId_RoleId")
+                        .HasName("PK_UserRole_UserId_RoleId")
                         .HasAnnotation("SqlServer:Clustered", true);
 
                     b.HasIndex("RoleId");

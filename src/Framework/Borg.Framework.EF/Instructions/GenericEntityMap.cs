@@ -50,11 +50,11 @@ namespace Borg.Framework.EF.Instructions
                     var pksqa = ixsqa as PrimaryKeySequenceDefinitionAttribute;
                     if (pksqa != null)
                     {
-                        builder.Entity<TEntity>().HasKey(keyExpression).HasName($"PK_{sqa.Column}").ForSqlServerIsClustered();
+                        builder.Entity<TEntity>().HasKey(keyExpression).HasName($"PK_{EntityType.Name}_{sqa.Column}").ForSqlServerIsClustered();
                     }
                     else
                     {
-                        builder.Entity<TEntity>().HasIndex(keyExpression).HasName($"IX_{sqa.Column}");
+                        builder.Entity<TEntity>().HasIndex(keyExpression).HasName($"IX_{EntityType.Name}_{sqa.Column}");
                     }
                 }
             }
@@ -79,15 +79,15 @@ namespace Borg.Framework.EF.Instructions
                 switch (mode)
                 {
                     case IndexDefinitionAttribute.IndexDefinitionMode.UniqueIndex:
-                        prefix = "UX";
+                        prefix = $"UX_{EntityType.Name}";
                         break;
 
                     case IndexDefinitionAttribute.IndexDefinitionMode.PrimaryKey:
-                        prefix = "PK";
+                        prefix = $"PK_{EntityType.Name}";
                         break;
 
                     default:
-                        prefix = "IX";
+                        prefix = $"IX_{EntityType.Name}";
                         break;
                 }
                 return $"{prefix}_{propertypath}";

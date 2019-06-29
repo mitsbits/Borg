@@ -28,7 +28,7 @@ namespace Borg.Framework.EF.Initializers
             var watch = Stopwatch.StartNew();
             try
             {
-                await DB.Database.MigrateAsync(cancelationToken);
+                await ExecuteInternal(cancelationToken);
                 watch.Stop();
                 Logger.Debug($"Migrated database { DB.Schema } and it took {watch.Elapsed}");
             }
@@ -36,6 +36,10 @@ namespace Borg.Framework.EF.Initializers
             {
                 Logger.Error(ex, $"Failed to migrate databe {DB.Schema}");
                 throw;
+            }
+            finally
+            {
+                watch.Stop();
             }
         }
 

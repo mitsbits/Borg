@@ -1,10 +1,11 @@
 ﻿using Borg.Framework.Modularity;
 using Borg.Infrastructure.Core;
 using Borg.Infrastructure.Core.DTO;
-using Borg.Infrastructure.Core.Services.Serializer;
+using Borg.Infrastructure.Core.Strings.Services;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Security.Claims;
 
 namespace Borg.Framework.MVC.Sevices
@@ -15,12 +16,10 @@ namespace Borg.Framework.MVC.Sevices
         protected const string SettingsCookieName = "Borg.UserSession"; //TODO: retrieve from settings
         protected const string SessionStartKey = "Borg.SessionStartKey";//TODO: retrieve from settings
 
-        public UserSession(IHttpContextAccessor httpContextAccessor, ISerializer serializer)
+        public UserSession(IHttpContextAccessor httpContextAccessor, IJsonConverter jsonConverter)
         {
-            Preconditions.NotNull(httpContextAccessor, nameof(httpContextAccessor));
-            Preconditions.NotNull(serializer, nameof(serializer));
-            HttpContext = httpContextAccessor.HttpContext;
-            Serializer = serializer;
+            HttpContext = Preconditions.NotNull(httpContextAccessor.HttpContext, nameof(httpContextAccessor.HttpContext));
+            Serializer = Preconditions.NotNull(jsonConverter, nameof(jsonConverter));
             SessionId = Guid.NewGuid().ToString();
             ReadState();
             SaveState();
@@ -147,13 +146,15 @@ namespace Borg.Framework.MVC.Sevices
 
         #endregion ICanContextualize
 
+        [IgnoreDataMember]
         protected virtual HttpContext HttpContext { get; }
 
-        protected virtual ISerializer Serializer { get; }
+        [IgnoreDataMember]
+        protected virtual IJsonConverter Serializer { get; }
 
         protected virtual void SaveState()
         {
-            string data = Serializer.SerializeToString(this as Tidings);
+            string data = Serializer.Serialize(this as Tidings);
             CookieOptions options = new CookieOptions { HttpOnly = true };
             HttpContext.Response.Cookies.Append(SettingsCookieName, data, options);
         }
@@ -163,7 +164,7 @@ namespace Borg.Framework.MVC.Sevices
             if (HttpContext.Request.Cookies.ContainsKey(SettingsCookieName))
             {
                 var jsonData = HttpContext.Request.Cookies[SettingsCookieName];
-                Tidings data = Serializer.Deserialize<Tidings>(jsonData);
+                Tidings data = Serializer.DeSerialize<Tidings>(jsonData);
                 Clear();
                 foreach (var tiding in data)
                 {

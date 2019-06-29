@@ -1,6 +1,7 @@
 ﻿using Borg.Infrastructure.Core.Reflection.Discovery;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,11 +9,12 @@ namespace Borg.System.Backoffice.Core.GenericEntity
 {
     public class BackOfficeEntityControllerConstraint : IRouteConstraint
     {
-        private readonly IEnumerable<IAssemblyProvider> assemblyProviders;
+        private List<string> Types = new List<string>(); private IAssemblyExplorerResult assemblyExplorerResult;
 
-        public BackOfficeEntityControllerConstraint(IEnumerable<IAssemblyProvider> assemblyProviders)
+        public BackOfficeEntityControllerConstraint(IAssemblyExplorerResult assemblyExplorerResult)
         {
-            this.assemblyProviders = assemblyProviders;
+            var results = assemblyExplorerResult.Results<EntitiesAssemblyScanResult>().Where(x => x.Success).ToList();
+            Types.AddRange(results.SelectMany(x => x.AllEntityTypes()).Distinct().Select(x => x.Name));
         }
 
         public bool Match(HttpContext httpContext,
@@ -22,11 +24,15 @@ namespace Borg.System.Backoffice.Core.GenericEntity
             RouteDirection routeDirection)
         {
             object routeValue;
-            if (values.TryGetValue(routeKey, out routeValue))
+            if (routeDirection == RouteDirection.IncomingRequest)
             {
-                var types = assemblyProviders.SelectMany(x => x.GetAssemblies()).SelectMany(x => x.GetTypes()
-                              .Where(t => t.IsCmsAggregateRoot()).Distinct());
-                return types.Any(x => x.Name == routeValue.ToString());
+                if (values.TryGetValue(routeKey, out routeValue))
+                {
+                    return Types.Any(x => x.Equals(routeValue.ToString(), StringComparison.InvariantCultureIgnoreCase));
+                }
+            }
+            else
+            {
             }
 
             return false;

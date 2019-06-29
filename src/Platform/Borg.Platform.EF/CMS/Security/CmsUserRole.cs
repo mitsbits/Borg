@@ -1,10 +1,11 @@
 ﻿using Borg.Framework.EF.Instructions.Attributes.Schema;
+using Borg.Infrastructure.Core.DDD.Contracts;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Borg.Platform.EF.CMS.Security
 {
     [Table("CmsUserCmsRole")]
-    public class UserRole
+    public class UserRole : IEntity
     {
         [PrimaryKeyDefinition(Order = 1)]
         public int UserId { get; set; }

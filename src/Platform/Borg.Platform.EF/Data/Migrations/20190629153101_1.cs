@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Borg.Platform.EF.Data.Migrations
 {
-    public partial class mig : Migration
+    public partial class _1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -53,7 +53,7 @@ namespace Borg.Platform.EF.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Id", x => x.Id)
+                    table.PrimaryKey("PK_CmsRole_Id", x => x.Id)
                         .Annotation("SqlServer:Clustered", true);
                 });
 
@@ -70,7 +70,7 @@ namespace Borg.Platform.EF.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Id", x => x.Id)
+                    table.PrimaryKey("PK_CmsUser_Id", x => x.Id)
                         .Annotation("SqlServer:Clustered", true);
                 });
 
@@ -85,7 +85,7 @@ namespace Borg.Platform.EF.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Id", x => x.Id)
+                    table.PrimaryKey("PK_CmsMenu_Id", x => x.Id)
                         .Annotation("SqlServer:Clustered", true);
                     table.ForeignKey(
                         name: "FK_CmsMenu_CmsLanguage_LanguageId",
@@ -132,7 +132,7 @@ namespace Borg.Platform.EF.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Id", x => x.Id)
+                    table.PrimaryKey("PK_CmsRolePermission_Id", x => x.Id)
                         .Annotation("SqlServer:Clustered", true);
                     table.ForeignKey(
                         name: "FK_CmsRolePermission_CmsRole_RoleId",
@@ -151,7 +151,7 @@ namespace Borg.Platform.EF.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserId_RoleId", x => new { x.UserId, x.RoleId })
+                    table.PrimaryKey("PK_UserRole_UserId_RoleId", x => new { x.UserId, x.RoleId })
                         .Annotation("SqlServer:Clustered", true);
                     table.ForeignKey(
                         name: "FK_CmsUserCmsRole_CmsRole_RoleId",
@@ -181,7 +181,7 @@ namespace Borg.Platform.EF.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Id", x => x.Id)
+                    table.PrimaryKey("PK_CmsUserPermission_Id", x => x.Id)
                         .Annotation("SqlServer:Clustered", true);
                     table.ForeignKey(
                         name: "FK_CmsUserPermission_CmsUser_UserId",
@@ -206,7 +206,7 @@ namespace Borg.Platform.EF.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Id", x => x.Id)
+                    table.PrimaryKey("PK_CmsMenuItem_Id", x => x.Id)
                         .Annotation("SqlServer:Clustered", true);
                     table.ForeignKey(
                         name: "FK_CmsMenuItem_CmsLanguage_LanguageId",
@@ -243,7 +243,7 @@ namespace Borg.Platform.EF.Data.Migrations
                 column: "MenuId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Id",
+                name: "IX_CmsPage_Id",
                 table: "CmsPage",
                 column: "Id");
 

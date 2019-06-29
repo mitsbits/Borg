@@ -1,5 +1,8 @@
-﻿using Borg.System.Backoffice.Core.Security.ActionFilters;
+﻿using Borg.Framework.Modularity;
+using Borg.System.Backoffice.Core.Security.ActionFilters;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Borg.System.Backoffice.Core
 {
@@ -7,6 +10,15 @@ namespace Borg.System.Backoffice.Core
     [BorgAuthorize]
     public abstract class BackOfficeController : Controller
     {
+        protected readonly ILogger logger;
+        protected readonly IUserSession userSession;
+
+        protected BackOfficeController(ILoggerFactory loggerFactory, IUserSession userSession)
+        {
+            this.logger = loggerFactory == null ? NullLogger.Instance : loggerFactory.CreateLogger(GetType());
+            this.userSession = userSession;
+        }
+
         [NonAction]
         protected IActionResult RedirectToLocal(string returnUrl)
         {

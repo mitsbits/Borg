@@ -1,7 +1,8 @@
 ﻿using Borg.Framework;
+using Borg.Framework.Modularity;
 using Borg.System.Backoffice.Core;
-using Borg.System.Backoffice.Lib;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace Borg.System.Backoffice.Areas.Backoffice.Controllers
 {
@@ -9,7 +10,7 @@ namespace Borg.System.Backoffice.Areas.Backoffice.Controllers
     {
         private readonly IPlugableServiceRegistry _plugableServiceRegistry;
 
-        public PlugableServicesController(IPlugableServiceRegistry plugableServiceRegistry)
+        public PlugableServicesController(ILoggerFactory loggerFactory, IUserSession user, IPlugableServiceRegistry plugableServiceRegistry) : base(loggerFactory, user)
         {
             _plugableServiceRegistry = plugableServiceRegistry;
         }

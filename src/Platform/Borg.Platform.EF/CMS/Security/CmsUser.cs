@@ -9,7 +9,7 @@ namespace Borg.Platform.EF.CMS.Security
     [PlatformDBAggregateRoot(Plural = "Cms Users", Singular = "Cms User")]
     public class CmsUser : UserBase
     {
-        public CmsUser(int id)
+        public CmsUser(int id) : this()
         {
             Id = id;
         }

@@ -19,8 +19,8 @@ namespace Borg.Infrastructure.Core.Reflection.Discovery
         private void Populate(IEnumerable<IAssemblyExplorer> explorers)
         {
             foreach (var explorer in explorers)
-            {      
-                    results.AddRange(explorer.ScanAndResult());              
+            {
+                results.AddRange(explorer.ScanAndResult());
             }
         }
 
