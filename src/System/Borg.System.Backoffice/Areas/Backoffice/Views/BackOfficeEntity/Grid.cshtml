@@ -4,13 +4,13 @@
     <div class="col-md-12">
 
         <div class="box box-default">
-            @if (Model.PagerData.TotalRecords > 0)
+            @if (Model.Pager.TotalRecords > 0)
             {
             }
 
             <div class="box-body">
 
-                @if (Model.PagerData.TotalRecords > 0)
+                @if (Model.Pager.TotalRecords > 0)
                 {
 
                     <table class="table table-bordered">
@@ -28,7 +28,7 @@
                                 <th></th>
                             </tr>
 
-                            @foreach (var row in Model.PagerData)
+                            @foreach (var row in Model.Pager)
                             {
                                 <tr>
                                     <td><input type="checkbox" /></td>

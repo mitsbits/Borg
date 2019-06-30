@@ -55,13 +55,16 @@ namespace Borg.Web.Clients.Razor
             services.AddSingleton<IAssemblyProvider>(depAsmblPrv);
             services.AddSingleton<IAssemblyProvider>(refAsmblPrv);
             services.AddScoped<IUserSession, UserSession>();
-            services.AddSingleton<ISerializer, JsonNetSerializer>();
+            services.AddDistributedMemoryCache((o) =>
+            {
+
+            });
             services.AddHttpContextAccessor();
             services.AddSingleton<IBorgLicenceService, MemoryMoqLicenceService>();
             services.AddSingleton<IConfiguration>(configuration);
             services.AddAssemblyExplorerOrchestrator();
             services.AddPlugableServicesExplorer();
-
+            services.AddDistributedMemoryCache();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .ConfigureApplicationPartManager(p =>
                 p.FeatureProviders.Add(new BackOfficeEntityControllerFeatureProvider(entitiesExplorerResult)))

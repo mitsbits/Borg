@@ -60,8 +60,9 @@ namespace Borg.System.Backoffice.Core.GenericEntity
         }
 
         [HttpGet]
-        public async Task<IActionResult> Detail()
+        public async Task<IActionResult> Detail(int id = 0)
         {
+            if (id == 0) return await Create();
             if (typeof(TEntity).ImplementsInterface(typeof(IIdentifiable)))
             {
                 var props = typeof(TEntity).GetProperties();
@@ -97,12 +98,12 @@ namespace Borg.System.Backoffice.Core.GenericEntity
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            var model = await inv.Instance();
-            return View(model);
+            var model = new EditEntityViewModel<TEntity>() { Data = await inv.Instance(), Title = "Create", DmlOperation = DmlOperation.Create };
+            return View("~/Areas/Backoffice/Views/BackOfficeEntity/Detail.cshtml", model);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Delete()
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
         {
             return BadRequest();
         }

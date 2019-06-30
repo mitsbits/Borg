@@ -40,7 +40,7 @@ namespace Borg.Framework.EF.DAL
 
         public Task<TEntity> Instance<TEntity>() where TEntity : class
         {
-            if (Context.EntityIsMapped<TEntity, TDbContext>()) throw new EntityNotMappedException<TDbContext>(typeof(TEntity));
+            if (!Context.EntityIsMapped<TEntity, TDbContext>()) throw new EntityNotMappedException<TDbContext>(typeof(TEntity));
             return Task.FromResult(Infrastructure.Core.Services.Factory.New<TEntity>.Instance.Invoke()); //TODO: this is not a nice namespace, move it to Borg
         }
 
