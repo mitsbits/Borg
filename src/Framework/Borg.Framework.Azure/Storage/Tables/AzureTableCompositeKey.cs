@@ -23,8 +23,8 @@ namespace Borg.Framework.Azure.Storage.Tables
             base.Add(key, value);
         }
 
-        public string Partition => _data.FirstOrDefault(x => x.key == nameof(Partition)).value.ToString();
-        public string Row => _data.FirstOrDefault(x => x.key == nameof(Row)).value.ToString();
+        public string Partition => _data.FirstOrDefault(x => x.Key == nameof(Partition)).Value.ToString();
+        public string Row => _data.FirstOrDefault(x => x.Key == nameof(Row)).Value.ToString();
 
         public static AzureTableCompositeKey Create(string partition, string row)
         {

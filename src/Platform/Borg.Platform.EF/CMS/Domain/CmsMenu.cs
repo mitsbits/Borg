@@ -12,7 +12,7 @@ namespace Borg.Platform.EF.CMS.Domain
         public string Title { get; protected set; }
     }
 
-    [CmsAggregateRoot(Plural = "Menus", Singular = "Menu")]
+    [CmsAggregateRoot(Plural = "Menu items", Singular = "Menu item")]
     [PrimaryKeySequenceDefinition]
     public class CmsMenuItem : MultilingualTreeNodeEntity<int, CmsLanguage>, IHaveTitle
     {

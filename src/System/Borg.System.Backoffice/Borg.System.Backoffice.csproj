@@ -14,6 +14,10 @@
 
   <ItemGroup>
     <EmbeddedResource Include="wwwroot\**\*" />
+    <Compile Remove="node_modules\**" />
+    <Content Remove="node_modules\**" />
+    <EmbeddedResource Remove="node_modules\**" />
+    <None Remove="node_modules\**" />
     <ProjectReference Include="..\..\Framework\Borg.Framework.MVC\Borg.Framework.MVC.csproj" />
     <ProjectReference Include="..\Borg.System.Backoffice.Lib\Borg.System.Backoffice.Lib.csproj" />
     <Content Update="**\*.cshtml" Pack="false" />

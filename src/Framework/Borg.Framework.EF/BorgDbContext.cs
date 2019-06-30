@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using System;
+using System.Diagnostics;
 
 namespace Borg.Framework.EF
 {
@@ -99,10 +100,15 @@ namespace Borg.Framework.EF
 
         private void Map(ModelBuilder builder)
         {
-            DoYourThnag(builder);
+            Debugger.Launch();
+            MapEntities(builder);
+            foreach (var entityType in builder.Model.GetEntityTypes())
+            {
+                entityType.Relational().Schema = GetContextName(GetType());
+            };
         }
 
-        private void DoYourThnag(ModelBuilder builder)
+        private void MapEntities(ModelBuilder builder)
         {
             var localresults = ExplorerResult.Results<EntitiesAssemblyScanResult>();
             foreach (var result in localresults)
@@ -144,7 +150,6 @@ namespace Borg.Framework.EF
         {
             Preconditions.NotNull(type, nameof(type));
             var name = type.Name.Replace("Context", string.Empty).Slugify();
-            Logger.Debug($"Resolving configuration {name} for {type.Name}");
             if (!name.EndsWith("db")) name += "db";
             return name;
         }

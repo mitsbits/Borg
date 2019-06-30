@@ -43,7 +43,7 @@ namespace Borg.Platform.EF.Data.Migrations
                     b.HasIndex("TwoLetterISO")
                         .HasName("IX_TwoLetterISO");
 
-                    b.ToTable("CmsLanguage");
+                    b.ToTable("CmsLanguage","borgdb");
                 });
 
             modelBuilder.Entity("Borg.Platform.EF.CMS.Domain.CmsMenu", b =>
@@ -64,7 +64,7 @@ namespace Borg.Platform.EF.Data.Migrations
 
                     b.HasIndex("LanguageId");
 
-                    b.ToTable("CmsMenu");
+                    b.ToTable("CmsMenu","borgdb");
                 });
 
             modelBuilder.Entity("Borg.Platform.EF.CMS.Domain.CmsMenuItem", b =>
@@ -95,7 +95,7 @@ namespace Borg.Platform.EF.Data.Migrations
 
                     b.HasIndex("MenuId");
 
-                    b.ToTable("CmsMenuItem");
+                    b.ToTable("CmsMenuItem","borgdb");
                 });
 
             modelBuilder.Entity("Borg.Platform.EF.CMS.Domain.CmsPage", b =>
@@ -123,7 +123,7 @@ namespace Borg.Platform.EF.Data.Migrations
 
                     b.HasIndex("LanguageId");
 
-                    b.ToTable("CmsPage");
+                    b.ToTable("CmsPage","borgdb");
                 });
 
             modelBuilder.Entity("Borg.Platform.EF.CMS.Security.CmsRole", b =>
@@ -140,7 +140,7 @@ namespace Borg.Platform.EF.Data.Migrations
                         .HasName("PK_CmsRole_Id")
                         .HasAnnotation("SqlServer:Clustered", true);
 
-                    b.ToTable("CmsRole");
+                    b.ToTable("CmsRole","borgdb");
                 });
 
             modelBuilder.Entity("Borg.Platform.EF.CMS.Security.CmsRolePermission", b =>
@@ -167,7 +167,7 @@ namespace Borg.Platform.EF.Data.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("CmsRolePermission");
+                    b.ToTable("CmsRolePermission","borgdb");
                 });
 
             modelBuilder.Entity("Borg.Platform.EF.CMS.Security.CmsUser", b =>
@@ -190,7 +190,7 @@ namespace Borg.Platform.EF.Data.Migrations
                         .HasName("PK_CmsUser_Id")
                         .HasAnnotation("SqlServer:Clustered", true);
 
-                    b.ToTable("CmsUser");
+                    b.ToTable("CmsUser","borgdb");
                 });
 
             modelBuilder.Entity("Borg.Platform.EF.CMS.Security.CmsUserPermission", b =>
@@ -217,7 +217,7 @@ namespace Borg.Platform.EF.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("CmsUserPermission");
+                    b.ToTable("CmsUserPermission","borgdb");
                 });
 
             modelBuilder.Entity("Borg.Platform.EF.CMS.Security.UserRole", b =>
@@ -232,7 +232,7 @@ namespace Borg.Platform.EF.Data.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("CmsUserCmsRole");
+                    b.ToTable("CmsUserCmsRole","borgdb");
                 });
 
             modelBuilder.Entity("Borg.Platform.EF.CMS.Domain.CmsMenu", b =>

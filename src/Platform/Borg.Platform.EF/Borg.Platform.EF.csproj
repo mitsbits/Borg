@@ -13,6 +13,10 @@
     <ProjectReference Include="..\..\System\Borg.System.Backoffice.Security\Borg.System.Backoffice.Security.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\" />
+  </ItemGroup>
+
 
 
 </Project>

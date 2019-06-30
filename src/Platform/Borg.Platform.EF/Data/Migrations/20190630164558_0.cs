@@ -3,10 +3,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Borg.Platform.EF.Data.Migrations
 {
-    public partial class _1 : Migration
+    public partial class _0 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "borgdb");
+
             migrationBuilder.CreateSequence<int>(
                 name: "CmsMenu_Id_seq");
 
@@ -30,6 +33,7 @@ namespace Borg.Platform.EF.Data.Migrations
 
             migrationBuilder.CreateTable(
                 name: "CmsLanguage",
+                schema: "borgdb",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -45,6 +49,7 @@ namespace Borg.Platform.EF.Data.Migrations
 
             migrationBuilder.CreateTable(
                 name: "CmsRole",
+                schema: "borgdb",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false, defaultValueSql: "NEXT VALUE FOR CmsRole_Id_seq"),
@@ -59,6 +64,7 @@ namespace Borg.Platform.EF.Data.Migrations
 
             migrationBuilder.CreateTable(
                 name: "CmsUser",
+                schema: "borgdb",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false, defaultValueSql: "NEXT VALUE FOR CmsUser_Id_seq"),
@@ -76,6 +82,7 @@ namespace Borg.Platform.EF.Data.Migrations
 
             migrationBuilder.CreateTable(
                 name: "CmsMenu",
+                schema: "borgdb",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false, defaultValueSql: "NEXT VALUE FOR CmsMenu_Id_seq"),
@@ -90,6 +97,7 @@ namespace Borg.Platform.EF.Data.Migrations
                     table.ForeignKey(
                         name: "FK_CmsMenu_CmsLanguage_LanguageId",
                         column: x => x.LanguageId,
+                        principalSchema: "borgdb",
                         principalTable: "CmsLanguage",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -97,6 +105,7 @@ namespace Borg.Platform.EF.Data.Migrations
 
             migrationBuilder.CreateTable(
                 name: "CmsPage",
+                schema: "borgdb",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false, defaultValueSql: "NEXT VALUE FOR CmsPage_Id_seq"),
@@ -113,6 +122,7 @@ namespace Borg.Platform.EF.Data.Migrations
                     table.ForeignKey(
                         name: "FK_CmsPage_CmsLanguage_LanguageId",
                         column: x => x.LanguageId,
+                        principalSchema: "borgdb",
                         principalTable: "CmsLanguage",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -120,6 +130,7 @@ namespace Borg.Platform.EF.Data.Migrations
 
             migrationBuilder.CreateTable(
                 name: "CmsRolePermission",
+                schema: "borgdb",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false, defaultValueSql: "NEXT VALUE FOR CmsRolePermission_Id_seq"),
@@ -137,6 +148,7 @@ namespace Borg.Platform.EF.Data.Migrations
                     table.ForeignKey(
                         name: "FK_CmsRolePermission_CmsRole_RoleId",
                         column: x => x.RoleId,
+                        principalSchema: "borgdb",
                         principalTable: "CmsRole",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -144,6 +156,7 @@ namespace Borg.Platform.EF.Data.Migrations
 
             migrationBuilder.CreateTable(
                 name: "CmsUserCmsRole",
+                schema: "borgdb",
                 columns: table => new
                 {
                     UserId = table.Column<int>(nullable: false),
@@ -156,12 +169,14 @@ namespace Borg.Platform.EF.Data.Migrations
                     table.ForeignKey(
                         name: "FK_CmsUserCmsRole_CmsRole_RoleId",
                         column: x => x.RoleId,
+                        principalSchema: "borgdb",
                         principalTable: "CmsRole",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_CmsUserCmsRole_CmsUser_UserId",
                         column: x => x.UserId,
+                        principalSchema: "borgdb",
                         principalTable: "CmsUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -169,6 +184,7 @@ namespace Borg.Platform.EF.Data.Migrations
 
             migrationBuilder.CreateTable(
                 name: "CmsUserPermission",
+                schema: "borgdb",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false, defaultValueSql: "NEXT VALUE FOR CmsUserPermission_Id_seq"),
@@ -186,6 +202,7 @@ namespace Borg.Platform.EF.Data.Migrations
                     table.ForeignKey(
                         name: "FK_CmsUserPermission_CmsUser_UserId",
                         column: x => x.UserId,
+                        principalSchema: "borgdb",
                         principalTable: "CmsUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -193,6 +210,7 @@ namespace Borg.Platform.EF.Data.Migrations
 
             migrationBuilder.CreateTable(
                 name: "CmsMenuItem",
+                schema: "borgdb",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false, defaultValueSql: "NEXT VALUE FOR CmsMenuItem_Id_seq"),
@@ -211,12 +229,14 @@ namespace Borg.Platform.EF.Data.Migrations
                     table.ForeignKey(
                         name: "FK_CmsMenuItem_CmsLanguage_LanguageId",
                         column: x => x.LanguageId,
+                        principalSchema: "borgdb",
                         principalTable: "CmsLanguage",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_CmsMenuItem_CmsMenu_MenuId",
                         column: x => x.MenuId,
+                        principalSchema: "borgdb",
                         principalTable: "CmsMenu",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -224,46 +244,55 @@ namespace Borg.Platform.EF.Data.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_TwoLetterISO",
+                schema: "borgdb",
                 table: "CmsLanguage",
                 column: "TwoLetterISO");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CmsMenu_LanguageId",
+                schema: "borgdb",
                 table: "CmsMenu",
                 column: "LanguageId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CmsMenuItem_LanguageId",
+                schema: "borgdb",
                 table: "CmsMenuItem",
                 column: "LanguageId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CmsMenuItem_MenuId",
+                schema: "borgdb",
                 table: "CmsMenuItem",
                 column: "MenuId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CmsPage_Id",
+                schema: "borgdb",
                 table: "CmsPage",
                 column: "Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CmsPage_LanguageId",
+                schema: "borgdb",
                 table: "CmsPage",
                 column: "LanguageId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CmsRolePermission_RoleId",
+                schema: "borgdb",
                 table: "CmsRolePermission",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CmsUserCmsRole_RoleId",
+                schema: "borgdb",
                 table: "CmsUserCmsRole",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CmsUserPermission_UserId",
+                schema: "borgdb",
                 table: "CmsUserPermission",
                 column: "UserId");
         }
@@ -271,31 +300,40 @@ namespace Borg.Platform.EF.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "CmsMenuItem");
+                name: "CmsMenuItem",
+                schema: "borgdb");
 
             migrationBuilder.DropTable(
-                name: "CmsPage");
+                name: "CmsPage",
+                schema: "borgdb");
 
             migrationBuilder.DropTable(
-                name: "CmsRolePermission");
+                name: "CmsRolePermission",
+                schema: "borgdb");
 
             migrationBuilder.DropTable(
-                name: "CmsUserCmsRole");
+                name: "CmsUserCmsRole",
+                schema: "borgdb");
 
             migrationBuilder.DropTable(
-                name: "CmsUserPermission");
+                name: "CmsUserPermission",
+                schema: "borgdb");
 
             migrationBuilder.DropTable(
-                name: "CmsMenu");
+                name: "CmsMenu",
+                schema: "borgdb");
 
             migrationBuilder.DropTable(
-                name: "CmsRole");
+                name: "CmsRole",
+                schema: "borgdb");
 
             migrationBuilder.DropTable(
-                name: "CmsUser");
+                name: "CmsUser",
+                schema: "borgdb");
 
             migrationBuilder.DropTable(
-                name: "CmsLanguage");
+                name: "CmsLanguage",
+                schema: "borgdb");
 
             migrationBuilder.DropSequence(
                 name: "CmsMenu_Id_seq");

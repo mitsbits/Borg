@@ -21,15 +21,5 @@ namespace Borg.System.Backoffice.Core.GenericEntity
         public override Type EntityType => typeof(TEntity);
     }
 
-    public abstract class EditEntityViewModel : EntityViewModel
-    {
-        public abstract object Entity { get; }
-    }
 
-    public class EditEntityViewModel<TEntity> : EditEntityViewModel
-    {
-        public TEntity Data { get; set; }
-        public override object Entity => Data;
-        public override Type EntityType => typeof(TEntity);
-    }
 }
