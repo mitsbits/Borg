@@ -90,7 +90,7 @@ namespace Borg
 
         public static bool EntityIsMapped<T, TDbContext>(this TDbContext db) where T : class where TDbContext : DbContext
         {
-            var exists = db.Model.GetEntityTypes(typeof(T)).Any();
+            var exists = db.Model.GetEntityTypes(typeof(T)).Any(); //TODO:this should be cached
             return exists;
         }
     }

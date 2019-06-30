@@ -1,5 +1,6 @@
 ﻿using Borg.Infrastructure.Core.Reflection.Discovery.Annotations;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using static Borg.Infrastructure.Core.DDD.ValueObjects.CompositeKeyBuilder;
@@ -8,9 +9,28 @@ namespace Borg.Infrastructure.Core.DDD.ValueObjects
 {
     [Serializable]
     [MapperIgnore]
-    public class CompositeKey : ValueObject<CompositeKey>
+    public class CompositeKey : ValueObject<CompositeKey>, IReadOnlyDictionary<string, object>
     {
-        protected readonly List<(string key, object value)> _data;
+        protected readonly Dictionary<string, object> _data;
+
+        public IEnumerable<string> Keys => _data.Keys;
+
+        public IEnumerable<object> Values => _data.Values;
+
+        public int Count => _data.Count();
+
+        public object this[string key] => _data[key];
+
+        public CompositeKey(string queryString) : this()
+        {
+            queryString = Preconditions.NotEmpty(queryString.TrimStart('?', '&'), nameof(queryString));
+            var parts = queryString.Split('&');
+            foreach (var part in parts)
+            {
+                var localparts = part.Split('=');
+                Add(localparts[0], localparts[1]);
+            }
+        }
 
         public CompositeKey(IEnumerable<KeyValuePair<string, object>> source) : this(source.Select(x => (key: x.Key, value: x.Value)))
         {
@@ -27,21 +47,51 @@ namespace Borg.Infrastructure.Core.DDD.ValueObjects
 
         public CompositeKey()
         {
-            _data = new List<(string key, object value)>();
+            var comparer = StringComparer.InvariantCultureIgnoreCase;
+            _data = new Dictionary<string, object>(comparer);
         }
 
         public virtual void Add(string key, object value)
         {
-            if (_data.Any(x => x.key == key)) throw new ApplicationException("key already in collection");
-            _data.Add((key, value));
+            if (_data.ContainsKey(key))
+            {
+                _data[key] = value;
+            }
+            else
+            {
+                _data.Add(key, value);
+            }
         }
 
         public override string ToString()
         {
-            return string.Join("", _data.Select(x => $"[{x.key}:{x.value}]"));
+            return string.Join("", _data.Select(x => $"[{x.Key}:{x.Value}]"));
         }
 
-        public IEnumerable<(string key, object value)> Values => _data;
+        public bool ContainsKey(string key)
+        {
+            return _data.ContainsKey(key);
+        }
+
+        public bool TryGetValue(string key, out object value)
+        {
+            return _data.TryGetValue(key, out value);
+        }
+
+        public IEnumerator<KeyValuePair<string, object>> GetEnumerator()
+        {
+            return _data.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        public string ToQueryString()
+        {
+            return string.Join("&", _data.Select(x => $"{x.Key}={x.Value}"));
+        }
     }
 
     public class CompositeKeyBuilder : ICanAddKey, ICanAddValue, ICanBuildCompositeKey, ICanAddKeyOrBuild

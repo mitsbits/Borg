@@ -1,5 +1,6 @@
 ﻿using Borg.Framework.DAL.Ordering;
 using Borg.Infrastructure.Core.Collections;
+using Borg.Infrastructure.Core.DDD.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +33,7 @@ namespace Borg.Framework.DAL.Inventories
     {
         Task<IPagedResult<T>> Read(Expression<Func<T, bool>> predicate, int page, int size,
                 IEnumerable<OrderByInfo<T>> orderByy, CancellationToken cancellationToken = default);
+        Task<T> Get(CompositeKey compositeKey, CancellationToken cancellationToken = default);
     }
 
     public interface IWriteInventory<T> : IInventory<T> where T : class

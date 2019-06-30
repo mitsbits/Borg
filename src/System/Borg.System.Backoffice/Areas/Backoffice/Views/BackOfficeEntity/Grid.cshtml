@@ -12,7 +12,6 @@
 
                 @if (Model.Pager.TotalRecords > 0)
                 {
-
                     <table class="table table-bordered">
                         <tbody>
 
@@ -59,11 +58,7 @@
                                                 var ids = identifiable.Keys;
 
                                                 var builder = new System.Text.StringBuilder(Url.Action("Detail"));
-                                                builder.Append("?");
-                                                foreach (var id in ids.Values)
-                                                {
-                                                    builder.Append($"{id.key}={id.value}&");
-                                                }
+                                                builder.Append("?").Append(ids.ToQueryString());
                                                 url = builder.ToString().TrimEnd('&');
                                             }
 

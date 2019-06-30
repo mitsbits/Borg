@@ -5,6 +5,7 @@ using Borg.Framework.Modularity;
 using Borg.Infrastructure.Core;
 using Borg.Infrastructure.Core.Collections;
 using Borg.Infrastructure.Core.DDD.Contracts;
+using Borg.Infrastructure.Core.DDD.ValueObjects;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
@@ -33,13 +34,7 @@ namespace Borg.System.Backoffice.Core.GenericEntity
             this.inv = Preconditions.NotNull(inv, nameof(inv));
         }
 
-        //private DmlOperation DetermineMode()
-        //{
-        //    if (ControllerContext.Action() == nameof(Detail)) return DmlOperation.Update;
-        //    if (ControllerContext.Action() == nameof(Create)) return DmlOperation.Create;
-        //    if (ControllerContext.Action() == nameof(Delete)) return DmlOperation.Delete;
-        //    return DmlOperation.Update;
-        //}
+
 
         [HttpGet]
         public async Task<IActionResult> Index()
@@ -60,37 +55,17 @@ namespace Borg.System.Backoffice.Core.GenericEntity
         }
 
         [HttpGet]
-        public async Task<IActionResult> Detail(int id = 0)
+        public async Task<IActionResult> Detail()
         {
-            if (id == 0) return await Create();
             if (typeof(TEntity).ImplementsInterface(typeof(IIdentifiable)))
             {
-                var props = typeof(TEntity).GetProperties();
-                var queryProps = new List<(string prop, object val)>();
-                foreach (var quwryKeu in Request.Query.Keys)
-                {
-                    var prop = props.SingleOrDefault(x => x.Name.ToLower() == quwryKeu.ToLower());
-                    if (prop != null)
-                    {
-                        queryProps.Add((prop: prop.Name, val: Request.Query[quwryKeu]));
-                    }
-                }
+                var keys = new CompositeKey(Request.QueryString.Value);
+                var hit = await inv.Get(keys);
 
-                var exprBuilder = new StringBuilder("x=> ");
+                var model = new EditEntityViewModel<TEntity>() { Data = hit, DmlOperation = DmlOperation.Update };
+                model.Title = ((IHaveTitle)hit).Title;
 
-                for (var i = 0; i < queryProps.Count(); i++)
-                {
-                    var prp = queryProps[i];
-                    if (i > 0)
-                    {
-                        exprBuilder.Append(" && ");
-                    }
-                    exprBuilder.Append($"x.{prp.prop} == {prp.val}");
-                }
-                var options = ScriptOptions.Default.AddReferences(typeof(TEntity).Assembly);
-                Expression<Func<TEntity, bool>> predicate = await CSharpScript.EvaluateAsync<Expression<Func<TEntity, bool>>>(exprBuilder.ToString(), options);
-                var hit = this.inv.Find(predicate, 1, 1, OrderByInfo<TEntity>.DefaultSorter());
-                return View("~/Areas/Backoffice/Views/BackOfficeEntity/Detail.cshtml", hit);
+                return View("~/Areas/Backoffice/Views/BackOfficeEntity/Detail.cshtml", model);
             };
             return BadRequest();
         }
