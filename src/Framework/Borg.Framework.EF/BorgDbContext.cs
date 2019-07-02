@@ -100,7 +100,6 @@ namespace Borg.Framework.EF
 
         private void Map(ModelBuilder builder)
         {
-            Debugger.Launch();
             MapEntities(builder);
             foreach (var entityType in builder.Model.GetEntityTypes())
             {

@@ -8,7 +8,7 @@ namespace Borg.System.Backoffice.Core.GenericEntity
     {
         public void Apply(ControllerModel controller)
         {
-            if (controller.ControllerType.GetGenericTypeDefinition() == typeof(BackOfficeEntityController<,>))
+            if (controller.ControllerType.GetGenericTypeDefinition().Equals(typeof(BackOfficeEntityController<,>)))
             {
                 var entityType = controller.ControllerType.GenericTypeArguments[0];
                 controller.ControllerName = entityType.Name;
