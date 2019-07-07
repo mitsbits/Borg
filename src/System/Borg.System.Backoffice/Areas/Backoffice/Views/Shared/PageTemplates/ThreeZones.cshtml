@@ -1,5 +1,11 @@
-﻿@await RenderSectionAsync("upperzone", required: false)
+﻿@{ 
+    if (IsSectionDefined("bottomscripts"))
+    {
+        DefineSection("bottomscripts", null);
+    }
+}
+@await RenderSectionAsync("upperzone", required: false)
 
 @RenderBody()
 
-@await RenderSectionAsync("powerrzone", required: false)
+@await RenderSectionAsync("lowerzone", required: false)

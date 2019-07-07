@@ -21,7 +21,6 @@ namespace Borg.Framework.MVC.UI
 
         public void PostConfigure(string name, StaticFileOptions options)
         {
-            name = Preconditions.NotEmpty(name, nameof(name));
             options = Preconditions.NotNull(options, nameof(options));
 
             // Basic initialization in case the options weren't initialized by any other component

@@ -8,6 +8,7 @@ namespace Borg.Platform.EF.CMS.Domain
 
     public class CmsPage : CmsMultilingualTreeNode, IHaveTitle
     {
+        [Unicode]
         public string Title { get; set; }
     }
 }

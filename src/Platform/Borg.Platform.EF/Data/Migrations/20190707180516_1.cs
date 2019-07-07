@@ -81,7 +81,7 @@ namespace Borg.Platform.EF.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false, defaultValueSql: "NEXT VALUE FOR CmsMenu_Id_seq"),
                     LanguageID = table.Column<int>(nullable: false),
-                    Title = table.Column<string>(maxLength: 100, nullable: true)
+                    Title = table.Column<string>(unicode: false, maxLength: 100, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -106,7 +106,7 @@ namespace Borg.Platform.EF.Data.Migrations
                     ParentId = table.Column<int>(nullable: false),
                     Depth = table.Column<int>(nullable: false),
                     Hierarchy = table.Column<string>(maxLength: 100, nullable: true),
-                    Title = table.Column<string>(maxLength: 100, nullable: true)
+                    Title = table.Column<string>(unicode: false, maxLength: 100, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -211,10 +211,8 @@ namespace Borg.Platform.EF.Data.Migrations
                     ParentId = table.Column<int>(nullable: false),
                     Depth = table.Column<int>(nullable: false),
                     Hierarchy = table.Column<string>(maxLength: 100, nullable: true),
-                    Title = table.Column<string>(maxLength: 100, nullable: true),
-                    MenuId = table.Column<int>(nullable: false),
-                    MenuId1 = table.Column<int>(nullable: true),
-                    MenuLanguageID = table.Column<int>(nullable: true)
+                    Title = table.Column<string>(unicode: false, maxLength: 100, nullable: true),
+                    MenuId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -228,8 +226,8 @@ namespace Borg.Platform.EF.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CmsMenuItem_CmsMenu_MenuId1_MenuLanguageID",
-                        columns: x => new { x.MenuId1, x.MenuLanguageID },
+                        name: "FK_CmsMenuItem_CmsMenu_MenuId_LanguageID",
+                        columns: x => new { x.MenuId, x.LanguageID },
                         principalSchema: "borgdb",
                         principalTable: "CmsMenu",
                         principalColumns: new[] { "Id", "LanguageID" },
@@ -261,10 +259,10 @@ namespace Borg.Platform.EF.Data.Migrations
                 column: "LanguageID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CmsMenuItem_MenuId1_MenuLanguageID",
+                name: "IX_CmsMenuItem_MenuId_LanguageID",
                 schema: "borgdb",
                 table: "CmsMenuItem",
-                columns: new[] { "MenuId1", "MenuLanguageID" });
+                columns: new[] { "MenuId", "LanguageID" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_CmsPage_LanguageID",

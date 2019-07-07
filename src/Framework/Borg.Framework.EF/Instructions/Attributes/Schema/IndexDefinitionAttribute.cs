@@ -3,17 +3,12 @@ using System.ComponentModel;
 
 namespace Borg.Framework.EF.Instructions.Attributes.Schema
 {
-
-
-
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     public class PrimaryKeyDefinitionAttribute : UniqueIndexDefinitionAttribute
     {
-        public PrimaryKeyDefinitionAttribute():base()
+        public PrimaryKeyDefinitionAttribute() : base()
         {
-
         }
-
     }
 
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
@@ -21,7 +16,6 @@ namespace Borg.Framework.EF.Instructions.Attributes.Schema
     {
         public UniqueIndexDefinitionAttribute() : base()
         {
-
         }
     }
 
@@ -30,8 +24,8 @@ namespace Borg.Framework.EF.Instructions.Attributes.Schema
     {
         public IndexDefinitionAttribute()
         {
-
         }
+
         public const string DefaultIndexName = nameof(IndexName);
         public string IndexName { get; set; } = DefaultIndexName;
 

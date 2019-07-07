@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Borg.Platform.EF.Data.Migrations
 {
     [DbContext(typeof(BorgDb))]
-    [Migration("20190707150903_1")]
+    [Migration("20190707180516_1")]
     partial class _1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,13 +33,16 @@ namespace Borg.Platform.EF.Data.Migrations
                         .HasDefaultValueSql("NEXT VALUE FOR CmsLanguage_Id_seq");
 
                     b.Property<string>("CultureName")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .IsUnicode(true);
 
                     b.Property<string>("Title")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .IsUnicode(true);
 
                     b.Property<string>("TwoLetterISO")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .IsUnicode(true);
 
                     b.HasKey("Id")
                         .HasName("PK_CmsLanguage_Id")
@@ -60,7 +63,8 @@ namespace Borg.Platform.EF.Data.Migrations
                     b.Property<int>("LanguageID");
 
                     b.Property<string>("Title")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .IsUnicode(false);
 
                     b.HasKey("Id", "LanguageID")
                         .HasName("PK_CmsMenu_Id_LanguageID")
@@ -85,18 +89,16 @@ namespace Borg.Platform.EF.Data.Migrations
                     b.Property<int>("Depth");
 
                     b.Property<string>("Hierarchy")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .IsUnicode(true);
 
                     b.Property<int>("MenuId");
-
-                    b.Property<int?>("MenuId1");
-
-                    b.Property<int?>("MenuLanguageID");
 
                     b.Property<int>("ParentId");
 
                     b.Property<string>("Title")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .IsUnicode(false);
 
                     b.HasKey("Id", "LanguageID")
                         .HasName("PK_CmsMenuItem_Id_LanguageID")
@@ -104,7 +106,7 @@ namespace Borg.Platform.EF.Data.Migrations
 
                     b.HasIndex("LanguageID");
 
-                    b.HasIndex("MenuId1", "MenuLanguageID");
+                    b.HasIndex("MenuId", "LanguageID");
 
                     b.ToTable("CmsMenuItem","borgdb");
                 });
@@ -120,12 +122,14 @@ namespace Borg.Platform.EF.Data.Migrations
                     b.Property<int>("Depth");
 
                     b.Property<string>("Hierarchy")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .IsUnicode(true);
 
                     b.Property<int>("ParentId");
 
                     b.Property<string>("Title")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .IsUnicode(false);
 
                     b.HasKey("Id", "LanguageID")
                         .HasName("PK_CmsPage_Id_LanguageID")
@@ -145,7 +149,8 @@ namespace Borg.Platform.EF.Data.Migrations
                     b.Property<bool>("IsSystem");
 
                     b.Property<string>("Title")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .IsUnicode(true);
 
                     b.HasKey("Id");
 
@@ -161,14 +166,16 @@ namespace Borg.Platform.EF.Data.Migrations
                     b.Property<int>("Depth");
 
                     b.Property<string>("Hierarchy")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .IsUnicode(true);
 
                     b.Property<int>("ParentId");
 
                     b.Property<int>("PermissionOperation");
 
                     b.Property<string>("Resource")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .IsUnicode(true);
 
                     b.Property<int?>("RoleId");
 
@@ -186,18 +193,22 @@ namespace Borg.Platform.EF.Data.Migrations
                         .HasDefaultValueSql("NEXT VALUE FOR CmsUser_Id_seq");
 
                     b.Property<string>("Email")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .IsUnicode(true);
 
                     b.Property<bool>("IsActive");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .IsUnicode(true);
 
                     b.Property<string>("PasswordHash")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .IsUnicode(true);
 
                     b.Property<string>("Surname")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .IsUnicode(true);
 
                     b.HasKey("Id")
                         .HasName("PK_CmsUser_Id")
@@ -215,14 +226,16 @@ namespace Borg.Platform.EF.Data.Migrations
                     b.Property<int>("Depth");
 
                     b.Property<string>("Hierarchy")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .IsUnicode(true);
 
                     b.Property<int>("ParentId");
 
                     b.Property<int>("PermissionOperation");
 
                     b.Property<string>("Resource")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .IsUnicode(true);
 
                     b.Property<int?>("UserId");
 
@@ -265,7 +278,7 @@ namespace Borg.Platform.EF.Data.Migrations
 
                     b.HasOne("Borg.Platform.EF.CMS.Domain.CmsMenu", "Menu")
                         .WithMany()
-                        .HasForeignKey("MenuId1", "MenuLanguageID");
+                        .HasForeignKey("MenuId", "LanguageID");
                 });
 
             modelBuilder.Entity("Borg.Platform.EF.CMS.Domain.CmsPage", b =>

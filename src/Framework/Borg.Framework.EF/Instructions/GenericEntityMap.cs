@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -26,12 +25,25 @@ namespace Borg.Framework.EF.Instructions
 
         public override void OnModelCreating(ModelBuilder builder)
         {
-   
             SequenceDefinition(builder);
             IndexDefinition(builder);
             StringFieldsLenth(builder);
-
+            PrincipalForeignKeyDefinition(builder);
             //HasManyDefinition(builder);
+        }
+
+        private void PrincipalForeignKeyDefinition(ModelBuilder builder)
+        {
+            var source = typeof(TEntity).GetProperties();
+            foreach (var p in source)
+            {
+                var attr = p.GetCustomAttribute<PrincipalForeignKeyDefinitionAttribute>();
+                if (attr != null)
+                {
+                    var principalType = p.PropertyType;
+                    builder.Entity(principalType).HasMany(EntityType).WithOne(p.Name).HasForeignKey(attr.Columns).OnDelete(DeleteBehavior.ClientSetNull);
+                }
+            }
         }
 
         private void StringFieldsLenth(ModelBuilder builder)
@@ -45,10 +57,17 @@ namespace Borg.Framework.EF.Instructions
                     var sla = p.GetCustomAttribute<StringLengthAttribute>();
                     if (mla == null && sla == null)
                     {
-                        //var options = ScriptOptions.Default.AddReferences(EntityType.Assembly);
-                        //var keyExpr = $"x => x.{p.Name}";
-                        //var keyExpression = AsyncHelpers.RunSync(() => CSharpScript.EvaluateAsync<Expression<Func<TEntity, object>>>(keyExpr, options));
                         builder.Entity<TEntity>().Property(p.Name).HasMaxLength(100);
+                    }
+
+                    var uniAttr = p.GetCustomAttribute<UnicodeAttribute>();
+                    if (uniAttr != null)
+                    {
+                        builder.Entity<TEntity>().Property(p.Name).IsUnicode(uniAttr.IsUnicode);
+                    }
+                    else
+                    {
+                        builder.Entity<TEntity>().Property(p.Name).IsUnicode(true);
                     }
                 }
             }
