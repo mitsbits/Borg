@@ -6,9 +6,9 @@ namespace Borg.Platform.EF.CMS.Domain
 {
     public abstract class CmsMultilingualTreeNode : IMultilingualTreeNode<int, CmsLanguage>
     {
-        [PrimaryKeyDefinition() ]
+        [PrimaryKeyDefinition ][SequenceDefinition]
         public  int Id { get; protected set; }
-
+        [PrimaryKeyDefinition]
         public int LanguageID { get; protected set; }
 
         public virtual CompositeKey Keys => CompositeKeyInternal();

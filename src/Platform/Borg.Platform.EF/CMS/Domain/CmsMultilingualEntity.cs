@@ -1,8 +1,6 @@
 ﻿using Borg.Framework.EF.Instructions.Attributes.Schema;
 using Borg.Infrastructure.Core.DDD.Contracts;
 using Borg.Infrastructure.Core.DDD.ValueObjects;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Borg.Platform.EF.CMS.Domain
 {
@@ -23,7 +21,7 @@ namespace Borg.Platform.EF.CMS.Domain
         {
             return CompositeKeyBuilder.Create()
                 .AddKey(nameof(Id)).AddValue(Id)
-                 .AddKey(nameof(LanguageID)).AddValue(LanguageID)
+                .AddKey(nameof(LanguageID)).AddValue(LanguageID)
                 .Build();
         }
 

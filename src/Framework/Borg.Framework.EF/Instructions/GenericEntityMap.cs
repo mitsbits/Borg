@@ -7,6 +7,8 @@ using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -19,24 +21,48 @@ namespace Borg.Framework.EF.Instructions
         protected GenericEntityMap() : base(typeof(TEntity), typeof(TDbContext))
         {
         }
+
         #region OnModelCreating
+
         public override void OnModelCreating(ModelBuilder builder)
         {
+   
             SequenceDefinition(builder);
             IndexDefinition(builder);
+            StringFieldsLenth(builder);
 
             //HasManyDefinition(builder);
         }
 
+        private void StringFieldsLenth(ModelBuilder builder)
+        {
+            var source = typeof(TEntity).GetProperties();
+            foreach (var p in source)
+            {
+                if (p.PropertyType.Equals(typeof(string)))
+                {
+                    var mla = p.GetCustomAttribute<MaxLengthAttribute>();
+                    var sla = p.GetCustomAttribute<StringLengthAttribute>();
+                    if (mla == null && sla == null)
+                    {
+                        //var options = ScriptOptions.Default.AddReferences(EntityType.Assembly);
+                        //var keyExpr = $"x => x.{p.Name}";
+                        //var keyExpression = AsyncHelpers.RunSync(() => CSharpScript.EvaluateAsync<Expression<Func<TEntity, object>>>(keyExpr, options));
+                        builder.Entity<TEntity>().Property(p.Name).HasMaxLength(100);
+                    }
+                }
+            }
+        }
+
         private void SequenceDefinition(ModelBuilder builder)
         {
-            var source = typeof(TEntity).GetProperties(BindingFlags.Public);
+            var source = typeof(TEntity).GetProperties();
             foreach (var p in source)
             {
                 foreach (var a in p.GetCustomAttributes<SequenceDefinitionAttribute>(true))
                 {
                     var sqa = a as SequenceDefinitionAttribute;
-                    if (sqa != null )
+                    if (sqa != null)
                     {
                         var sequenceName = $"{typeof(TEntity).Name}_{p.Name}_seq";
                         var options = ScriptOptions.Default.AddReferences(EntityType.Assembly);
@@ -66,10 +92,6 @@ namespace Borg.Framework.EF.Instructions
                 }
             }
         }
-
-
-
-
 
         private void IndexDefinition(ModelBuilder builder)
         {
@@ -197,8 +219,9 @@ namespace Borg.Framework.EF.Instructions
         //            }
         //        }
         //    }
-        //} 
-        #endregion
+        //}
+
+        #endregion OnModelCreating
     }
 
     public abstract class EntityMapBase : IEntityMap
