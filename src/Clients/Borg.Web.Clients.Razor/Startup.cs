@@ -3,10 +3,7 @@ using Borg.Framework.Modularity;
 using Borg.Framework.MVC.Middleware.SecurityHeaders;
 using Borg.Framework.MVC.Sevices;
 using Borg.Framework.Reflection.Services;
-
-using Borg.Framework.Services.Serializer;
 using Borg.Infrastructure.Core.Reflection.Discovery;
-using Borg.Infrastructure.Core.Services.Serializer;
 using Borg.System.Backoffice.Core.GenericEntity;
 using Borg.System.Licencing;
 using Borg.System.Licencing.Contracts;
@@ -57,7 +54,6 @@ namespace Borg.Web.Clients.Razor
             services.AddScoped<IUserSession, UserSession>();
             services.AddDistributedMemoryCache((o) =>
             {
-
             });
             services.AddHttpContextAccessor();
             services.AddSingleton<IBorgLicenceService, MemoryMoqLicenceService>();
@@ -90,6 +86,7 @@ namespace Borg.Web.Clients.Razor
 
             if (env.IsDevelopment())
             {
+                app.UseDatabaseErrorPage();
                 app.UseDeveloperExceptionPage();
             }
 
@@ -104,7 +101,7 @@ namespace Borg.Web.Clients.Razor
             {
                 routes.MapRoute(
                     name: "areaGenericEntityRoute",
-                    template: "{area:exists}/entity/{controller:genericController}/{action=Index}/{id?}");
+                    template: "{area:exists}/entity/{controller:genericController}/{action=Index}");
                 routes.MapRoute(
                     name: "areaRoute",
                     template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");

@@ -28,50 +28,49 @@
 
                 @for (var i = 0; i < Model.HeaderColumns.Count; i++)
                 {
-                    <input type="hidden" asp-for="@Model.HeaderColumns[i].Order" />
-                    <input type="hidden" asp-for="@Model.HeaderColumns[i].IsSimple" />
-                    <input type="hidden" asp-for="@Model.HeaderColumns[i].Title" />
-                    <input type="hidden" asp-for="@Model.HeaderColumns[i].Property" />
-                    <div class="pull-left with-border btn btn-sm  @_setButtonClass(Model.HeaderColumns[i])" id="@Model.HeaderColumns[i].Order">
+                <input type="hidden" asp-for="@Model.HeaderColumns[i].Order" />
+                <input type="hidden" asp-for="@Model.HeaderColumns[i].IsSimple" />
+                <input type="hidden" asp-for="@Model.HeaderColumns[i].Title" />
+                <input type="hidden" asp-for="@Model.HeaderColumns[i].Property" />
+                <div class="pull-left with-border btn btn-sm  @_setButtonClass(Model.HeaderColumns[i])" id="@Model.HeaderColumns[i].Order">
 
-                        <span class="handle">
-                            <i class="fa fa-ellipsis-v"></i>
-                            <i class="fa fa-ellipsis-v"></i>
-                        </span>
-                        <label class="@((Model.HeaderColumns[i].Visible)?"":"text-muted")" @_setDisabled(Model.HeaderColumns[i])>
+                    <span class="handle">
+                        <i class="fa fa-ellipsis-v"></i>
+                        <i class="fa fa-ellipsis-v"></i>
+                    </span>
+                    <label class="@((Model.HeaderColumns[i].Visible)?"":"text-muted")" @_setDisabled(Model.HeaderColumns[i])>
 
-                            @if (Model.HeaderColumns[i].IsSimple)
+                        @if (Model.HeaderColumns[i].IsSimple)
                             {
-                                <b class="margin">@Model.HeaderColumns[i].Title</b>
+                        <b class="margin">@Model.HeaderColumns[i].Title</b>
                             }
                             else
                             {
-                                <i>@Model.HeaderColumns[i].Title</i>
-                            }
-       
-                            @if (Model.HeaderColumns[i].IsSimple)
-                            {
-                                <input asp-for="@Model.HeaderColumns[i].Visible" type="checkbox" class="minimal-red @_setDirectionClass(Model.HeaderColumns[i])" />
+                        <i>@Model.HeaderColumns[i].Title</i>
                             }
 
-                        </label>
-                        <span class="@_setDirectionClass(Model.HeaderColumns[i])">
-                            @foreach (SortDirection direction in Enum.GetValues(typeof(SortDirection)))
+                        @if (Model.HeaderColumns[i].IsSimple)
                             {
-                                @Html.Raw(_setIcon(direction))
-                                <label>
-                                    @if (Model.HeaderColumns[i].IsSimple)
+                        <input asp-for="@Model.HeaderColumns[i].Visible" type="checkbox" class="minimal-red @_setDirectionClass(Model.HeaderColumns[i])" />
+                            }
+                    </label>
+                    <span class="@_setDirectionClass(Model.HeaderColumns[i])">
+                        @foreach (SortDirection direction in Enum.GetValues(typeof(SortDirection)))
+                            {
+                        @Html.Raw(_setIcon(direction))
+                        <label>
+                            @if (Model.HeaderColumns[i].IsSimple)
                                     {
-                                        <input asp-for="@Model.HeaderColumns[i].SortDirection" type="radio" value="@direction" class="minimal-red" />
+                            <input asp-for="@Model.HeaderColumns[i].SortDirection" type="radio" value="@direction" class="minimal-red" />
                                     }
                                     else
                                     {
 
                                     }
-                               </label>
+                        </label>
                             }
-                        </span>
-                    </div>
+                    </span>
+                </div>
 
                 }
             </div>
@@ -79,9 +78,6 @@
                 <input type="hidden" asp-for="@Model.ReorderColumns" id="reorderColumns" />
                 <input type="submit" class="btn btn-success pull-right" value="Submit" />
             </div>
-
         </div>
     </form>
 </div>
-
-

@@ -3,7 +3,7 @@ using System;
 
 namespace Borg.Framework.Cms.BuildingBlocks
 {
-    public abstract class MultilingualTreeNodeEntity<TKey, TLanguage> : MultilingualEntity<TKey, TLanguage>, ITreeNode<TKey> where TKey : IEquatable<TKey> where TLanguage : IGlobalizationSilo
+    public abstract class MultilingualTreeNodeEntity<TKey, TLanguage> : MultilingualEntity<TKey, TLanguage> where TKey : IEquatable<TKey> where TLanguage : IGlobalizationSilo
     {
         public virtual TKey ParentId { get; protected set; }
         public virtual int Depth { get; protected set; }

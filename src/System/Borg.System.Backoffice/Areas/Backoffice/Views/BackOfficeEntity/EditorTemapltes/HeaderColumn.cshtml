@@ -22,23 +22,23 @@
 
         @if (Model.IsSimple)
         {
-            <b class="margin text-blue">@Model.Title</b>
-            <input type="hidden" asp-for="Title" />
+        <b class="margin text-blue">@Model.Title</b>
+        <input type="hidden" asp-for="Title" />
         }
         else
         {
-            <i>@Model.Title</i>
+        <i>@Model.Title</i>
         }
         <input type="checkbox" @_setChecekd(Model) class="minimal-red @_setDirectionClass(Model)" @_setDisabled(Model) />
     </label>
     <span class="@_setDirectionClass(Model)">
         @foreach (SortDirection direction in Enum.GetValues(typeof(SortDirection)))
         {
-            @Html.Raw(_setIcon(direction))
-            <label>
+        @Html.Raw(_setIcon(direction))
+        <label>
 
-                <input asp-for="SortDirection" type="radio" value="@direction" class="minimal-red" />
-            </label>
+            <input asp-for="SortDirection" type="radio" value="@direction" class="minimal-red" />
+        </label>
         }
     </span>
 </div>

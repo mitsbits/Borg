@@ -10,14 +10,15 @@ namespace Borg.Framework.Cms.BuildingBlocks
 
         public virtual CompositeKey Keys => CompositeKeyInternal();
 
-        public virtual string TwoLetterISO { get; protected set; }
         public virtual TLanguage Language { get; protected set; }
 
-        private CompositeKey CompositeKeyInternal()
+        public TKey LanguageID { get; protected set; }
+
+        protected virtual CompositeKey CompositeKeyInternal()
         {
             return CompositeKeyBuilder.Create()
                 .AddKey(nameof(Id)).AddValue(Id)
-                .AddKey(nameof(TwoLetterISO)).AddValue(TwoLetterISO)
+                .AddKey(nameof(LanguageID)).AddValue(LanguageID)
                 .Build();
         }
 

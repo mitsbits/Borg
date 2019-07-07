@@ -1,8 +1,8 @@
 ﻿namespace Borg.Infrastructure.Core.DDD.Contracts
 {
-    public interface IHaveLanguage<out TLanguage> where TLanguage : IGlobalizationSilo
+    public interface IHaveLanguage<TKey, out TLanguage> where TLanguage : IGlobalizationSilo
     {
-        string TwoLetterISO { get; }
+        TKey LanguageID { get; }
         TLanguage Language { get; }
     }
 }

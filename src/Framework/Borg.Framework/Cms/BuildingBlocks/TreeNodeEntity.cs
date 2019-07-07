@@ -3,7 +3,7 @@ using System;
 
 namespace Borg.Framework.Cms.BuildingBlocks
 {
-    public abstract class TreeNodeEntity<TKey> : Entity<TKey>, ITreeNode<TKey> where TKey : IEquatable<TKey>
+    public abstract class TreeNodeEntity<TKey> : Entity<TKey> where TKey : IEquatable<TKey>
     {
         public TKey ParentId { get; protected set; }
 

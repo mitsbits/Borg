@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Borg.Platform.EF.CMS.Security
 {
-    [PrimaryKeySequenceDefinition(Column = nameof(Id))]
+
     [PlatformDBAggregateRoot(Plural = "Cms Roles", Singular = "Cms Role")]
     public class CmsRole : RoleBase
     {

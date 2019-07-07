@@ -17,13 +17,6 @@ namespace Borg.Platform.EF.Data.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("Relational:Sequence:.CmsMenu_Id_seq", "'CmsMenu_Id_seq', '', '1', '1', '', '', 'Int32', 'False'")
-                .HasAnnotation("Relational:Sequence:.CmsMenuItem_Id_seq", "'CmsMenuItem_Id_seq', '', '1', '1', '', '', 'Int32', 'False'")
-                .HasAnnotation("Relational:Sequence:.CmsPage_Id_seq", "'CmsPage_Id_seq', '', '1', '1', '', '', 'Int32', 'False'")
-                .HasAnnotation("Relational:Sequence:.CmsRole_Id_seq", "'CmsRole_Id_seq', '', '1', '1', '', '', 'Int32', 'False'")
-                .HasAnnotation("Relational:Sequence:.CmsRolePermission_Id_seq", "'CmsRolePermission_Id_seq', '', '1', '1', '', '', 'Int32', 'False'")
-                .HasAnnotation("Relational:Sequence:.CmsUser_Id_seq", "'CmsUser_Id_seq', '', '1', '1', '', '', 'Int32', 'False'")
-                .HasAnnotation("Relational:Sequence:.CmsUserPermission_Id_seq", "'CmsUserPermission_Id_seq', '', '1', '1', '', '', 'Int32', 'False'")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Borg.Platform.EF.CMS.Domain.CmsLanguage", b =>
@@ -48,21 +41,17 @@ namespace Borg.Platform.EF.Data.Migrations
 
             modelBuilder.Entity("Borg.Platform.EF.CMS.Domain.CmsMenu", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("NEXT VALUE FOR CmsMenu_Id_seq");
+                    b.Property<int>("Id");
 
-                    b.Property<int?>("LanguageId");
+                    b.Property<int>("LanguageID");
 
                     b.Property<string>("Title");
 
-                    b.Property<string>("TwoLetterISO");
-
-                    b.HasKey("Id")
-                        .HasName("PK_CmsMenu_Id")
+                    b.HasKey("Id", "LanguageID")
+                        .HasName("PK_CmsMenu_Id_LanguageID")
                         .HasAnnotation("SqlServer:Clustered", true);
 
-                    b.HasIndex("LanguageId");
+                    b.HasIndex("LanguageID");
 
                     b.ToTable("CmsMenu","borgdb");
                 });
@@ -71,29 +60,31 @@ namespace Borg.Platform.EF.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("NEXT VALUE FOR CmsMenuItem_Id_seq");
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("Depth");
 
                     b.Property<string>("Hierarchy");
 
-                    b.Property<int?>("LanguageId");
+                    b.Property<int>("LanguageID");
 
                     b.Property<int>("MenuId");
+
+                    b.Property<int?>("MenuId1");
+
+                    b.Property<int?>("MenuLanguageID");
 
                     b.Property<int>("ParentId");
 
                     b.Property<string>("Title");
 
-                    b.Property<string>("TwoLetterISO");
-
                     b.HasKey("Id")
                         .HasName("PK_CmsMenuItem_Id")
                         .HasAnnotation("SqlServer:Clustered", true);
 
-                    b.HasIndex("LanguageId");
+                    b.HasIndex("LanguageID");
 
-                    b.HasIndex("MenuId");
+                    b.HasIndex("MenuId1", "MenuLanguageID");
 
                     b.ToTable("CmsMenuItem","borgdb");
                 });
@@ -102,26 +93,23 @@ namespace Borg.Platform.EF.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("NEXT VALUE FOR CmsPage_Id_seq");
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("Depth");
 
                     b.Property<string>("Hierarchy");
 
-                    b.Property<int?>("LanguageId");
+                    b.Property<int>("LanguageID");
 
                     b.Property<int>("ParentId");
 
                     b.Property<string>("Title");
 
-                    b.Property<string>("TwoLetterISO");
+                    b.HasKey("Id")
+                        .HasName("PK_CmsPage_Id")
+                        .HasAnnotation("SqlServer:Clustered", true);
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("Id")
-                        .HasName("IX_CmsPage_Id");
-
-                    b.HasIndex("LanguageId");
+                    b.HasIndex("LanguageID");
 
                     b.ToTable("CmsPage","borgdb");
                 });
@@ -130,15 +118,13 @@ namespace Borg.Platform.EF.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("NEXT VALUE FOR CmsRole_Id_seq");
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("IsSystem");
 
                     b.Property<string>("Title");
 
-                    b.HasKey("Id")
-                        .HasName("PK_CmsRole_Id")
-                        .HasAnnotation("SqlServer:Clustered", true);
+                    b.HasKey("Id");
 
                     b.ToTable("CmsRole","borgdb");
                 });
@@ -147,7 +133,7 @@ namespace Borg.Platform.EF.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("NEXT VALUE FOR CmsRolePermission_Id_seq");
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("Depth");
 
@@ -161,9 +147,7 @@ namespace Borg.Platform.EF.Data.Migrations
 
                     b.Property<int?>("RoleId");
 
-                    b.HasKey("Id")
-                        .HasName("PK_CmsRolePermission_Id")
-                        .HasAnnotation("SqlServer:Clustered", true);
+                    b.HasKey("Id");
 
                     b.HasIndex("RoleId");
 
@@ -174,7 +158,7 @@ namespace Borg.Platform.EF.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("NEXT VALUE FOR CmsUser_Id_seq");
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Email");
 
@@ -186,9 +170,7 @@ namespace Borg.Platform.EF.Data.Migrations
 
                     b.Property<string>("Surname");
 
-                    b.HasKey("Id")
-                        .HasName("PK_CmsUser_Id")
-                        .HasAnnotation("SqlServer:Clustered", true);
+                    b.HasKey("Id");
 
                     b.ToTable("CmsUser","borgdb");
                 });
@@ -197,7 +179,7 @@ namespace Borg.Platform.EF.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("NEXT VALUE FOR CmsUserPermission_Id_seq");
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("Depth");
 
@@ -211,9 +193,7 @@ namespace Borg.Platform.EF.Data.Migrations
 
                     b.Property<int?>("UserId");
 
-                    b.HasKey("Id")
-                        .HasName("PK_CmsUserPermission_Id")
-                        .HasAnnotation("SqlServer:Clustered", true);
+                    b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
@@ -239,26 +219,28 @@ namespace Borg.Platform.EF.Data.Migrations
                 {
                     b.HasOne("Borg.Platform.EF.CMS.Domain.CmsLanguage", "Language")
                         .WithMany()
-                        .HasForeignKey("LanguageId");
+                        .HasForeignKey("LanguageID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Borg.Platform.EF.CMS.Domain.CmsMenuItem", b =>
                 {
                     b.HasOne("Borg.Platform.EF.CMS.Domain.CmsLanguage", "Language")
                         .WithMany()
-                        .HasForeignKey("LanguageId");
+                        .HasForeignKey("LanguageID")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Borg.Platform.EF.CMS.Domain.CmsMenu", "Menu")
                         .WithMany()
-                        .HasForeignKey("MenuId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("MenuId1", "MenuLanguageID");
                 });
 
             modelBuilder.Entity("Borg.Platform.EF.CMS.Domain.CmsPage", b =>
                 {
                     b.HasOne("Borg.Platform.EF.CMS.Domain.CmsLanguage", "Language")
                         .WithMany()
-                        .HasForeignKey("LanguageId");
+                        .HasForeignKey("LanguageID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Borg.Platform.EF.CMS.Security.CmsRolePermission", b =>

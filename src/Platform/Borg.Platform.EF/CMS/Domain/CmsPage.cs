@@ -5,8 +5,8 @@ using Borg.Infrastructure.Core.DDD.Contracts;
 namespace Borg.Platform.EF.CMS.Domain
 {
     [PlatformDBAggregateRoot(Plural = "Pages", Singular = "Page")]
-    [IndexSequenceDefinition]
-    public class CmsPage : MultilingualTreeNodeEntity<int, CmsLanguage>, IHaveTitle
+
+    public class CmsPage : CmsMultilingualTreeNode, IHaveTitle
     {
         public string Title { get; set; }
     }

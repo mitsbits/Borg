@@ -30,37 +30,46 @@ namespace Borg.Framework.EF.Instructions
 
         private void SequenceDefinition(ModelBuilder builder)
         {
-            var sqa = EntityType.GetCustomAttribute<SequenceDefinitionAttribute>();
-            if (sqa != null)
+            var source = typeof(TEntity).GetProperties(BindingFlags.Public);
+            foreach (var p in source)
             {
-                var sequenceName = $"{typeof(TEntity).Name}_{sqa.Column}_seq";
-                var options = ScriptOptions.Default.AddReferences(EntityType.Assembly);
-                var keyExpr = $"x => x.{sqa.Column}";
-                var keyExpression = AsyncHelpers.RunSync(() => CSharpScript.EvaluateAsync<Expression<Func<TEntity, object>>>(keyExpr, options));
-
-                builder.HasSequence<int>(sequenceName)
-               .StartsAt(sqa.StartsAt)
-               .IncrementsBy(sqa.IncrementsBy);
-
-                builder.Entity<TEntity>().Property(keyExpression).HasDefaultValueSql($"NEXT VALUE FOR {sequenceName}");
-
-                var ixsqa = sqa as IndexSequenceDefinitionAttribute;
-                if (ixsqa != null)
+                foreach (var a in p.GetCustomAttributes<SequenceDefinitionAttribute>(true))
                 {
-                    var pksqa = ixsqa as PrimaryKeySequenceDefinitionAttribute;
-                    if (pksqa != null)
+                    var sqa = a as SequenceDefinitionAttribute;
+                    if (sqa != null )
                     {
-                        builder.Entity<TEntity>().HasKey(keyExpression).HasName($"PK_{EntityType.Name}_{sqa.Column}").ForSqlServerIsClustered();
-                    }
-                    else
-                    {
-                        builder.Entity<TEntity>().HasIndex(keyExpression).HasName($"IX_{EntityType.Name}_{sqa.Column}");
+                        var sequenceName = $"{typeof(TEntity).Name}_{p.Name}_seq";
+                        var options = ScriptOptions.Default.AddReferences(EntityType.Assembly);
+                        var keyExpr = $"x => x.{p.Name}";
+                        var keyExpression = AsyncHelpers.RunSync(() => CSharpScript.EvaluateAsync<Expression<Func<TEntity, object>>>(keyExpr, options));
+
+                        builder.HasSequence<int>(sequenceName)
+                               .StartsAt(sqa.StartsAt)
+                               .IncrementsBy(sqa.IncrementsBy);
+
+                        builder.Entity<TEntity>().Property(keyExpression).HasDefaultValueSql($"NEXT VALUE FOR {sequenceName}");
+
+                        var ixsqa = sqa as IndexSequenceDefinitionAttribute;
+                        if (ixsqa != null)
+                        {
+                            var pksqa = ixsqa as PrimaryKeySequenceDefinitionAttribute;
+                            if (pksqa != null)
+                            {
+                                builder.Entity<TEntity>().HasKey(keyExpression).HasName($"PK_{EntityType.Name}_{p.Name}").ForSqlServerIsClustered();
+                            }
+                            else
+                            {
+                                builder.Entity<TEntity>().HasIndex(keyExpression).HasName($"IX_{EntityType.Name}_{p.Name}");
+                            }
+                        }
                     }
                 }
             }
-
-            
         }
+
+
+
+
 
         private void IndexDefinition(ModelBuilder builder)
         {

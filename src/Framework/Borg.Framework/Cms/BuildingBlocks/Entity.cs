@@ -6,15 +6,20 @@ namespace Borg.Framework.Cms.BuildingBlocks
 {
     public abstract class Entity<TKey> : IEntity<TKey> where TKey : IEquatable<TKey>
     {
-        public TKey Id { get; protected set; }
+        public virtual TKey Id { get; protected set; }
 
         public virtual CompositeKey Keys => CompositeKeyInternal();
 
-        private CompositeKey CompositeKeyInternal()
+        protected virtual CompositeKey CompositeKeyInternal()
         {
             return CompositeKeyBuilder.Create()
                 .AddKey(nameof(Id)).AddValue(Id)
                 .Build();
+        }
+
+        public override string ToString()
+        {
+            return $"{GetType().Name}:{Keys}";
         }
     }
 }
