@@ -1,0 +1,17 @@
+﻿<!DOCTYPE html>
+@{
+    var pageClass = "";
+    if (ViewBag.PageClass != null) { pageClass = ViewBag.PageClass; };
+}
+<html>
+<head>
+    <partial name="Layout/_head" />
+</head>
+<body class="hold-transition @pageClass">
+
+    @RenderBody()
+
+    <partial name="Layout/_bottom" />
+    @await RenderSectionAsync("bottomscripts", required: false)
+</body>
+</html>

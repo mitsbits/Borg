@@ -1,0 +1,35 @@
+﻿@model IDictionary<string, IDictionary<string, string>>
+
+<li class="treeview">
+    <a href="#">
+        <i class="fa fa-cube"></i> <span>Catalogues</span>
+        <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+        </span>
+    </a>
+    <ul class="treeview-menu">
+        @foreach (var key in Model.Keys)
+        {
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-database"></i> <span>@key</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    @foreach (var innerKey in Model[key].Keys)
+                    {
+                        var title = Model[key][innerKey];
+                        <li>
+                            <a href="@innerKey">
+                                @title
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </li>
+
+        }
+    </ul>
+</li>

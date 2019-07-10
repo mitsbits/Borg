@@ -1,0 +1,11 @@
+﻿@using Borg.Infrastructure.Core.DI
+@model IEnumerable<(Type contract, Type service, PlugableServiceAttribute attribute)>
+
+<ul>
+    @foreach (var r in Model)
+    {
+        <li>
+            @r.contract.FullName
+        </li>
+    }
+</ul>

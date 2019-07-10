@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace Borg.System.Backoffice.Core.GenericEntity
 {
@@ -7,6 +8,7 @@ namespace Borg.System.Backoffice.Core.GenericEntity
     {
         public abstract object Entity { get; }
         public Dictionary<string, string[]> Tabs { get; }
+        public abstract PropertyInfo[] ProperyInfos();
     }
 
     public class EditEntityViewModel<TEntity> : EditEntityViewModel
@@ -14,5 +16,11 @@ namespace Borg.System.Backoffice.Core.GenericEntity
         public TEntity Data { get; set; }
         public override object Entity => Data;
         public override Type EntityType => typeof(TEntity);
+
+        public override PropertyInfo[] ProperyInfos() {
+            return Data.GetType().GetProperties();
+        }
     }
+
+    
 }

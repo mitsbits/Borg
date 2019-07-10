@@ -6,9 +6,10 @@ namespace Borg.Platform.EF.CMS.Domain
 {
     [PlatformDBAggregateRoot(Plural = "Pages", Singular = "Page")]
 
-    public class CmsPage : CmsMultilingualTreeNode, IHaveTitle
+    public class CmsPage : CmsMultilingualTreeNode, IHaveTitle, IHaveSlug
     {
         [Unicode]
         public string Title { get; set; }
+        public string Slug { get; set; }
     }
 }

@@ -34,7 +34,7 @@ namespace Borg.System.Backoffice.Lib.ViewComponents
                     var dict = new Dictionary<string, string>();
                     foreach (var local in locals)
                     {
-                        var key = Url.Link("areaGenericEntityRoute", new { Controller = local.Name });
+                        var key = Url.Link("areaGenericEntityRoute", new { Controller = local.Name, Action = "Index" });
                         var label = EntityPluralTitle(local);
                         if (!dict.ContainsKey(key))
                         {

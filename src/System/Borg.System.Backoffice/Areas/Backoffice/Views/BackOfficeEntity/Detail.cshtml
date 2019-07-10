@@ -1,5 +1,12 @@
 ﻿@model Borg.System.Backoffice.Core.GenericEntity.EditEntityViewModel
 @{
     ViewBag.Title = Model.Title;
-    Layout = "PageTemplates/ThreeZones";
+
 }
+
+@foreach(var p in Model.ProperyInfos())
+{
+    @Html.Editor(p.Name, "", Html.NameFor(m=>m));
+}
+
+

@@ -1,0 +1,83 @@
+﻿@model Borg.System.Backoffice.Core.GenericEntity.EntityGridViewModel
+@using Borg.System.Backoffice.Core.GenericEntity
+@using Borg.Infrastructure.Core
+@{
+    Func<HeaderColumn, string> _setChecekd = (v) => v.Visible && v.IsSimple ? "checked='checked'" : string.Empty;
+    Func<HeaderColumn, string> _setDisabled = (v) => !v.IsSimple ? "disabled" : "";
+    Func<HeaderColumn, string> _setDirectionClass = (v) => !v.IsSimple ? "hidden" : "";
+    Func<HeaderColumn, string> _setButtonClass = (v) => !v.IsSimple ? "btn-default" : "";
+    Func<SortDirection, string> _setIcon = (s) => (s == SortDirection.Ascending) ? $"<span class='glyphicon glyphicon-arrow-up' title='{SortDirection.Ascending}'></span>" :
+    (s == SortDirection.Descending) ? $"<span class='glyphicon glyphicon-arrow-down' title='{SortDirection.Descending}'></span>"
+    : $"<span class='glyphicon glyphicon-ban-circle' title='{SortDirection.None}'></span>";
+}
+
+<div class="col-md-4">
+    <form asp-action="SetColumnSelection" method="post" id="SetColumnSelectionForm">
+        <div class="box box-default collapsed-box">
+
+            <div class="box-header with-border">
+                <h3 class="box-title">Columns Selection</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body header-list" style="display: none;">
+
+                @for (var i = 0; i < Model.HeaderColumns.Count; i++)
+                {
+                <input type="hidden" asp-for="@Model.HeaderColumns[i].Order" />
+                <input type="hidden" asp-for="@Model.HeaderColumns[i].IsSimple" />
+                <input type="hidden" asp-for="@Model.HeaderColumns[i].Title" />
+                <input type="hidden" asp-for="@Model.HeaderColumns[i].Property" />
+                <div class="pull-left with-border btn btn-sm  @_setButtonClass(Model.HeaderColumns[i])" id="@Model.HeaderColumns[i].Order">
+
+                    <span class="handle">
+                        <i class="fa fa-ellipsis-v"></i>
+                        <i class="fa fa-ellipsis-v"></i>
+                    </span>
+                    <label class="@((Model.HeaderColumns[i].Visible)?"":"text-muted")" @_setDisabled(Model.HeaderColumns[i])>
+
+                        @if (Model.HeaderColumns[i].IsSimple)
+                            {
+                        <b class="margin">@Model.HeaderColumns[i].Title</b>
+                            }
+                            else
+                            {
+                        <i>@Model.HeaderColumns[i].Title</i>
+                            }
+
+                        @if (Model.HeaderColumns[i].IsSimple)
+                            {
+                        <input asp-for="@Model.HeaderColumns[i].Visible" type="checkbox" class="minimal-red @_setDirectionClass(Model.HeaderColumns[i])" />
+                            }
+                    </label>
+                    <span class="@_setDirectionClass(Model.HeaderColumns[i])">
+                        @foreach (SortDirection direction in Enum.GetValues(typeof(SortDirection)))
+                            {
+                        @Html.Raw(_setIcon(direction))
+                        <label>
+                            @if (Model.HeaderColumns[i].IsSimple)
+                                    {
+                            <input asp-for="@Model.HeaderColumns[i].SortDirection" type="radio" value="@direction" class="minimal-red" />
+                                    }
+                                    else
+                                    {
+
+                                    }
+                        </label>
+                            }
+                    </span>
+                </div>
+
+                }
+            </div>
+            <div class="box-footer">
+                <input type="hidden" asp-for="@Model.ReorderColumns" id="reorderColumns" />
+                <input type="submit" class="btn btn-success pull-right" value="Submit" />
+            </div>
+        </div>
+    </form>
+</div>

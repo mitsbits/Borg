@@ -10,6 +10,7 @@ using Borg.System.Licencing.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -65,6 +66,9 @@ namespace Borg.Web.Clients.Razor
                 .ConfigureApplicationPartManager(p =>
                 p.FeatureProviders.Add(new BackOfficeEntityControllerFeatureProvider(entitiesExplorerResult)))
                 .AddControllersAsServices();
+            services.Configure<RazorViewEngineOptions>(options => {
+                options.ViewLocationExpanders.Add(new BackofficeEntityViewLocationExpander());
+            });
             services.Configure<RouteOptions>(routeOptions =>
             {
                 routeOptions.ConstraintMap.Add("genericController", typeof(BackOfficeEntityControllerConstraint));
