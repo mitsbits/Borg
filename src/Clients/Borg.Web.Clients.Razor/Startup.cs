@@ -2,6 +2,7 @@
 using Borg.Framework.Modularity;
 using Borg.Framework.MVC.Middleware.SecurityHeaders;
 using Borg.Framework.MVC.Sevices;
+using Borg.Framework.MVC.TagHelpers.HtmlPager;
 using Borg.Framework.Reflection.Services;
 using Borg.Infrastructure.Core.Reflection.Discovery;
 using Borg.System.Backoffice.Core.GenericEntity;
@@ -62,11 +63,13 @@ namespace Borg.Web.Clients.Razor
             services.AddAssemblyExplorerOrchestrator();
             services.AddPlugableServicesExplorer();
             services.AddDistributedMemoryCache();
+            services.AddPagination<PaginationInfoStyle>(configuration.GetSection("BorgPagination"));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .ConfigureApplicationPartManager(p =>
                 p.FeatureProviders.Add(new BackOfficeEntityControllerFeatureProvider(entitiesExplorerResult)))
                 .AddControllersAsServices();
-            services.Configure<RazorViewEngineOptions>(options => {
+            services.Configure<RazorViewEngineOptions>(options =>
+            {
                 options.ViewLocationExpanders.Add(new BackofficeEntityViewLocationExpander());
             });
             services.Configure<RouteOptions>(routeOptions =>

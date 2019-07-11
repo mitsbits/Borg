@@ -1,37 +1,46 @@
 ﻿@using Borg.Infrastructure.Core.DDD.Contracts
 @model Borg.System.Backoffice.Core.GenericEntity.EntityGridViewModel
+
+@functions{
+    Task HeaderCheckBox(Borg.System.Backoffice.Core.GenericEntity.EntityGridViewModel model)
+    {
+
+        return Task.CompletedTask;
+    }
+}
+
 <div class="row">
     <div class="col-md-12">
 
         <div class="box box-default">
-            @if (Model.Pager.TotalRecords > 0)
-            {
-            }
 
             <div class="box-body">
 
                 @if (Model.Pager.TotalRecords > 0)
                 {
-                <table class="table table-bordered">
-                    <tbody>
+                    <table class="table table-bordered">
+                        <tbody>
 
-                        <tr>
-                            <th style="width: 10px"><input type="checkbox" /></th>
-                            @foreach (var hcol in Model.HeaderColumns.OrderBy(x => x.Order))
+                            <tr>
+                                <th style="width: 10px"><input type="checkbox" id="gridheacercheck" /></th>
+                                @foreach (var hcol in Model.HeaderColumns.OrderBy(x => x.Order))
                                 {
                                     if (hcol.Visible)
                                     {
-                            <th>@hcol.Title</th>
+                                        <th>@hcol.Title</th>
                                     }
                                 }
-                            <th></th>
-                        </tr>
+                                <th></th>
+                            </tr>
 
-                        @foreach (var row in Model.Pager)
+                            @foreach (var row in Model.Pager)
                             {
-                        <tr>
-                            <td><input type="checkbox" /></td>
-                            @foreach (var hcol in Model.HeaderColumns.OrderBy(x => x.Order))
+
+                                var identifiable = row as IIdentifiable;
+
+                                <tr>
+                                    <td @string.Join("", identifiable.HtmlDataAttributes())><input type="checkbox" /></td>
+                                    @foreach (var hcol in Model.HeaderColumns.OrderBy(x => x.Order))
                                     {
                                         if (hcol.Visible)
                                         {
@@ -39,19 +48,19 @@
                                             var value = type.GetProperty(hcol.Property).GetValue(row, null);
                                             if (value != null)
                                             {
-                            <td>@value </td>
+                                                <td>@value </td>
                                             }
                                             else
                                             {
-                            <td></td>
+                                                <td></td>
                                             }
 
                                         }
 
                                     }
-                            <td>
-                                @{
-                                            var identifiable = row as IIdentifiable;
+                                    <td>
+                                        @{
+
                                             var url = string.Empty;
                                             if (identifiable != null)
                                             {
@@ -69,22 +78,23 @@
                                             {
                                                 title = titled.Title;
                                             }
-                                }
-                                <a href="@url" title="@title">@title</a>
-                            </td>
-                        </tr>
+                                        }
+                                        <a href="@url" title="@title">@title</a>
+                                    </td>
+                                </tr>
                             }
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
 
                 }
                 else
                 {
 
-                <p>no results</p>
+                    <p>no results</p>
                 }
             </div>
             <div class="box-footer">
+                <pagination model="Model.Pager" view-context="ViewContext"></pagination>
             </div>
         </div>
     </div>

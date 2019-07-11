@@ -12,8 +12,6 @@ namespace Borg
 {
     public static partial class IHtmlHelperExtensions
     {
-
-
         public static string ControllerName(this HtmlHelper htmlHelper)
         {
             htmlHelper = Preconditions.NotNull(htmlHelper, nameof(htmlHelper));
@@ -27,7 +25,6 @@ namespace Borg
 
         public static string ActionName(this HtmlHelper htmlHelper)
         {
-       
             htmlHelper = Preconditions.NotNull(htmlHelper, nameof(htmlHelper));
             var routeValues = htmlHelper.ViewContext.RouteData.Values;
 
@@ -36,7 +33,6 @@ namespace Borg
 
             return string.Empty;
         }
-
 
         //
         // Summary:
@@ -72,6 +68,7 @@ namespace Borg
             var keyExpression = AsyncHelpers.RunSync(() => CSharpScript.EvaluateAsync<Expression<Func<object, object>>>(keyExpr, options));
             return htmlHelper.EditorFor(keyExpression);
         }
+
         //
         // Summary:
         //     Returns HTML markup for the expression, using an editor template, specified HTML
@@ -115,6 +112,5 @@ namespace Borg
         //    var keyExpression = AsyncHelpers.RunSync(() => CSharpScript.EvaluateAsync<Expression<Func<object, TResult>>>(keyExpr, options));
         //    return helper.EditorFor(keyExpression, templateName, htmlFieldName, additionalViewData);
         //}
-
     }
 }

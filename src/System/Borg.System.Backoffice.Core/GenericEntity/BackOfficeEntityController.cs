@@ -7,15 +7,11 @@ using Borg.Infrastructure.Core.Collections;
 using Borg.Infrastructure.Core.DDD.Contracts;
 using Borg.Infrastructure.Core.DDD.ValueObjects;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Scripting;
-using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Borg.System.Backoffice.Core.GenericEntity
@@ -33,8 +29,6 @@ namespace Borg.System.Backoffice.Core.GenericEntity
         {
             this.inv = Preconditions.NotNull(inv, nameof(inv));
         }
-
-
 
         [HttpGet]
         public async Task<IActionResult> Index()
@@ -65,7 +59,7 @@ namespace Borg.System.Backoffice.Core.GenericEntity
                 var model = new EditEntityViewModel<TEntity>() { Data = hit, DmlOperation = DmlOperation.Update };
                 model.Title = ((IHaveTitle)hit).Title;
 
-                return View("~/Areas/Backoffice/Views/BackOfficeEntity/Detail.cshtml", model);
+                return View("~/Areas/Backoffice/Views/BackOfficeEntity/Detail.cshtml", hit);
             };
             return BadRequest();
         }

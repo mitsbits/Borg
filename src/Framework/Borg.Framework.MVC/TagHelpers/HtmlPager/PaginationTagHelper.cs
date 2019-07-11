@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using Microsoft.AspNetCore.Routing;
 using System;
 
 namespace Borg.Framework.MVC.TagHelpers.HtmlPager
@@ -17,11 +18,13 @@ namespace Borg.Framework.MVC.TagHelpers.HtmlPager
         private const string AreaKey = "area";
 
         private readonly IPaginationSettingsProvider _provider;
+        private readonly LinkGenerator _linkGenerator;
 
-        public PaginationTagHelper(IPaginationSettingsProvider provider = null)
+        public PaginationTagHelper(IPaginationSettingsProvider provider, LinkGenerator linkGenerator)
 
         {
             _provider = provider;
+            _linkGenerator = linkGenerator;
         }
 
         [HtmlAttributeName("model")]
@@ -80,19 +83,19 @@ namespace Borg.Framework.MVC.TagHelpers.HtmlPager
 
         private string UrlFromViewContext(UrlHelper urlHelper, ActionDescriptor descriptor, int i)
         {
-            var raw = urlHelper.Action(new UrlActionContext()
-            {
-                Action = descriptor.RouteValues.ContainsKey(ActionKey)
+            var action = descriptor.RouteValues.ContainsKey(ActionKey)
                     ? descriptor.RouteValues[ActionKey]
-                    : string.Empty,
-                Controller = descriptor.RouteValues.ContainsKey(ControllerKey)
-                    ? descriptor.RouteValues[ControllerKey]
-                    : string.Empty,
-                Values = new
-                {
-                    Area = descriptor.RouteValues.ContainsKey(AreaKey) ? descriptor.RouteValues[AreaKey] : string.Empty,
-                }
-            });
+                    : string.Empty;
+            var controller = descriptor.RouteValues.ContainsKey(ControllerKey)
+                ? descriptor.RouteValues[ControllerKey]
+                : string.Empty;
+
+            var area = descriptor.RouteValues.ContainsKey(AreaKey)
+               ? descriptor.RouteValues[AreaKey]
+               : string.Empty;
+
+            var raw = _linkGenerator.GetPathByAction(action, controller, new { Area = area });
+
             return $"{raw}?{Settings.PageVariableName}={i}";
         }
 

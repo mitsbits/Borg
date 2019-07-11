@@ -1,43 +1,31 @@
-﻿@model Borg.System.Backoffice.Core.GenericEntity.EditEntityViewModel
+﻿@model object
 @{
-    ViewBag.Title = Model.Title;
+    var withtile = Model as Borg.Infrastructure.Core.DDD.Contracts.IHaveTitle;
+    if (withtile != null)
+    {
+        ViewBag.Title = withtile.Title;
+    }
 
 }
 
-
 @{
-    ViewBag.Title = Model.Title;
 
 }
 
-    <div class="box box-primary">
-        <div class="box-header with-border">
-            <h3 class="box-title">Quick Example</h3>
-        </div>
-        <!-- /.box-header -->
-        <!-- form start -->
-        <form role="form">
-            <div class="box-body">
-                <h1>@Model.ProperyInfos().Count()</h1>
-                @foreach (var p in Model.ProperyInfos())
-                {
-                    @Html.Editorial(p, Model.Entity)
-                    @*@await Html.PartialAsync("EditorTemplates/ViewModel", new Borg.System.Backoffice.Lib.ViewModel() { Value = Model.Entity, Property = p })*@
-                }
-     
-            </div>
-            <!-- /.box-body -->
-
-            <div class="box-footer">
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
-        </form>
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Quick Example</h3>
     </div>
+    <!-- /.box-header -->
+    <!-- form start -->
+    <form role="form">
 
-@foreach (var p in Model.ProperyInfos())
-{
+        @await Html.PartialAsync("EditorTemplates/ViewModel", Model)
 
-   @await Html.PartialAsync("EditorTemplates/ViewModel", new Borg.System.Backoffice.Lib.ViewModel() { Value = Model.Entity, Property = p})
-}
+        <!-- /.box-body -->
 
-
+        <div class="box-footer">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</div>
