@@ -70,7 +70,7 @@ namespace Borg.Web.Clients.Razor
                 .AddControllersAsServices();
             services.Configure<RazorViewEngineOptions>(options =>
             {
-                options.ViewLocationExpanders.Add(new BackofficeEntityViewLocationExpander());
+                //options.ViewLocationExpanders.Add(new BackofficeEntityViewLocationExpander());
             });
             services.Configure<RouteOptions>(routeOptions =>
             {

@@ -1,12 +1,31 @@
-﻿@model Borg.System.Backoffice.Core.GenericEntity.EditEntityViewModel
+﻿@model object
 @{
-    ViewBag.Title = Model.Title;
+    var withtile = Model as Borg.Infrastructure.Core.DDD.Contracts.IHaveTitle;
+    if (withtile != null)
+    {
+        ViewBag.Title = withtile.Title;
+    }
 
 }
 
-@foreach(var p in Model.ProperyInfos())
-{
-    @Html.Editor(p.Name, "", Html.NameFor(m=>m));
+@{
+
 }
 
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Quick Example</h3>
+    </div>
+    <!-- /.box-header -->
+    <!-- form start -->
+    <form role="form">
 
+        @await Html.PartialAsync("EditorTemplates/ViewModel", Model)
+
+        <!-- /.box-body -->
+
+        <div class="box-footer">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</div>

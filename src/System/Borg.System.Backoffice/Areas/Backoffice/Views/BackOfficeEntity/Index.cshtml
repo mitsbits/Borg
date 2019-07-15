@@ -1,6 +1,9 @@
 ﻿@model Borg.System.Backoffice.Core.GenericEntity.EntityGridViewModel
 @{
-    ViewBag.Title = Model.Title;
+    if (Model != null && Model.Title != null)
+    {
+         ViewBag.Title = Model.Title;
+    }
 
 }
 

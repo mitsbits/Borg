@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using System.Linq;
 
 namespace Borg.Web.Clients.Razor
 {
@@ -12,7 +13,7 @@ namespace Borg.Web.Clients.Razor
             var host = CreateWebHostBuilder(args).Build();
 
             //IBorgLicenceService borgLicenceService = new MemoryMoqLicenceService();
-            Seed(host);
+            HostStartUp(host);
             host.Run();
         }
 
@@ -20,7 +21,7 @@ namespace Borg.Web.Clients.Razor
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>();
 
-        private static void Seed(IWebHost host)
+        private static void HostStartUp(IWebHost host)
         {
             IServiceScopeFactory services = host.Services.GetService<IServiceScopeFactory>();
             using (var scope = services.CreateScope())
