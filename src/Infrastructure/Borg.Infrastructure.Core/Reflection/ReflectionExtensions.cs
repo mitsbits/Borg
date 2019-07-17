@@ -1,5 +1,6 @@
 ﻿using Borg.Infrastructure.Core;
 using Borg.Infrastructure.Core.DI;
+using Borg.Infrastructure.Core.Reflection;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -256,6 +257,11 @@ namespace Borg
               || type.Equals(typeof(decimal))) return false;
 
             return typeof(IEnumerable).IsAssignableFrom(type);
+        }
+
+        public static string DisplayName(this Type type)
+        {
+            return TypeHelper.GetTypeDisplayName(type);
         }
 
         #region Private
