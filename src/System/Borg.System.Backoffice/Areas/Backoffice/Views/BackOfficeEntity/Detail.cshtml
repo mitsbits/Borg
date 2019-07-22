@@ -1,11 +1,14 @@
-﻿@model object
+﻿@model Borg.System.Backoffice.Core.GenericEntity.EditEntityViewModel
 @{
     var withtile = Model as Borg.Infrastructure.Core.DDD.Contracts.IHaveTitle;
     if (withtile != null)
     {
         ViewBag.Title = withtile.Title;
     }
-
+    var entity = Model.Entity;
+    var type = entity.GetType();
+    var propertyFlags = System.Reflection.BindingFlags.Public;
+    var propertiesToBind = type.GetProperties(propertyFlags);
 }
 
 @{
@@ -20,7 +23,26 @@
     <!-- form start -->
     <form role="form">
 
-        @await Html.PartialAsync("EditorTemplates/ViewModel", Model)
+
+
+        @foreach (var prop in Model.ProperyInfos())
+        {
+            string propName = prop.Name;
+            string propNameWithPrefix = Html.Name(prop.Name);
+            string propDisplayName = Html.DisplayName(prop.Name);
+            string propId = Html.Id(prop.Name);
+            string propValue = Html.Value(prop.Name);
+
+            @Html.Editor(propName, new { htmlAttributes = new { @class = "form-control", name = propNameWithPrefix, id = propId }  })
+        <ul>
+            <li>@propName</li>
+            <li>@propNameWithPrefix</li>
+            <li>@propDisplayName</li>
+            <li>@propId</li>
+            <li>@propValue</li>
+        </ul>
+
+        }
 
         <!-- /.box-body -->
 

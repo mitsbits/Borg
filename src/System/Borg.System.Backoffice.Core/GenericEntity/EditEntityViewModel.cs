@@ -18,7 +18,7 @@ namespace Borg.System.Backoffice.Core.GenericEntity
         public override Type EntityType => typeof(TEntity);
 
         public override PropertyInfo[] ProperyInfos() {
-            return Data.GetType().GetProperties();
+            return Data.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
         }
     }
 

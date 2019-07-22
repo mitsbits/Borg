@@ -59,7 +59,7 @@ namespace Borg.System.Backoffice.Core.GenericEntity
                 var model = new EditEntityViewModel<TEntity>() { Data = hit, DmlOperation = DmlOperation.Update };
                 model.Title = ((IHaveTitle)hit).Title;
 
-                return View("~/Areas/Backoffice/Views/BackOfficeEntity/Detail.cshtml", hit);
+                return View("~/Areas/Backoffice/Views/BackOfficeEntity/Detail.cshtml", model);
             };
             return BadRequest();
         }
