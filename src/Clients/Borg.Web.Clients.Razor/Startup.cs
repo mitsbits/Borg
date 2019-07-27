@@ -54,15 +54,16 @@ namespace Borg.Web.Clients.Razor
             services.AddSingleton<IAssemblyProvider>(depAsmblPrv);
             services.AddSingleton<IAssemblyProvider>(refAsmblPrv);
             services.AddScoped<IUserSession, UserSession>();
-            services.AddDistributedMemoryCache((o) =>
+            services.AddDistributedRedisCache(options =>
             {
+                options.Configuration = "127.0.0.1:6379";
             });
             services.AddHttpContextAccessor();
             services.AddSingleton<IBorgLicenceService, MemoryMoqLicenceService>();
             services.AddSingleton<IConfiguration>(configuration);
             services.AddAssemblyExplorerOrchestrator();
             services.AddPlugableServicesExplorer();
-            services.AddDistributedMemoryCache();
+            //services.AddDistributedMemoryCache();
             services.AddPagination<PaginationInfoStyle>(configuration.GetSection("BorgPagination"));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .ConfigureApplicationPartManager(p =>
@@ -83,6 +84,7 @@ namespace Borg.Web.Clients.Razor
             services.ConfigureOptions(typeof(System.Backoffice.UiConfigureOptions));
             services.AddGenericInventories(entitiesExplorerResult);
             services.RegisterPlugableServices(loggerFactory, depAsmblPrv, refAsmblPrv);
+            services.AddCacheClient();
             return services.AddServiceLocator();
         }
 

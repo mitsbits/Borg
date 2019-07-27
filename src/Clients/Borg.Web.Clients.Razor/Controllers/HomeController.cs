@@ -1,17 +1,27 @@
-﻿using Borg.Web.Clients.Razor.Models;
+﻿using Borg.Framework.Cache;
+using Borg.Web.Clients.Razor.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
+using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace Borg.Web.Clients.Razor.Controllers
 {
     public class HomeController : Controller
     {
-        public HomeController()
+        private readonly ICacheClient cache;
+        public HomeController(ICacheClient cache)
         {
+            this.cache = cache;
+
+
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            await cache.Set("key", "xxx", TimeSpan.FromMinutes(12));
+            var sss = await cache.Get<string>("key");
             return View();
         }
 

@@ -1,5 +1,4 @@
 ﻿using Borg.Framework.Modularity.Pipelines;
-using Borg.Infrastructure.Core.DI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -9,20 +8,16 @@ using System.Threading.Tasks;
 
 namespace Borg.Framework.EF.Initializers
 {
-   
     public class EnsuseUp<TDbContext, TPipeline> : BorgDbPipelineStep<TDbContext>, IPipelineStep<TPipeline> where TDbContext : BorgDbContext where TPipeline : HostStartUpJob<TDbContext>
     {
         protected EnsuseUp(TDbContext db, ILoggerFactory loggerFactory) : base(db, loggerFactory)
-        { 
+        {
         }
 
         public override double Weight { get => 0; set => throw new NotImplementedException(nameof(Weight)); }
 
-
-
         protected override async Task ExecuteInternal(CancellationToken cancelationToken)
         {
-           
             cancelationToken.ThrowIfCancellationRequested();
             var watch = Stopwatch.StartNew();
             try

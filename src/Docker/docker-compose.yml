@@ -5,6 +5,8 @@ services:
     image: ${DOCKER_REGISTRY-}borgwebclientsrazor
     links:
       - db
+      - redis
+      - rabbitmq
     build:
       context: .
       dockerfile: ../../src/Clients/Borg.Web.Clients.Razor/Dockerfile
@@ -12,3 +14,10 @@ services:
 
   db:
     image: "mcr.microsoft.com/mssql/server"
+
+
+  redis:
+   image: redis:latest
+
+  rabbitmq:
+    image: rabbitmq:3-management

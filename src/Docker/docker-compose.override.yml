@@ -2,6 +2,7 @@ version: '3.4'
 
 services:
   borg.web.clients.razor:
+    container_name: borg.web.clients.razor
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
@@ -15,8 +16,40 @@ services:
 
 
   db:
+    container_name: mssql
     environment:
       SA_PASSWORD: "Passw0rd"
       ACCEPT_EULA: "Y"
+    volumes:
+      - files:/sql/data
     ports:
       - "5433:1433"
+
+
+  redis:
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - files:/redis/data
+
+
+  rabbitmq:
+    container_name: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=rabbituser
+      - RABBITMQ_DEFAULT_PASS=Passw0rd
+    ports:
+      - "5673:5672"
+      - "15673:15672"
+    volumes:
+      - files:/rabbit/data
+
+
+
+networks:
+  default:
+
+
+volumes:
+  files:

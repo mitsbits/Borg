@@ -17,12 +17,12 @@ namespace Borg.Framework.Services.Serializer
             _settings = settings ?? new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto };
         }
 
-        public Task<object> DeserializeAsync(byte[] value, Type objectType)
+        public Task<object> Deserialize(byte[] value, Type objectType)
         {
             return Task.FromResult(JsonConvert.DeserializeObject(Encoding.UTF8.GetString(value), objectType, _settings));
         }
 
-        public Task<byte[]> SerializeAsync(object value)
+        public Task<byte[]> Serialize(object value)
         {
             return value == null
                 ? Task.FromResult<byte[]>(null)

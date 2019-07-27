@@ -5,8 +5,8 @@ namespace Borg.Infrastructure.Core.Services.Serializer
 {
     public interface ISerializer
     {
-        Task<object> DeserializeAsync(byte[] data, Type objectType);
+        Task<object> Deserialize(byte[] data, Type objectType);
 
-        Task<byte[]> SerializeAsync(object value);
+        Task<byte[]> Serialize(object value);
     }
 }

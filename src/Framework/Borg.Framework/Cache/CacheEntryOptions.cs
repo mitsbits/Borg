@@ -8,6 +8,7 @@ namespace Borg.Framework.Cache
         {
             Expires = expires;
         }
+
         public TimeSpan? Expires { get; }
 
         public static CacheEntryOptions Expiry(TimeSpan expires)

@@ -14,7 +14,7 @@ namespace Borg.Framework.Services.Serializer
         {
         }
 
-        public Task<object> DeserializeAsync(byte[] value, Type objectType)
+        public Task<object> Deserialize(byte[] value, Type objectType)
         {
             var formater = new BinaryFormatter();
             Stream stream = new MemoryStream(value);
@@ -22,7 +22,7 @@ namespace Borg.Framework.Services.Serializer
             return Task.FromResult(result);
         }
 
-        public Task<byte[]> SerializeAsync(object value)
+        public Task<byte[]> Serialize(object value)
         {
             byte[] result;
             using (var stream = new MemoryStream())
