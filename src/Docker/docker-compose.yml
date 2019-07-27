@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  borg.web.clients.razor:
+    image: ${DOCKER_REGISTRY-}borgwebclientsrazor
+    build:
+      context: .
+      dockerfile: ../../src/Clients/Borg.Web.Clients.Razor/Dockerfile

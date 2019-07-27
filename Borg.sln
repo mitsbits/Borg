@@ -71,7 +71,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.Borg", "test\Test.Borg
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Borg.Moq.GenericAddOn", "test\Moq\Borg.Moq.GenericAddOn\Borg.Moq.GenericAddOn.csproj", "{2A16931A-A8C4-4E89-842F-2DF8D35DCB3B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Borg.Platform.Redis", "src\Platform\Borg.Platform.Redis\Borg.Platform.Redis.csproj", "{875F1DB5-9943-48AA-8729-2BFD0ADC9460}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Borg.Platform.Redis", "src\Platform\Borg.Platform.Redis\Borg.Platform.Redis.csproj", "{875F1DB5-9943-48AA-8729-2BFD0ADC9460}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{3CE6D292-2F12-402B-BF40-AB8221812336}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "src\Docker\docker-compose.dcproj", "{A56E55D4-8792-4DDA-876B-E5FDC972D97C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -179,6 +183,10 @@ Global
 		{875F1DB5-9943-48AA-8729-2BFD0ADC9460}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{875F1DB5-9943-48AA-8729-2BFD0ADC9460}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{875F1DB5-9943-48AA-8729-2BFD0ADC9460}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A56E55D4-8792-4DDA-876B-E5FDC972D97C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A56E55D4-8792-4DDA-876B-E5FDC972D97C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A56E55D4-8792-4DDA-876B-E5FDC972D97C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A56E55D4-8792-4DDA-876B-E5FDC972D97C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -217,6 +225,8 @@ Global
 		{D798B889-064A-40B7-9153-6BED7E6CBEA1} = {C196EFFB-6BAE-444F-9A60-79F8968CB914}
 		{2A16931A-A8C4-4E89-842F-2DF8D35DCB3B} = {41BF7369-2F64-4E34-A558-435C6E940B81}
 		{875F1DB5-9943-48AA-8729-2BFD0ADC9460} = {AC4B273F-94EA-490A-B574-4D560134FF73}
+		{3CE6D292-2F12-402B-BF40-AB8221812336} = {EEB2B7DC-B5C2-4CEA-A3B1-72037834404A}
+		{A56E55D4-8792-4DDA-876B-E5FDC972D97C} = {3CE6D292-2F12-402B-BF40-AB8221812336}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4604E16C-EB8F-4064-9E9C-D3C2258BAF70}
