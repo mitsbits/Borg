@@ -3,6 +3,12 @@ version: '3.4'
 services:
   borg.web.clients.razor:
     image: ${DOCKER_REGISTRY-}borgwebclientsrazor
+    links:
+      - db
     build:
       context: .
       dockerfile: ../../src/Clients/Borg.Web.Clients.Razor/Dockerfile
+
+
+  db:
+    image: "mcr.microsoft.com/mssql/server"
