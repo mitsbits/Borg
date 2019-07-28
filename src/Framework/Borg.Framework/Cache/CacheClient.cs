@@ -24,14 +24,34 @@ namespace Borg.Framework.Cache
             logger = loggerFactory == null ? NullLogger.Instance : loggerFactory.CreateLogger(GetType());
         }
 
+        public async Task Evict(string key, CancellationToken cancelationToken = default)
+        {
+            cancelationToken.ThrowIfCancellationRequested();
+            await cache.RemoveAsync(key, cancelationToken);
+        }
+
         public async Task<T> Get<T>(string key, CancellationToken cancelationToken = default)
         {
             cancelationToken.ThrowIfCancellationRequested();
             key = Preconditions.NotEmpty(key, nameof(key));
             var bytes = await cache.GetAsync(key, cancelationToken);
             if (bytes == null || !bytes.Any()) return default;
+            if (typeof(T).Equals(typeof(string)))
+            {
+
+                var str = await serializer.Deserialize(bytes, typeof(string));
+                return (T)str;
+            }
+         
             var hit = await serializer.DeserializeAsync<T>(bytes);
+            serializer.SerializeToString(bytes);
             return hit;
+        }
+
+        public Task<object> Get(string key, CancellationToken cancelationToken = default)
+        {
+            cancelationToken.ThrowIfCancellationRequested();
+            return Get<object>(key, cancelationToken);
         }
 
         public async Task Set<T>(string key, T value, TimeSpan? expiresIn = null, CancellationToken cancelationToken = default)
@@ -46,6 +66,12 @@ namespace Borg.Framework.Cache
                 AbsoluteExpirationRelativeToNow = expiresIn
             };
             await cache.SetAsync(key, bytes, options, cancelationToken);
+        }
+
+        public Task Set(string key, object value, TimeSpan? expiresIn = null, CancellationToken cancelationToken = default)
+        {
+            cancelationToken.ThrowIfCancellationRequested();
+            return Set<object>(key, value, expiresIn, cancelationToken);
         }
     }
 }

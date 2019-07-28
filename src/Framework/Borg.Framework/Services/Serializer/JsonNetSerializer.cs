@@ -22,11 +22,21 @@ namespace Borg.Framework.Services.Serializer
             return Task.FromResult(JsonConvert.DeserializeObject(Encoding.UTF8.GetString(value), objectType, _settings));
         }
 
+        public Task<string> Deserialize(byte[] data)
+        {
+            return Task.FromResult(Encoding.UTF8.GetString(data));
+        }
+
         public Task<byte[]> Serialize(object value)
         {
             return value == null
                 ? Task.FromResult<byte[]>(null)
                 : Task.FromResult(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(value, _settings)));
+        }
+
+        public Task<byte[]> Serialize(string value)
+        {
+            return Task.FromResult(Encoding.UTF8.GetBytes(value));
         }
     }
 }

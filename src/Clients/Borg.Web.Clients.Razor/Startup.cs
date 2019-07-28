@@ -54,9 +54,14 @@ namespace Borg.Web.Clients.Razor
             services.AddSingleton<IAssemblyProvider>(depAsmblPrv);
             services.AddSingleton<IAssemblyProvider>(refAsmblPrv);
             services.AddScoped<IUserSession, UserSession>();
-            services.AddDistributedRedisCache(options =>
-            {
-                options.Configuration = "127.0.0.1:6379";
+            //services.AddDistributedRedisCache(options =>
+            //{
+            //    options.Configuration = "127.0.0.1:6379";
+            //});
+            services.AddDistributedSqlServerCache(opt => {
+                opt.ConnectionString = configuration["BorgDb:ConnectionString"];
+                opt.SchemaName = "cache";
+                opt.TableName = "Store";
             });
             services.AddHttpContextAccessor();
             services.AddSingleton<IBorgLicenceService, MemoryMoqLicenceService>();

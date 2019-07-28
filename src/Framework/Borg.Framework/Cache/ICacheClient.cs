@@ -9,12 +9,13 @@ namespace Borg.Framework.Cache
         //Task<int> RemoveAll(IEnumerable<string> keys = null);
 
         Task<T> Get<T>(string key, CancellationToken cancelationToken = default);
-
+        Task<object> Get(string key, CancellationToken cancelationToken = default);
         //Task<IEnumerable<CacheValue<T>>> GetAll<T>(IEnumerable<string> keys);
-
+        Task Evict(string key, CancellationToken cancelationToken = default);
         //Task<bool> Add<T>(string key, T value, TimeSpan? expiresIn = null);
 
         Task Set<T>(string key, T value, TimeSpan? expiresIn = null, CancellationToken cancelationToken = default);
+        Task Set(string key, object value, TimeSpan? expiresIn = null, CancellationToken cancelationToken = default);
 
         //Task<int> SetAllAsync<T>(IDictionary<string, T> values, TimeSpan? expiresIn = null);
 
