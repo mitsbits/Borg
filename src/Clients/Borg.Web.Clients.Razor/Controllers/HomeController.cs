@@ -10,19 +10,16 @@ namespace Borg.Web.Clients.Razor.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ICacheClient cache;
 
-        public HomeController(ICacheClient cache)
+
+        public HomeController()
         {
-            this.cache = cache;
+
         }
 
         public async Task<IActionResult> Index()
         {
-            await cache.Set("key", "xxx", TimeSpan.FromMinutes(12));
-            var sss = await cache.Get<string>("key");
-            await cache.Set("key1", new test(), TimeSpan.FromMinutes(12));
-            var sses = await cache.Get<test>("key1");
+
             return View();
         }
 
