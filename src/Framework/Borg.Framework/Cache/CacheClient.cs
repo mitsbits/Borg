@@ -38,11 +38,10 @@ namespace Borg.Framework.Cache
             if (bytes == null || !bytes.Any()) return default;
             if (typeof(T).Equals(typeof(string)))
             {
-
                 var str = await serializer.Deserialize(bytes, typeof(string));
                 return (T)str;
             }
-         
+
             var hit = await serializer.DeserializeAsync<T>(bytes);
             serializer.SerializeToString(bytes);
             return hit;
@@ -66,12 +65,6 @@ namespace Borg.Framework.Cache
                 AbsoluteExpirationRelativeToNow = expiresIn
             };
             await cache.SetAsync(key, bytes, options, cancelationToken);
-        }
-
-        public Task Set(string key, object value, TimeSpan? expiresIn = null, CancellationToken cancelationToken = default)
-        {
-            cancelationToken.ThrowIfCancellationRequested();
-            return Set<object>(key, value, expiresIn, cancelationToken);
         }
     }
 }

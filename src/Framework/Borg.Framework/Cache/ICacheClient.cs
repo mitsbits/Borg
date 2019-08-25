@@ -15,7 +15,7 @@ namespace Borg.Framework.Cache
         //Task<bool> Add<T>(string key, T value, TimeSpan? expiresIn = null);
 
         Task Set<T>(string key, T value, TimeSpan? expiresIn = null, CancellationToken cancelationToken = default);
-        Task Set(string key, object value, TimeSpan? expiresIn = null, CancellationToken cancelationToken = default);
+        //Task Set(string key, object value, TimeSpan? expiresIn = null, CancellationToken cancelationToken = default);
 
         //Task<int> SetAllAsync<T>(IDictionary<string, T> values, TimeSpan? expiresIn = null);
 
@@ -39,4 +39,8 @@ namespace Borg.Framework.Cache
 
         //Task<CacheValue<ICollection<T>>> GetSetAsync<T>(string key);
     }
+}
+
+namespace Borg
+{
 }
