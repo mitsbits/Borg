@@ -1,5 +1,4 @@
-﻿using Borg.Framework.Cache;
-using Borg.Web.Clients.Razor.Models;
+﻿using Borg.Web.Clients.Razor.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,16 +9,12 @@ namespace Borg.Web.Clients.Razor.Controllers
 {
     public class HomeController : Controller
     {
-
-
         public HomeController()
         {
-
         }
 
         public async Task<IActionResult> Index()
         {
-
             return View();
         }
 
@@ -34,16 +29,16 @@ namespace Borg.Web.Clients.Razor.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
+
     [Serializable]
     public class test
     {
         public ICollection<kati> katis { get; set; } = new HashSet<kati>();
     }
+
     [Serializable]
     public class kati
     {
-
         public string Name { get; set; } = "sdsdffd";
     }
-
 }

@@ -2,12 +2,9 @@
 using Borg.Infrastructure.Core.DDD.Contracts;
 using Borg.Infrastructure.Core.DDD.ValueObjects;
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Borg.Platform.EF.CMS.Domain
 {
-
     public abstract class CmsEntity : IEntity<int>
     {
         [PrimaryKeySequenceDefinition]
@@ -28,12 +25,12 @@ namespace Borg.Platform.EF.CMS.Domain
         }
     }
 
-
     public abstract class CmsTreeNode : IMultilingualTreeNode<int, CmsLanguage>
     {
         [IndexSequenceDefinition]
         [PrimaryKeyDefinition]
         public virtual int Id { get; protected set; }
+
         [PrimaryKeyDefinition]
         public int LanguageID { get; protected set; }
 
@@ -44,7 +41,6 @@ namespace Borg.Platform.EF.CMS.Domain
         public int Depth { get; protected set; } = 0;
 
         public string Hierarchy { get; protected set; }
-
 
         public CmsLanguage Language => throw new NotImplementedException();
 

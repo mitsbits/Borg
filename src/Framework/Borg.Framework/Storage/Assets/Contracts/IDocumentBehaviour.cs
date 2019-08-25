@@ -8,6 +8,6 @@
     public enum DocumentBehaviourState
     {
         Commited = 0,
-        InProgress = 1
+        Processing = 1
     }
 }
