@@ -47,12 +47,6 @@ namespace Borg.Framework.Cache
             return hit;
         }
 
-        public Task<object> Get(string key, CancellationToken cancelationToken = default)
-        {
-            cancelationToken.ThrowIfCancellationRequested();
-            return Get<object>(key, cancelationToken);
-        }
-
         public async Task Set<T>(string key, T value, TimeSpan? expiresIn = null, CancellationToken cancelationToken = default)
         {
             cancelationToken.ThrowIfCancellationRequested();
