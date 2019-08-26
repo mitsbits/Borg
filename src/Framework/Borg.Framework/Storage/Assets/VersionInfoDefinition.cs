@@ -4,25 +4,29 @@ using System;
 
 namespace Borg.Framework.Storage.Assets
 {
-    public class VersionInfoDefinition : IVersionInfo
+    public abstract class VersionInfoDefinition 
     {
-        public VersionInfoDefinition(int version, IFileSpec fileSpec)
+        public VersionInfoDefinition(int version)
         {
             Version = version;
-            FileSpec = fileSpec;
         }
 
         public int Version { get; }
-        public IFileSpec FileSpec { get; }
+
     }
 
     public class VersionInfoDefinition<TKey> : VersionInfoDefinition, IVersionInfo<TKey> where TKey : IEquatable<TKey>
     {
-        public VersionInfoDefinition(int version, IFileSpec<TKey> fileSpec) : base(version, fileSpec)
+        public VersionInfoDefinition(int version, FileSpecDefinition<TKey> fileSpec) : base(version)
         {
             FileSpec = fileSpec;
         }
 
-        public new IFileSpec<TKey> FileSpec { get; }
+        public virtual FileSpecDefinition<TKey> FileSpec { get; protected set; }
+
+
+        IFileSpec<TKey> IVersionInfo<TKey>.FileSpec => FileSpec;
+
+        IFileSpec IVersionInfo.FileSpec => FileSpec;
     }
 }

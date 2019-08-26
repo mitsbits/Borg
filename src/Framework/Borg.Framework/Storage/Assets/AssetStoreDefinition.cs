@@ -32,7 +32,7 @@ namespace Borg.Framework.Storage.Assets
 
         public async Task<IVersionInfo> CheckOut(TKey id)
         {
-            return await _assetStoreDatabaseService.CheckOut(id);
+            return await _assetStoreDatabaseService.CheckOut(id) as IVersionInfo;
         }
 
         public abstract Task<IVersionInfo> CheckIn(TKey id, byte[] content, string fileName);
@@ -125,12 +125,12 @@ namespace Borg.Framework.Storage.Assets
             {
                 var fileId = await _assetStoreDatabaseService.FileNextFromSequence();
                 var fileSpec = new FileSpecDefinition<TKey>(fileId);
-                var parentDirecotry = await _assetDirectoryStrategy.ParentFolder(fileSpec);
+                var parentDirectory = await _assetDirectoryStrategy.ParentFolder(fileSpec);
 
                 //upload file
                 IFileSpec uploaded;
                 using (var storage = _fileStorageFactory.Invoke())
-                using (var scoped = storage.Scope(parentDirecotry))
+                using (var scoped = storage.Scope(parentDirectory))
                 {
                     var exists = await scoped.Exists(fileName);
                     if (exists) fileName = await _conflictingNamesResolver.Resolve(fileName);
